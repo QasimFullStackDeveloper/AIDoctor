@@ -1,0 +1,24 @@
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\bin\Debug\net9.0\DoctorBot.Domain.deps.json
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\bin\Debug\net9.0\DoctorBot.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\bin\Debug\net9.0\DoctorBot.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.AssemblyInfoInputs.cache
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.AssemblyInfo.cs
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.csproj.CoreCompileInputs.cache
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\refint\DoctorBot.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\ref\DoctorBot.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\DoctorBot\DoctorBot.Domain\obj\Debug\net9.0\DoctorBot.Domain.csproj.AssemblyReference.cache
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\bin\Debug\net9.0\DoctorBot.Domain.deps.json
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\bin\Debug\net9.0\DoctorBot.Domain.dll
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\bin\Debug\net9.0\DoctorBot.Domain.pdb
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.csproj.AssemblyReference.cache
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.AssemblyInfoInputs.cache
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.AssemblyInfo.cs
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.csproj.CoreCompileInputs.cache
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.dll
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\refint\DoctorBot.Domain.dll
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\DoctorBot.Domain.pdb
+D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Domain\obj\Debug\net9.0\ref\DoctorBot.Domain.dll
