@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj": {}
+    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
+    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
+        "projectUniqueName": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
         "projectName": "AIDoctor.Domain",
-        "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
+        "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
         "packagesPath": "C:\\Users\\aliq6\\.nuget\\packages\\",
-        "outputPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\obj\\",
+        "outputPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -80,14 +80,14 @@
         }
       }
     },
-    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj": {
+    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj",
+        "projectUniqueName": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj",
         "projectName": "AIDoctor.Infrastructure",
-        "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj",
+        "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Infrastructure\\AIDoctor.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\aliq6\\.nuget\\packages\\",
-        "outputPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Infrastructure\\obj\\",
+        "outputPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -109,8 +109,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
-                "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj"
+              "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
+                "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj"
               }
             }
           }

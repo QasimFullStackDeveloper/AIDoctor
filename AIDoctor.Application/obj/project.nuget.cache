@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hIVsR6ZDM48=",
+  "dgSpecHash": "xv9yGmKgTAc=",
   "success": true,
-  "projectFilePath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Application\\AIDoctor.Application.csproj",
+  "projectFilePath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Application\\AIDoctor.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aliq6\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.3.0\\microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",
     "C:\\Users\\aliq6\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.0\\microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",
