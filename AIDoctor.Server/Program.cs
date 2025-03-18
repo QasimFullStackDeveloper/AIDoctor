@@ -26,7 +26,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
  */
 builder.Services.AddApplication();
 // Configure Authentication with JWT
-var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]);
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("Jwt:Secret is missing in appsettings.json"));
 
 builder.Services.AddAuthentication(options =>
 {
