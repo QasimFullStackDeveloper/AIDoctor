@@ -1,0 +1,43 @@
+name: Deploying .NET & React Web App to Azure
+
+on:
+  push:
+    branches:
+      - main  # Change to your main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Build & Publish .NET API
+      run: |
+        cd AIDoctor.Server
+        dotnet publish -c Release -o published
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Build React App
+      run: |
+        cd AIDoctor.client
+        npm install
+        npm run build
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: aidoc-app
+        slot-name: production
+        package: AIDoctor.Server/published
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
