@@ -50,6 +50,17 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+// Added to Deploy to Azure App Service with HTTPS enabled by default
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -66,6 +77,11 @@ if (app.Environment.IsDevelopment())
         option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
     });
 }
+
+// Added to Deploy to Azure App Service with HTTPS enabled by default
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
