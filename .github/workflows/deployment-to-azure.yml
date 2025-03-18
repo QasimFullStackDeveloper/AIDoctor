@@ -1,43 +1,82 @@
-name: Deploying .NET & React Web App to Azure
+name: Deploying Frontend and Backend to Azure (.NET Web App)
 
 on:
   push:
     branches:
-      - main  # Change to your main branch
+      - main
 
 jobs:
-  build:
+  # React Frontend Deployment
+  deploy-frontend:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0.x'
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    - name: Build & Publish .NET API
-      run: |
-        cd AIDoctor.Server
-        dotnet publish -c Release -o published
+      - name: Install dependencies
+        run: |
+          cd ClientApp
+          npm install
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Build React App
+        run: |
+          cd ClientApp
+          npm run build
 
-    - name: Build React App
-      run: |
-        cd AIDoctor.client
-        npm install
-        npm run build
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "ClientApp/build"
+          output_location: ""
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: aidoc-app
-        slot-name: production
-        package: AIDoctor.Server/published
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+  # Backend API Deployment
+  deploy-backend:
+    runs-on: ubuntu-latest
+    needs: deploy-frontend  # Ensures frontend deploys first
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
+
+      - name: Build and Publish API
+        run: |
+          cd Server
+          dotnet publish -c Release -o publish
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "AiDoctor-WebApp"
+          slot-name: "production"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: "Server/publish"
+
+  # Database Migrations
+  update-database:
+    runs-on: ubuntu-latest
+    needs: deploy-backend  # Runs after backend is deployed
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
+
+      - name: Run EF Core Migrations
+        run: |
+          cd Server
+          dotnet ef database update
