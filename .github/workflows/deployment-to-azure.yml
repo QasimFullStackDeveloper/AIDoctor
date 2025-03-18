@@ -21,7 +21,13 @@ jobs:
       - name: Install dependencies
         run: |
           cd AIDoctor.client
+          rm -rf node_modules package-lock.json
           npm install
+
+      - name: Debug - Check NPM Logs
+        run: |
+          cd AIDoctor.client
+          npm run build || { echo "React build failed!"; exit 1; }
 
       - name: Build React App
         run: |
