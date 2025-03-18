@@ -33,9 +33,16 @@ jobs:
         run: |
           cd AIDoctor.client
           npm run build
+          echo "Checking if build directory exists..."
+          ls -la build || { echo "Build directory missing!"; exit 1; }
 
-      - name: Debug - List Build Folder
-        run: ls -la AIDoctor.client/build
+      - name: Debug - Check Build Folder
+        run: |
+          cd AIDoctor.client
+          echo "Current Directory:"
+          pwd
+          echo "Contents:"
+          ls -la
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
