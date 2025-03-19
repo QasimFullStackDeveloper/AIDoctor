@@ -1,0 +1,16 @@
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\bin\Release\net9.0\AIDoctor.Application.deps.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\bin\Release\net9.0\AIDoctor.Application.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\bin\Release\net9.0\AIDoctor.Application.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\bin\Release\net9.0\AIDoctor.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\bin\Release\net9.0\AIDoctor.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.csproj.AssemblyReference.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.AssemblyInfoInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.AssemblyInfo.cs
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.csproj.CoreCompileInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.sourcelink.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.CE66858F.Up2Date
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\refint\AIDoctor.Application.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\AIDoctor.Application.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Application\obj\Release\net9.0\ref\AIDoctor.Application.dll
