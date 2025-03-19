@@ -26,7 +26,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
  */
 builder.Services.AddApplication();
 // Configure Authentication with JWT
-var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]);
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("Jwt:Secret is missing in appsettings.json"));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -50,6 +50,17 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+// Added to Deploy to Azure App Service with HTTPS enabled by default
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
@@ -66,6 +77,11 @@ if (app.Environment.IsDevelopment())
         option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
     });
 }
+
+// Added to Deploy to Azure App Service with HTTPS enabled by default
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
