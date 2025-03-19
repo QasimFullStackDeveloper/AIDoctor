@@ -53,7 +53,7 @@ jobs:
           app_location: "AIDoctor.client/dist"
           output_location: ""
 
-  # Backend API Deployment
+# Backend API Deployment
   deploy-backend:
     runs-on: ubuntu-latest
     needs: deploy-frontend
@@ -71,7 +71,12 @@ jobs:
           cd AIDoctor.Server
           dotnet restore
 
-      - name: Build and Publish API
+      - name: Build API
+        run: |
+          cd AIDoctor.Server
+          dotnet build --configuration Release
+
+      - name: Publish API
         run: |
           cd AIDoctor.Server
           dotnet publish -c Release -o publish
@@ -82,4 +87,4 @@ jobs:
           app-name: "AiDoctor-WebApp"
           slot-name: "production"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: "AIDoctor.Server/publish"
+          package: "AIDoctor.Server/publish/"
