@@ -1,0 +1,13 @@
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\bin\Release\net9.0\AIDoctor.Domain.deps.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\bin\Release\net9.0\AIDoctor.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\bin\Release\net9.0\AIDoctor.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.csproj.AssemblyReference.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.AssemblyInfoInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.AssemblyInfo.cs
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.csproj.CoreCompileInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.sourcelink.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\refint\AIDoctor.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\AIDoctor.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Domain\obj\Release\net9.0\ref\AIDoctor.Domain.dll

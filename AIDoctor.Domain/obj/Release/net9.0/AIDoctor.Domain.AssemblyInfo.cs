@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AIDoctor.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+514cb75a41b200c954b17d1318b0742d2bd80638")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6efab6f3df324b0d15dda206b871aa544c3dd939")]
 [assembly: System.Reflection.AssemblyProductAttribute("AIDoctor.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AIDoctor.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
