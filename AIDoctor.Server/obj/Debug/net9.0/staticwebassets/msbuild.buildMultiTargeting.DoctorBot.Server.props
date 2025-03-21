@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\DoctorBot.Server.props" />
-</Project>
