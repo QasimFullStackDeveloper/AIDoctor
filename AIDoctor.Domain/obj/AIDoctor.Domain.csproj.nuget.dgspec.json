@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {}
+    "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {}
   },
   "projects": {
-    "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
+    "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
+        "projectUniqueName": "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
         "projectName": "AIDoctor.Domain",
-        "projectPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
-        "packagesPath": "C:\\Users\\aliq6\\.nuget\\packages\\",
-        "outputPath": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\QasimFullStackDeveloper\\AIDcotor\\AIDoctor.Domain\\obj\\",
+        "projectPath": "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Domain\\AIDoctor.Domain.csproj",
+        "packagesPath": "C:\\Users\\aaban\\.nuget\\packages\\",
+        "outputPath": "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\aliq6\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\aaban\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

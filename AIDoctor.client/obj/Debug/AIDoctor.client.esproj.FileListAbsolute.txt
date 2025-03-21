@@ -1,1 +1,2 @@
 D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.client\obj\Debug\AIDoctor.client.esproj.CoreCompileInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.client\obj\Debug\AIDoctor.client.esproj.CoreCompileInputs.cache
