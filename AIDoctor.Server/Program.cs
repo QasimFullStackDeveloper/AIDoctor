@@ -9,6 +9,14 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 //// Added Port to use on Azure
+///
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5000); // Default for debugging
+    serverOptions.ListenAnyIP(8080); // Additional for production
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -64,13 +72,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsProduction())
-{
-    builder.WebHost.ConfigureKestrel(serverOptions =>
-    {
-        serverOptions.ListenAnyIP(8080);
-    });
-}
+//if (app.Environment.IsProduction())
+//{
+//    builder.WebHost.ConfigureKestrel(serverOptions =>
+//    {
+//        serverOptions.ListenAnyIP(8080);
+//    });
+//}
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
