@@ -8,6 +8,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Added Port to use on Azure
+builder.WebHost.UseUrls("http://+:80");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
