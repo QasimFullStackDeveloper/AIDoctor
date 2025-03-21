@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AIDoctor.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6efab6f3df324b0d15dda206b871aa544c3dd939")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bfaf6cbc3a369f0d37ef1e97436a002f14d56cbb")]
 [assembly: System.Reflection.AssemblyProductAttribute("AIDoctor.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AIDoctor.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AIDoctor.Infrastructure.Data
 {
-    class AIDoctorDBContext (DbContextOptions<AIDoctorDBContext> options) : IdentityDbContext<User>(options)
+    public class AIDoctorDBContext (DbContextOptions<AIDoctorDBContext> options) : IdentityDbContext<User>(options)
     {
 
     }
