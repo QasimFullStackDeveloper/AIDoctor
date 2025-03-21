@@ -8,12 +8,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Added Port to use on Azure
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(8080);
-});
-
+//// Added Port to use on Azure
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -69,16 +64,25 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+if (app.Environment.IsProduction())
+{
+    builder.WebHost.ConfigureKestrel(serverOptions =>
+    {
+        serverOptions.ListenAnyIP(8080);
+    });
+}
+
 app.UseDefaultFiles();
 app.MapStaticAssets();
 
 // Configure the HTTP request pipeline.
-    app.MapScalarApiReference(option =>
-    {
-        option.Title = "AIDoctor API Reference";
-        option.WithTheme(ScalarTheme.Mars);
-        option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
-    });
+app.MapOpenApi();
+app.MapScalarApiReference(option =>
+{
+    option.Title = "AIDoctor API Reference";
+    option.WithTheme(ScalarTheme.Mars);
+    option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
+});
 //}
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
