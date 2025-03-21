@@ -15,3 +15,21 @@ D:\University Documents\6th Semester\Software Construction and Development (SCD)
 D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.pdb
 D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.genruntimeconfig.cache
 D:\University Documents\6th Semester\Software Construction and Development (SCD)\Project\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\ref\AIDoctor.Infrastructure.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Infrastructure.deps.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Infrastructure.runtimeconfig.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Infrastructure.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Infrastructure.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Domain.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\bin\Debug\net9.0\AIDoctor.Domain.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.csproj.AssemblyReference.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.AssemblyInfoInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.AssemblyInfo.cs
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.csproj.CoreCompileInputs.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.sourcelink.json
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.A7D109D7.Up2Date
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\refint\AIDoctor.Infrastructure.dll
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.pdb
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\AIDoctor.Infrastructure.genruntimeconfig.cache
+E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Infrastructure\obj\Debug\net9.0\ref\AIDoctor.Infrastructure.dll

@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "6qCplUC0zTkOmOlOZG8zNveoeFHP+DRUXPbiMgHPRug=",
+  "Hash": "zOcDsGcnHvCgPk4foPI5/9jfiswaFUO9G4z6sKr9M2A=",
   "Source": "AIDoctor.Server",
   "BasePath": "_content/AIDoctor.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.client\\AIDoctor.client.esproj",
+      "Identity": "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.client\\AIDoctor.client.esproj",
       "Version": 2,
       "Source": "AIDoctor.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",

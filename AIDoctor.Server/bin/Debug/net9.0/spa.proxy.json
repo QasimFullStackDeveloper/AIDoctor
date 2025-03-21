@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:52732",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "D:\\University Documents\\6th Semester\\Software Construction and Development (SCD)\\Project\\AIDoctor\\AIDoctor.Server\\..\\AIDoctor.client",
+"WorkingDirectory": "E:\\University\\Semester 6\\SCD\\Semester Project\\AiDoctor\\AIDoctor\\AIDoctor.Server\\..\\AIDoctor.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
