@@ -85,6 +85,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
+app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowAll");
 
