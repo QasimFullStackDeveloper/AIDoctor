@@ -70,8 +70,8 @@ app.UseDefaultFiles();
 app.MapStaticAssets();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+//{
     app.MapOpenApi();
     app.MapScalarApiReference(option =>
     {
@@ -79,7 +79,7 @@ if (app.Environment.IsDevelopment())
         option.WithTheme(ScalarTheme.Mars);
         option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
     });
-}
+//}
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
 app.UseStaticFiles();
