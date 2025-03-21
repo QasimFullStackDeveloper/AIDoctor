@@ -73,9 +73,6 @@ app.UseDefaultFiles();
 app.MapStaticAssets();
 
 // Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
-//{
-    app.MapOpenApi();
     app.MapScalarApiReference(option =>
     {
         option.Title = "AIDoctor API Reference";
