@@ -9,8 +9,10 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Added Port to use on Azure
-var port = Environment.GetEnvironmentVariable("AZURE_PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://*:{port}");
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(8080);
+});
 
 // Add services to the container.
 
@@ -83,7 +85,6 @@ if (app.Environment.IsDevelopment())
 }
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
-app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowAll");
 
