@@ -16,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.ListenAnyIP(7282); // Default for debugging
+    serverOptions.ListenAnyIP(5000); // Default for debugging
     serverOptions.ListenAnyIP(8080); // Additional for production
 });
 
