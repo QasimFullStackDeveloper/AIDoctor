@@ -31,6 +31,7 @@ namespace AIDoctor.Infrastructure
             })
                 .AddEntityFrameworkStores<AIDoctorDBContext>()
                 .AddDefaultTokenProviders();
+
             return services;
         }
 

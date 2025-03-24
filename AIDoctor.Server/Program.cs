@@ -1,6 +1,9 @@
 using AIDoctor.Application;
+using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Infrastructure;
+using AIDoctor.Infrastructure.Utils.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
@@ -13,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.ListenAnyIP(5000); // Default for debugging
+    serverOptions.ListenAnyIP(7282); // Default for debugging
     serverOptions.ListenAnyIP(8080); // Additional for production
 });
 
@@ -22,6 +25,10 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Configuration.AddEnvironmentVariables();
+builder.Services.AddSingleton<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails(); // Enables standardized error responses
+
 
 
 
@@ -34,6 +41,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
  * adds the application services (Services, DTOs, etc)
  */
 builder.Services.AddApplication();
+//builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 // Configure Authentication with JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("Jwt:Secret is missing in appsettings.json"));
 
