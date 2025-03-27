@@ -1,4 +1,4 @@
-﻿using AIDoctor.Application.DTOs;
+﻿using AIDoctor.Application.DTOs.Auth;
 using AIDoctor.Application.Services.Interfaces;
 using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Domain.Entities;
@@ -48,7 +48,7 @@ namespace AIDoctor.Application.Services.Implementations
 
 
         //              Create TOTP via Authenticator App
-        
+
         public async Task<object> TwoFactorAuthenticationByAppAsync(string userId)
         {
             ArgumentException.ThrowIfNullOrEmpty(userId);
@@ -71,7 +71,7 @@ namespace AIDoctor.Application.Services.Implementations
         }
 
         //              Create OTP via Email
-        
+
         public async Task TwoFactorAuthenticationByEmailAsync(string userId)
         {
             ArgumentException.ThrowIfNullOrEmpty(userId);
@@ -88,7 +88,7 @@ namespace AIDoctor.Application.Services.Implementations
 
 
         //              Verify (T)OTP to Enable Two Factor Authentication
-       
+
         public async Task<string> EnableTwoFactorAuthentication(string userId, string tokenProvider, string oTP)
         {
             ArgumentException.ThrowIfNullOrEmpty(userId);
@@ -109,7 +109,7 @@ namespace AIDoctor.Application.Services.Implementations
 
 
         //              Login User
-        
+
         public async Task<string> LoginUserAsync(LoginDTO dTO)
         {
             ArgumentNullException.ThrowIfNull(dTO);
@@ -119,7 +119,7 @@ namespace AIDoctor.Application.Services.Implementations
             if (user == null) throw new ArgumentNullException(nameof(dTO), "User Not Found");
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-            if (!isEmailConfirmed) throw new InvalidOperationException("Email is not Confirmed"); 
+            if (!isEmailConfirmed) throw new InvalidOperationException("Email is not Confirmed");
 
             var result = await _signInManager.PasswordSignInAsync(user, dTO.Password, dTO.RememberMe, true);
 
@@ -143,6 +143,8 @@ namespace AIDoctor.Application.Services.Implementations
 
             return token;
         }
+
+        
 
 
         //              Generate JWT Token
@@ -176,6 +178,48 @@ namespace AIDoctor.Application.Services.Implementations
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+        //              Forget Passwords
+
+        public async Task ForgetPasswordAsync(string _email)
+        {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(_email);
+
+            var user = await _userManager.FindByEmailAsync(_email);
+
+            ArgumentNullException.ThrowIfNull(user);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            if (string.IsNullOrWhiteSpace(token)) throw new InvalidOperationException("Something went wrong");
+
+            var values = new ForgetPasswordDTO
+            {
+                Email = _email,
+                Token = token
+            };
+            var baseURL = _configuration["AppSettings:ClientUrl"];
+            var resetLink = $"{baseURL}/Account/resetpassword?email={values.Email}&token={values.Token}";
+
+            await _emailService.SendResetLinkAsync(_email, resetLink);
+
+        }
+
+        public async Task RestPasswordAsync(ResetPasswordDTO dTO)
+        {
+            ArgumentNullException.ThrowIfNull(dTO);
+
+            var user = await _userManager.FindByEmailAsync(dTO.Email);
+            ArgumentNullException.ThrowIfNull(user);
+            
+            var result = await _userManager.ResetPasswordAsync(user, dTO.Token, dTO.NewPassword);
+            if (!result.Succeeded) throw new InvalidOperationException("Something went wrong");
+
+            await _emailService.SendResetPasswordConfirmationAsync(dTO.Email);
+
+            return;
         }
     }
 }

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIDoctor.Application.DTOs
+namespace AIDoctor.Application.DTOs.Auth
 {
-    public record LoginDTO
+    public record ResetPasswordDTO : ForgetPasswordDTO
     {
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
@@ -15,13 +15,12 @@ namespace AIDoctor.Application.DTOs
         [MaxLength(64, ErrorMessage = "Password cannot exceed 64 characters.")]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,64}$",
         ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.")]
-        public string Password { get; set; }
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email format.")]
-        [MaxLength(255, ErrorMessage = "Email cannot exceed 255 characters.")]
-        public string Email { get; set; }
+        public required string NewPassword { get; set; }
 
+        [Required(ErrorMessage = "Confirm New Password is required.")]
+        [DataType(DataType.Password)]
+        [Compare(nameof(NewPassword), ErrorMessage = "Passwords do not match.")]
+        public required string ConfirmNewPassword { get; set; }
 
-        public bool RememberMe { get; set; }
     }
 }

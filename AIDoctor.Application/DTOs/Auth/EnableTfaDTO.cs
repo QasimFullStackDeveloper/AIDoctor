@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AIDoctor.Application.DTOs
+namespace AIDoctor.Application.DTOs.Auth
 {
     public record EnableTfaDTO
     {
