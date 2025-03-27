@@ -1,4 +1,4 @@
-﻿using AIDoctor.Application.DTOs;
+﻿using AIDoctor.Application.DTOs.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,5 +52,23 @@ namespace AIDoctor.Application.Services.Interfaces
         /// <exception cref="InvalidOperationException">Thrown for 2FA or lockout scenarios.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown for invalid login attempts.</exception>
         Task<string> LoginUserAsync(LoginDTO dTO);
+
+
+        /// <summary>
+        /// Initiates the password reset process by generating a password reset token and sending a reset link to the user's email.
+        /// </summary>
+        /// <param name="_email">The email address of the user who wants to reset their password.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when _email is null or empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when token generation fails.</exception>
+        Task ForgetPasswordAsync(string _email);
+        /// <summary>
+        /// Resets the user's password using the provided token and new password.
+        /// </summary>
+        /// <param name="dTO">A ResetPasswordDTO containing the user's email, reset token, new password, and confirmation of the new password.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when dTO or the user is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when password reset fails.</exception>
+        Task RestPasswordAsync(ResetPasswordDTO dTO);
     }
 }

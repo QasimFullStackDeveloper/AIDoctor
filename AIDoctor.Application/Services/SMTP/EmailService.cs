@@ -56,5 +56,28 @@ namespace AIDoctor.Application.Services.SMTP
             await SendEmailAsync(reciverEmail, subject, body);
         }
 
+        public async Task SendResetLinkAsync(string recieverEmail, string resetLink)
+        {
+            var subject = "Reset Password";
+            var body = $"<strong>Dear User</strong>,\r\n" +
+                $"Click the link below to reset your password:\r\n" +
+                $"<a href=\"{resetLink}\">Reset Link</a>\r\n" +
+                $"If you didn’t request this, please ignore this email.\r\n" +
+                $"Thanks,\r\n" +
+                $"AiDoctor";
+            await SendEmailAsync(recieverEmail,subject, body);
+        }
+
+        public async Task SendResetPasswordConfirmationAsync(string recieverEmail)
+        {
+            var subject = "Password Reset Confirmation";
+            var body = $"<strong>Dear User</strong>,\r\n" +
+                $"Your password has been successfully reset.\r\n" +
+                $"If you didn’t request this, please contact our support team.\r\n" +
+                $"Thanks,\r\n" +
+                $"AiDoctor";
+            await SendEmailAsync(recieverEmail, subject, body);
+        }
+
     }
 }
