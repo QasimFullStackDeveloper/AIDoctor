@@ -79,7 +79,9 @@ namespace AIDoctor.Server.Controllers
         public async Task<IActionResult> EnableTwoFactorAuthention([FromBody] EnableTfaDTO dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
-
+            if (dTO.tokenProvider.ToLower() != "email" && dTO.tokenProvider.ToLower() != "authenticator") throw new Exception("Invalid TokenProvider, " +
+                "It must be either Email or Authentuicator");
+            
             var token = await _authService.EnableTwoFactorAuthentication(dTO.userId, dTO.tokenProvider, dTO.oTP);
 
             return Ok(token);

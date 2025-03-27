@@ -14,11 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 //// Added Port to use on Azure
 ///
 
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(5000); // Default for debugging
-    serverOptions.ListenAnyIP(8080); // Additional for production
-});
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.ListenAnyIP(5000); // Default for debugging
+//    serverOptions.ListenAnyIP(8080); // Additional for production
+//});
 
 // Add services to the container.
 
