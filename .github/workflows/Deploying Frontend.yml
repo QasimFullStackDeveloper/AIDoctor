@@ -59,10 +59,16 @@ jobs:
             del /S /Q C:\WebApps\AIDoctor\client\*
             echo "Old frontend files deleted."
 
-      - name: Upload Frontend Files
-        run: |
-          echo "Uploading frontend files..."
-          scp -r dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/client/"
+      - name: Upload Frontend Files via PowerShell
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Uploading frontend files..."
+            powershell -Command "Copy-Item -Path dist/* -Destination 'C:/WebApps/AIDoctor/client/' -Recurse -Force"
 
 
   # 🔹 .NET Backend Deployment
@@ -111,11 +117,16 @@ jobs:
             mkdir C:\WebApps\AIDoctor\server
             echo "Backend folder recreated."
 
-      - name: Upload Backend Files
-        run: |
-          echo "Uploading backend files..."
-          scp -r publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/server/"
-
+      - name: Upload Backend Files via PowerShell
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Uploading backend files..."
+            powershell -Command "Copy-Item -Path publish/* -Destination 'C:/WebApps/AIDoctor/server/' -Recurse -Force"
 
       - name: Restart Backend Service
         uses: appleboy/ssh-action@v1.0.3
