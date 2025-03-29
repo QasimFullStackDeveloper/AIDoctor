@@ -1,26 +1,27 @@
-name: Deploy AI Doctor to Windows Server
+name: Deploy Frontend to Windows Server
 
 on:
   push:
     branches:
-      - main  # Change to your deployment branch
+      - main
+    paths:
+      - 'AIDoctor.client/**'  # Only trigger when frontend files change
 
 jobs:
-  deploy:
+  frontend_deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      ### 🔹 FRONTEND BUILD & DEPLOY ###
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Change if using a different Node.js version
+          node-version: '18'
           cache: 'npm'
 
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies
         run: |
           cd AIDoctor.client
           npm install
@@ -50,45 +51,5 @@ jobs:
           script: |
             IISReset
 
-      ### 🔹 BACKEND BUILD & DEPLOY ###
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'  # Change if using a different .NET version
-
-      - name: Restore Backend Dependencies
-        run: |
-          cd AIDoctor.server
-          dotnet restore
-
-      - name: Build Backend
-        run: |
-          cd AIDoctor.server
-          dotnet publish -c Release -o publish
-
-      - name: Deploy Backend via SCP
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "AIDoctor.server/publish/*"
-          target: "${{ secrets.BACKEND_DIR }}"
-
-      - name: Restart Backend Service
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            # Restart IIS or a Windows Service if running
-            IISReset
-            # If using a Windows Service:
-            # Stop-Service -Name "AIDoctorService"
-            # Start-Service -Name "AIDoctorService"
-
-      - name: Deployment Complete
-        run: echo "AI Doctor Frontend & Backend successfully deployed!"
+      - name: Frontend Deployment Complete
+        run: echo "Frontend successfully deployed!"
