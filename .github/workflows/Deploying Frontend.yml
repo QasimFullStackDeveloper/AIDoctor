@@ -87,11 +87,20 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            echo "Checking if old backend folder exists..."
+            if exist C:\WebApps\AIDoctor\server (
             echo "Deleting old backend files..."
             rmdir /S /Q C:\WebApps\AIDoctor\server
+            )
             mkdir C:\WebApps\AIDoctor\server
-            echo "Old backend files deleted."
+            echo "Backend folder recreated."
 
-            echo "Deploying new backend files..."
-            pscp -r -pw ${{ secrets.SERVER_PASSWORD }} AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:\WebApps\AIDoctor\server
+            echo "Listing files before transfer..."
+            dir AIDoctor.Server/publish/
+
+            echo "Deploying backend files..."
+            scp -r AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:/WebApps/AIDoctor/server/
             echo "Backend deployed successfully!"
+
+            echo "Listing files on remote server after transfer..."
+            ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "dir C:\WebApps\AIDoctor\server"
