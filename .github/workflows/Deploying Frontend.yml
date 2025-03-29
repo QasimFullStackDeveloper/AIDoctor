@@ -34,7 +34,11 @@ jobs:
       - name: Debug - Verify Build Output
         run: |
           echo "Checking dist directory..."
-          ls -la dist || { echo "Build directory missing!"; exit 1; }
+          ls -la dist
+          if [ ! -d "dist" ] || [ -z "$(ls -A dist)" ]; then
+            echo "❌ dist directory is empty or missing!"
+            exit 1
+          fi
 
       - name: Deploy Frontend to Windows Server via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -48,10 +52,10 @@ jobs:
             del /S /Q C:\WebApps\AIDoctor\client\*
             echo "Old frontend files deleted."
 
-            echo "Deploying new frontend files..."
-            pscp -r -pw ${{ secrets.SERVER_PASSWORD }} AIDoctor.client/dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:\WebApps\AIDoctor\client
-            echo "Frontend deployed successfully!"
-
+      - name: Upload Frontend Files
+        run: |
+          echo "Uploading frontend files..."
+          scp -r AIDoctor.client/dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/client/"
 
   # 🔹 .NET Backend Deployment
   deploy-backend:
@@ -77,7 +81,11 @@ jobs:
       - name: Debug - Verify Publish Output
         run: |
           echo "Checking publish directory..."
-          ls -la publish || { echo "Publish directory missing!"; exit 1; }
+          ls -la publish
+          if [ ! -d "publish" ] || [ -z "$(ls -A publish)" ]; then
+            echo "❌ publish directory is empty or missing!"
+            exit 1
+          fi
 
       - name: Deploy Backend to Windows Server via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -89,22 +97,25 @@ jobs:
           script: |
             echo "Checking if backend folder exists..."
             if exist C:\WebApps\AIDoctor\server (
-            echo "Deleting old backend files..."
-            rmdir /S /Q C:\WebApps\AIDoctor\server
+              echo "Deleting old backend files..."
+              rmdir /S /Q C:\WebApps\AIDoctor\server
             )
             mkdir C:\WebApps\AIDoctor\server
             echo "Backend folder recreated."
 
-            echo "Listing backend build files before transfer..."
-            ls -la AIDoctor.Server/publish/
+      - name: Upload Backend Files
+        run: |
+          echo "Uploading backend files..."
+          scp -r AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/server/"
 
-            echo "Deploying backend files..."
-            scp -r AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:/WebApps/AIDoctor/server/
-            echo "Backend deployed successfully!"
-
-            echo "Checking deployed files on remote server..."
-            ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "dir C:\WebApps\AIDoctor\server"
-
+      - name: Restart Backend Service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
             echo "Restarting Backend Service..."
             nssm stop AIDoctorServer || true
             nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
