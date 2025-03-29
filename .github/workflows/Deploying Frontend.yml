@@ -110,16 +110,3 @@ jobs:
             nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
             nssm start AIDoctorServer
             echo "Backend service restarted successfully!"
-
-      - name: Restart Backend Service
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            nssm stop AIDoctorServer || true
-            nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
-            nssm start AIDoctorServer
-            echo "Backend service restarted successfully!"
