@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'AIDoctor.client/**'  # Only trigger when frontend files change
 
 jobs:
   frontend_deploy:
