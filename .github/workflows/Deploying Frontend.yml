@@ -87,7 +87,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            echo "Checking if old backend folder exists..."
+            echo "Checking if backend folder exists..."
             if exist C:\WebApps\AIDoctor\server (
             echo "Deleting old backend files..."
             rmdir /S /Q C:\WebApps\AIDoctor\server
@@ -95,17 +95,22 @@ jobs:
             mkdir C:\WebApps\AIDoctor\server
             echo "Backend folder recreated."
 
-            echo "Listing files before transfer..."
-            dir AIDoctor.Server/publish/
+            echo "Listing backend build files before transfer..."
+            ls -la AIDoctor.Server/publish/
 
             echo "Deploying backend files..."
             scp -r AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:/WebApps/AIDoctor/server/
             echo "Backend deployed successfully!"
 
-            echo "Listing files on remote server after transfer..."
+            echo "Checking deployed files on remote server..."
             ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "dir C:\WebApps\AIDoctor\server"
 
-            
+            echo "Restarting Backend Service..."
+            nssm stop AIDoctorServer || true
+            nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
+            nssm start AIDoctorServer
+            echo "Backend service restarted successfully!"
+
       - name: Restart Backend Service
         uses: appleboy/ssh-action@v1.0.3
         with:
