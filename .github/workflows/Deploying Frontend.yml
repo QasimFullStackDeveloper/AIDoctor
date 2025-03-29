@@ -1,16 +1,22 @@
-name: Deploy Frontend to Windows Server
+name: Deploy Frontend and Backend to Home Server
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  frontend_deploy:
+  # React Frontend Deployment
+  deploy-frontend:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: AIDoctor.client
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
@@ -28,26 +34,21 @@ jobs:
       - name: Build React App
         run: |
           npm run build || { echo "React build failed!"; exit 1; }
-          echo "Checking if dist directory exists..."
-          ls -la dist || { echo "Dist directory missing!"; exit 1; }
 
+      - name: Debug - Check Build Output
+        run: ls -la dist || { echo "Dist directory missing!"; exit 1; }
 
-      - name: Build Frontend
-        run: |
-          cd AIDoctor.client
-          npm run build
-
-      - name: Deploy Frontend via SCP
+      - name: Transfer Frontend to Home Server
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "AIDoctor.client/dist/*"
-          target: "${{ secrets.FRONTEND_DIR }}"
+          source: "AIDoctor.client/dist"
+          target: "C:/WebApps/AIDoctor/client"
 
-      - name: Restart IIS for Frontend
+      - name: Deploy Frontend on Home Server
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -55,7 +56,59 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            IISReset
+            mkdir -p "C:/WebApps/AIDoctor/client"
+            rm -rf "C:/WebApps/AIDoctor/client/*"
+            mv ~/AIDoctor.client/dist/* "C:/WebApps/AIDoctor/client/"
 
-      - name: Frontend Deployment Complete
-        run: echo "Frontend successfully deployed!"
+  # Backend API Deployment
+  deploy-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: AIDoctor.Server
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Publish API
+        run: dotnet publish -c Release -o publish --no-restore
+
+      - name: Debug - Check Publish Output
+        run: ls -la publish || { echo "Publish directory missing!"; exit 1; }
+
+      - name: Transfer Backend to Home Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "AIDoctor.Server/publish"
+          target: "C:/WebApps/AIDoctor/server"
+
+      - name: Deploy Backend on Home Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            mkdir -p "C:/WebApps/AIDoctor/server"
+            rm -rf "C:/WebApps/AIDoctor/server/*"
+            mv ~/AIDoctor.Server/publish/* "C:/WebApps/AIDoctor/server/"
+
+            # Restart Backend Service using NSSM
+            if ! nssm status AIDoctorServer; then
+              nssm install AIDoctorServer "C:\Program Files\dotnet\dotnet.exe" "C:\WebApps\AIDoctor\server\AIDoctor.Server.dll"
+              nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
+            fi
+            nssm restart AIDoctorServer
