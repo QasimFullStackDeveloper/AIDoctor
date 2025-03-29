@@ -36,7 +36,7 @@ jobs:
           echo "Checking dist directory..."
           ls -la dist || { echo "Build directory missing!"; exit 1; }
 
-      - name: Deploy Frontend to Windows Server via PowerShell
+      - name: Deploy Frontend to Windows Server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -44,10 +44,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            Remove-Item -Recurse -Force C:\WebApps\AIDoctor\client\*
-            echo "Removed old frontend files"
+            echo "Deleting old frontend files..."
+            del /S /Q C:\WebApps\AIDoctor\client\*
+            echo "Old frontend files deleted."
+
+            echo "Deploying new frontend files..."
             pscp -r -pw ${{ secrets.SERVER_PASSWORD }} AIDoctor.client/dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:\WebApps\AIDoctor\client
             echo "Frontend deployed successfully!"
+
 
   # 🔹 .NET Backend Deployment
   deploy-backend:
