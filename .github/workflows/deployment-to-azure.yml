@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.client  # Set the working directory for all steps
+        working-directory: AIDoctor.client
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'  # Cache npm dependencies for faster builds
+          cache: 'npm'
           cache-dependency-path: AIDoctor.client/package-lock.json
 
       - name: Install dependencies
@@ -32,37 +32,25 @@ jobs:
           npm install
 
       - name: Build React App
-        run: |
-          npm run build || { echo "React build failed!"; exit 1; }
-          echo "Checking if dist directory exists..."
-          ls -la dist || { echo "Dist directory missing!"; exit 1; }
+        run: npm run build
 
-      - name: Debug - Check Dist Folder
+      - name: Install rsync
         run: |
-          echo "Current Directory:"
-          pwd
-          echo "Contents of dist:"
-          ls -la dist
+          sudo apt-get update
+          sudo apt-get install -y rsync
 
       - name: Deploy Frontend to Home Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "dist/*"
-          target: "C:\\WebApps\\AIDoctor\\client"
-          script: |
-            if not exist "C:\WebApps\AIDoctor\client" mkdir "C:\WebApps\AIDoctor\client"
-            dir "C:\WebApps\AIDoctor\client"
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+          rsync -avz --delete -e "ssh -i private_key -o StrictHostKeyChecking=no" dist/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/c/WebApps/AIDoctor/client/
 
   # Backend API Deployment
   deploy-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.Server  # Set the working directory for all steps
+        working-directory: AIDoctor.Server
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -70,7 +58,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'  # Use .NET 9 as specified
+          dotnet-version: '9.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -78,27 +66,14 @@ jobs:
       - name: Publish API
         run: dotnet publish -c Release -o publish --no-restore
 
-      - name: Debug - Check Publish Output
+      - name: Install rsync
         run: |
-          echo "Publish directory contents:"
-          ls -la publish || { echo "Publish directory missing!"; exit 1; }
+          sudo apt-get update
+          sudo apt-get install -y rsync
 
       - name: Deploy Backend to Home Server
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "Publish/*"
-          target: "C:\\WebApps\\AIDoctor\\server"
-          script: |
-            if not exist "C:\WebApps\AIDoctor\server" mkdir "C:\WebApps\AIDoctor\server"
-            nssm stop AIDoctorServer
-            dir "C:\WebApps\AIDoctor\server"
-            nssm status AIDoctorServer
-            if errorlevel 1 (
-              nssm install AIDoctorServer "C:\Program Files\dotnet\dotnet.exe" "C:\WebApps\AIDoctor\server\AIDoctor.Server.dll"
-              nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
-            )
-            nssm start AIDoctorServer
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+          chmod 600 private_key
+          rsync -avz --delete -e "ssh -i private_key -o StrictHostKeyChecking=no" publish/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/c/WebApps/AIDoctor/server/
+          ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "if not exist \"C:\WebApps\AIDoctor\server\" mkdir \"C:\WebApps\AIDoctor\server\" & nssm stop AIDoctorServer & if errorlevel 1 (nssm install AIDoctorServer \"C:\Program Files\dotnet\dotnet.exe\" \"C:\WebApps\AIDoctor\server\AIDoctor.Server.dll\" & nssm set AIDoctorServer AppDirectory \"C:\WebApps\AIDoctor\server\") & nssm start AIDoctorServer"
