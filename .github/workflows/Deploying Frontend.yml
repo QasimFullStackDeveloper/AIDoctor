@@ -4,17 +4,14 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  # 🚀 React Frontend Deployment
+  # 🚀 React Frontend Deployment (Vite)
   deploy-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.client  # Set working directory for frontend steps
+        working-directory: AIDoctor.client
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,18 +28,16 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
 
-      - name: Build React App
+      - name: Build React App (Vite)
         run: |
           npm run build || { echo "React build failed!"; exit 1; }
-          echo "Checking if build directory exists..."
-          ls -la build || { echo "Build directory missing!"; exit 1; }
+          echo "Checking if dist directory exists..."
+          ls -la dist || { echo "Build directory missing!"; exit 1; }
 
-      - name: Debug - Check Build Folder
+      - name: Debug - Check Build Output
         run: |
-          echo "Current Directory:"
-          pwd
-          echo "Contents of build folder:"
-          ls -la build
+          echo "Contents of dist folder:"
+          ls -la AIDoctor.client/dist
 
       - name: Deploy Frontend on Home Server
         uses: appleboy/ssh-action@v1.0.3
@@ -53,14 +48,14 @@ jobs:
           port: 22
           script: |
             powershell -Command "if (Test-Path 'C:/WebApps/AIDoctor/client') { Remove-Item -Path 'C:/WebApps/AIDoctor/client/*' -Recurse -Force }"
-            powershell -Command "Copy-Item -Path 'AIDoctor.client/build/*' -Destination 'C:/WebApps/AIDoctor/client/' -Recurse -Force"
+            powershell -Command "Copy-Item -Path '~/AIDoctor.client/dist/*' -Destination 'C:/WebApps/AIDoctor/client/' -Recurse -Force"
 
-  # 🖥️ Backend API Deployment
+  # 🖥️ Backend API Deployment (.NET Core)
   deploy-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.Server  # Set working directory for backend steps
+        working-directory: AIDoctor.Server
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -68,7 +63,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'  # Use .NET 9 as specified
+          dotnet-version: '9.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -90,7 +85,7 @@ jobs:
           port: 22
           script: |
             powershell -Command "if (Test-Path 'C:/WebApps/AIDoctor/server') { Remove-Item -Path 'C:/WebApps/AIDoctor/server/*' -Recurse -Force }"
-            powershell -Command "Copy-Item -Path 'AIDoctor.Server/publish/*' -Destination 'C:/WebApps/AIDoctor/server/' -Recurse -Force"
+            powershell -Command "Copy-Item -Path '~/AIDoctor.Server/publish/*' -Destination 'C:/WebApps/AIDoctor/server/' -Recurse -Force"
 
             # Restart Backend Service
             powershell -Command "
