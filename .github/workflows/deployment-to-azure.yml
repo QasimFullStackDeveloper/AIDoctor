@@ -9,12 +9,12 @@ on:
       - main
 
 jobs:
-  # React Frontend Deployment
+  # React Frontend Deployment (Vite)
   deploy-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.client
+        working-directory: AIDoctor.client  # Set working directory for all steps
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,26 +31,28 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
 
-      - name: Build React App
-        run: npm run build
-
-      - name: Install rsync
+      - name: Build Vite React App
         run: |
-          sudo apt-get update
-          sudo apt-get install -y rsync
+          npm run build || { echo "React build failed!"; exit 1; }
+          echo "Checking if dist directory exists..."
+          ls -la dist || { echo "Dist directory missing!"; exit 1; }
 
       - name: Deploy Frontend to Home Server
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
-          chmod 600 private_key
-          rsync -avz --delete -e "ssh -i private_key -o StrictHostKeyChecking=no" dist/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/c/WebApps/AIDoctor/client/
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "AIDoctor.client/dist/*"
+          target: "/c/WebApps/AIDoctor/client"
 
-  # Backend API Deployment
+  # Backend API Deployment (.NET)
   deploy-backend:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AIDoctor.Server
+        working-directory: AIDoctor.Server  # Set working directory for all steps
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,22 +60,46 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '9.0.x'  # Use .NET 9 as specified
 
       - name: Restore dependencies
         run: dotnet restore
 
+      - name: Build API
+        run: dotnet build --configuration Release
+
       - name: Publish API
         run: dotnet publish -c Release -o publish --no-restore
 
-      - name: Install rsync
+      - name: Debug - Check Publish Output
         run: |
-          sudo apt-get update
-          sudo apt-get install -y rsync
+          echo "Publish directory contents:"
+          ls -la publish || { echo "Publish directory missing!"; exit 1; }
 
       - name: Deploy Backend to Home Server
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
-          chmod 600 private_key
-          rsync -avz --delete -e "ssh -i private_key -o StrictHostKeyChecking=no" publish/ ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:/c/WebApps/AIDoctor/server/
-          ssh -i private_key -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} "if not exist \"C:\WebApps\AIDoctor\server\" mkdir \"C:\WebApps\AIDoctor\server\" & nssm stop AIDoctorServer & if errorlevel 1 (nssm install AIDoctorServer \"C:\Program Files\dotnet\dotnet.exe\" \"C:\WebApps\AIDoctor\server\AIDoctor.Server.dll\" & nssm set AIDoctorServer AppDirectory \"C:\WebApps\AIDoctor\server\") & nssm start AIDoctorServer"
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "AIDoctor.Server/publish/*"
+          target: "/c/WebApps/AIDoctor/server"
+
+      - name: Restart Backend Service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Stop the backend service (if running)
+            nssm stop AIDoctorServer || true
+            # Install as a service (first time only)
+            if ! nssm status AIDoctorServer; then
+              nssm install AIDoctorServer "C:\Program Files\dotnet\dotnet.exe" "C:\WebApps\AIDoctor\server\AIDoctor.Server.dll"
+              nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
+            fi
+            # Start the backend service
+            nssm start AIDoctorServer
