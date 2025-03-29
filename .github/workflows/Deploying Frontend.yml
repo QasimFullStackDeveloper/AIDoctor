@@ -79,7 +79,7 @@ jobs:
           echo "Checking publish directory..."
           ls -la publish || { echo "Publish directory missing!"; exit 1; }
 
-      - name: Deploy Backend to Windows Server via PowerShell
+      - name: Deploy Backend to Windows Server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -87,8 +87,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            Remove-Item -Recurse -Force C:\WebApps\AIDoctor\server\*
-            echo "Removed old backend files"
+            echo "Deleting old backend files..."
+            rmdir /S /Q C:\WebApps\AIDoctor\server
+            mkdir C:\WebApps\AIDoctor\server
+            echo "Old backend files deleted."
+
+            echo "Deploying new backend files..."
             pscp -r -pw ${{ secrets.SERVER_PASSWORD }} AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:C:\WebApps\AIDoctor\server
             echo "Backend deployed successfully!"
 
