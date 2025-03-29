@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-          cache-dependency-path: AIDoctor.client/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Clean and Install Dependencies
         run: |
@@ -55,7 +55,7 @@ jobs:
       - name: Upload Frontend Files
         run: |
           echo "Uploading frontend files..."
-          scp -r AIDoctor.client/dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/client/"
+          scp -r dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/client/"
 
   # 🔹 .NET Backend Deployment
   deploy-backend:
@@ -106,7 +106,7 @@ jobs:
       - name: Upload Backend Files
         run: |
           echo "Uploading backend files..."
-          scp -r AIDoctor.Server/publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/server/"
+          scp -r publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/server/"
 
       - name: Restart Backend Service
         uses: appleboy/ssh-action@v1.0.3
