@@ -13,16 +13,24 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
           cache: 'npm'
+          cache-dependency-path: AIDoctor.client/package-lock.json
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
-          cd AIDoctor.client
+          rm -rf node_modules package-lock.json
           npm install
+
+      - name: Build React App
+        run: |
+          npm run build || { echo "React build failed!"; exit 1; }
+          echo "Checking if dist directory exists..."
+          ls -la dist || { echo "Dist directory missing!"; exit 1; }
+
 
       - name: Build Frontend
         run: |
