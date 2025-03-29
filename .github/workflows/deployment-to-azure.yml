@@ -50,11 +50,12 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22  # Change to 2222 if using a custom port
+          port: 22
           script: |
-            mkdir -p /c/WebApps/AIDoctor/client
-            rm -rf /c/WebApps/AIDoctor/client/*
-            cp -r /home/${{ secrets.SERVER_USERNAME }}/dist/* /c/WebApps/AIDoctor/client/
+            if not exist "C:\WebApps\AIDoctor\client" mkdir "C:\WebApps\AIDoctor\client"
+            del /Q "C:\WebApps\AIDoctor\client\*.*"
+            rmdir /S /Q "C:\WebApps\AIDoctor\client\static" 2>nul
+            xcopy "C:\Users\${{ secrets.SERVER_USERNAME }}\dist\*.*" "C:\WebApps\AIDoctor\client\" /E /H /C /I
 
   # Backend API Deployment
   deploy-backend:
@@ -90,12 +91,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22  # Change to 2222 if using a custom port
           script: |
-            mkdir -p /c/WebApps/AIDoctor/server
-            nssm stop AIDoctorServer || true
-            rm -rf /c/WebApps/AIDoctor/server/*
-            cp -r /home/${{ secrets.SERVER_USERNAME }}/publish/* /c/WebApps/AIDoctor/server/
-            if ! nssm status AIDoctorServer; then
+            if not exist "C:\WebApps\AIDoctor\server" mkdir "C:\WebApps\AIDoctor\server"
+            nssm stop AIDoctorServer
+            del /Q "C:\WebApps\AIDoctor\server\*.*"
+            xcopy "C:\Users\${{ secrets.SERVER_USERNAME }}\publish\*.*" "C:\WebApps\AIDoctor\server\" /E /H /C /I
+            nssm status AIDoctorServer
+            if errorlevel 1 (
               nssm install AIDoctorServer "C:\Program Files\dotnet\dotnet.exe" "C:\WebApps\AIDoctor\server\AIDoctor.Server.dll"
               nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
-            fi
+            )
             nssm start AIDoctorServer
