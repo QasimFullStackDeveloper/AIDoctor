@@ -64,6 +64,7 @@ jobs:
           echo "Uploading frontend files..."
           scp -r dist/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/client/"
 
+
   # 🔹 .NET Backend Deployment
   deploy-backend:
     runs-on: ubuntu-latest
@@ -114,6 +115,7 @@ jobs:
         run: |
           echo "Uploading backend files..."
           scp -r publish/* ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }}:"C:/WebApps/AIDoctor/server/"
+
 
       - name: Restart Backend Service
         uses: appleboy/ssh-action@v1.0.3
