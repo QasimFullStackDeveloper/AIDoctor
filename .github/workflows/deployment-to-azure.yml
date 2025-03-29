@@ -1,44 +1,36 @@
-name: Deploy Frontend and Backend to Home Server
+name: Deploy AI Doctor to Windows Server
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - main  # Change to your deployment branch
 
 jobs:
-  # React Frontend Deployment (Vite)
-  deploy-frontend:
+  deploy:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: AIDoctor.client  # Set working directory
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      ### 🔹 FRONTEND BUILD & DEPLOY ###
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '18'  # Change if using a different Node.js version
           cache: 'npm'
-          cache-dependency-path: AIDoctor.client/package-lock.json
 
-      - name: Install dependencies
+      - name: Install Frontend Dependencies
         run: |
-          rm -rf node_modules package-lock.json
+          cd AIDoctor.client
           npm install
 
-      - name: Build React App (Vite)
+      - name: Build Frontend
         run: |
-          npm run build || { echo "React build failed!"; exit 1; }
-          echo "Checking if dist directory exists..."
-          ls -la dist || { echo "Dist directory missing!"; exit 1; }
+          cd AIDoctor.client
+          npm run build
 
-      - name: Deploy Frontend to Home Server (SCP)
+      - name: Deploy Frontend via SCP
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -46,46 +38,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "AIDoctor.client/dist/*"
-          target: "/c/WebApps/AIDoctor/client"
+          target: "${{ secrets.FRONTEND_DIR }}"
 
-  # Backend API Deployment (.NET 9)
-  deploy-backend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: AIDoctor.Server  # Set working directory
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Publish API
-        run: dotnet publish -c Release -o publish --no-restore
-
-      - name: Debug - Check Publish Output
-        run: |
-          echo "Publish directory contents:"
-          ls -la publish || { echo "Publish directory missing!"; exit 1; }
-
-      - name: Deploy Backend to Home Server (SCP)
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "AIDoctor.Server/publish/*"
-          target: "/c/WebApps/AIDoctor/server"
-
-      - name: Restart Backend Service on Server (SSH)
+      - name: Restart IIS for Frontend
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -93,8 +48,47 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            mkdir -p /c/WebApps/AIDoctor/server
-            nssm stop AIDoctorServer || true
-            nssm install AIDoctorServer "C:\Program Files\dotnet\dotnet.exe" "C:\WebApps\AIDoctor\server\AIDoctor.Server.dll"
-            nssm set AIDoctorServer AppDirectory "C:\WebApps\AIDoctor\server"
-            nssm start AIDoctorServer
+            IISReset
+
+      ### 🔹 BACKEND BUILD & DEPLOY ###
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Change if using a different .NET version
+
+      - name: Restore Backend Dependencies
+        run: |
+          cd AIDoctor.server
+          dotnet restore
+
+      - name: Build Backend
+        run: |
+          cd AIDoctor.server
+          dotnet publish -c Release -o publish
+
+      - name: Deploy Backend via SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "AIDoctor.server/publish/*"
+          target: "${{ secrets.BACKEND_DIR }}"
+
+      - name: Restart Backend Service
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Restart IIS or a Windows Service if running
+            IISReset
+            # If using a Windows Service:
+            # Stop-Service -Name "AIDoctorService"
+            # Start-Service -Name "AIDoctorService"
+
+      - name: Deployment Complete
+        run: echo "AI Doctor Frontend & Backend successfully deployed!"
