@@ -1,0 +1,296 @@
+/* Main cONTAINER */
+.whole-container_11 {
+    background-color: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Container for centering content */
+.container_11 {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Progress bar steps */
+.progress-bar_11 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+
+.step_11 {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 3px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: white;
+    color: #6b7280;
+    transition: all 0.3s ease-in-out;
+    animation: stepAppear 0.6s ease-in-out;
+}
+
+
+@keyframes stepAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Completed step styles */
+.step_11.completed_11 {
+    background-color: #3b82f6;
+    color: white;
+    border: 3px solid #3b82f6;
+    transform: scale(1.1);
+}
+
+/* Active step styles */
+.step_11.active_11 {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+/* Arrow indicator between steps */
+.arrow-bar_11 {
+    width: 50px;
+    height: 3px;
+    background-color: #d1d5db;
+    margin: 0 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Completed arrow indicator */
+.arrow-bar_11.completed_11 {
+    background-color: #3b82f6;
+}
+
+/* Card appearance  */
+.card_11 {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3b82f6;
+    text-align: left;
+    animation: slideIn 0.7s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card text styling (title) */
+.card_11 h2 {
+    font-size: 22px;
+    color: #111827;
+    margin-bottom: 10px;
+}
+
+/* Card text styling (paragraph) */
+.card_11 p {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+/* QR Code display container */
+#qr-code-container_11 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* QR code image styling */
+#qr-code-container_11 img {
+    width: 150px;
+    height: 150px;
+}
+
+/* Manual setup input field container */
+.manual-setup_11 {
+    margin-top: 15px;
+}
+
+/* Label styling for manual setup */
+.manual-setup_11 label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input field styling */
+.input-group_11 {
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input field inside the input group */
+.input-group_11 input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 16px;
+    padding: 10px;
+    color: #111827;
+    font-weight: bold;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Focus state for the input field */
+.input-group_11 input:focus {
+    background: white;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Button inside input group */
+.input-group_11 button {
+    padding: 8px 15px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Button hover effect */
+.input-group_11 button:hover {
+    background: #2563eb;
+    transform: scale(1.05);
+}
+
+/* Custom select dropdown container */
+.custom-select_11 {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Custom select dropdown styling */
+.custom-select_11 select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    font-size: 14px;
+    color: #374151;
+}
+
+/* Container for action buttons */
+.buttons_11 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Styling for back and continue buttons */
+.buttons_11 .back_11,
+.buttons_11 .continue_11 {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Styling for the back button */
+.buttons_11 .back_11 {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Back button hover effect */
+.buttons_11 .back_11:hover {
+    background: #d1d5db;
+    transform: scale(1.05);
+}
+
+/* Styling for the continue button */
+.buttons_11 .continue_11 {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Continue button hover effect */
+.buttons_11 .continue_11:hover {
+    background: #2563eb;
+    transform: scale(1.05);
+}
+
+/* Footer with animations and links */
+.footer_11 {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 0.5s;
+}
+
+/* Footer link styling */
+.footer_11 a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Footer link hover effect */
+.footer_11 a:hover {
+    text-decoration: underline;
+}

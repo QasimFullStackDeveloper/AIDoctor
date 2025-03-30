@@ -1,0 +1,274 @@
+/* Main container with fade-in animation */
+.wholecontainer_2 {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    animation: fadeIn 0.8s ease-in-out;
+    margin-top: 50px;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Container for centering content */
+.container_2 {
+    text-align: center;
+    width: 480px;
+}
+
+/* Title styling */
+.title_2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Progress bar container */
+.progress-bar_2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Individual step in progress bar */
+.step_2 {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #ddd;
+    color: #555;
+    transition: all 0.3s ease-in-out;
+    animation: stepAppear 0.6s ease-in-out;
+}
+
+/* Step appearance animation */
+@keyframes stepAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Progress bar between steps */
+.bar_2 {
+    width: 80px;
+    height: 4px;
+    background-color: #ddd;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Completed progress bar step */
+.completed_2 {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Completed bar styling */
+.bar_2.completed_2 {
+    background-color: #007bff;
+}
+
+/* Active step in progress bar */
+.active_2 {
+    background-color: #007bff !important;
+    color: #fff;
+}
+
+/* Card appearance with slide-in effect */
+.card_2 {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 100%;
+    height: 70%;
+    animation: slideIn 0.7s ease-in-out;
+}
+
+/* Slide-in animation for card */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card title styling */
+.card_2 h3 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Card paragraph text styling */
+.card_2 p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* QR Code container */
+.qr-container_2 {
+    text-align: center;
+    justify-content: center;
+    margin-left: 120px;
+}
+
+/* Manual setup input container */
+.manual-setup_2 {
+    margin-top: 10px;
+}
+
+/* Label styling for manual setup */
+.manual-setup_2 label {
+    display: block;
+    font-size: 13px;
+    margin: 5px 0 2px;
+}
+
+/* Input field container */
+.input-group_2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input field styling */
+.input-group_2 input {
+    border: none;
+    font-size: 13px;
+    flex: 1;
+    padding: 5px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Focus state for input field */
+.input-group_2 input:focus {
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button inside input group */
+.input-group_2 button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Button hover effect */
+.input-group_2 button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Select dropdown styling */
+.select_2 {
+    width: 100%;
+    padding: 6px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+}
+
+/* Verify button styling */
+.verify-btn_2 {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Verify button hover effect */
+.verify-btn_2:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Container for action buttons */
+.buttons_2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Back button styling */
+.back_2 {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #007bff;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Back button hover effect */
+.back_2:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Help link styling */
+.help_2 {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Help link hover effect */
+.help_2:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Footer styling with animations */
+.footer_2 {
+    font-size: 12px;
+    color: #888;
+    margin-top: 50px;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+    animation-delay: 0.5s;
+}

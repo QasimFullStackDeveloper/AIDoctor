@@ -1,0 +1,145 @@
+/* Main container */
+.whole-container_15 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f4ff;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Card container with  */
+.card_15 {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 380px;
+    animation: slideUp 0.8s ease-in-out;
+}
+
+/* Title styling */
+.title_15 {
+    font-size: 22px;
+    margin: 15px 0;
+    font-weight: 600;
+    color: #333;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Icon styling  */
+.icon_15 {
+    background: #e8f5e9;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin: 15px auto;
+    animation: bounceIn 1s ease-in-out;
+}
+
+/* Icon image inside the icon container */
+.icon_15 img {
+    width: 35px;
+}
+
+/* Description text styling  */
+.description_15 {
+    font-size: 15px;
+    color: #555;
+    margin: 12px 0;
+    line-height: 1.5;
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Link styling with bold font and fade-in animation */
+.link_15 {
+    display: block;
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 12px 0;
+    animation: fadeIn 1.4s ease-in-out;
+}
+
+/* Button styling  */
+.button_15 {
+    background-color: hsla(221, 83%, 53%, 1);
+    color: white;
+    padding: 12px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 18px 0;
+    font-weight: 500;
+    transition: 0.3s;
+    animation: fadeIn 1.6s ease-in-out;
+}
+
+/* Button hover effect with color change */
+.button_15:hover {
+    background: #303f9f;
+}
+
+/* Note box styling */
+.note_15 {
+    background: #e3ebff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: hsla(221, 83%, 53%, 1);
+    text-align: left;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 1.8s ease-in-out;
+}
+
+/* Image inside the note box with a fixed width */
+.note_15 img {
+    width: 20px;
+}
+
+/* Keyframe Animations */
+
+/* Fade-in animation for elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Slide-up animation for card container */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bounce-in animation for the icon */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

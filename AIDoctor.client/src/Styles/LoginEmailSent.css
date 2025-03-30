@@ -1,0 +1,119 @@
+/* Main container for centering the content */
+.whole-contaienr_18 {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fc;
+    margin: 0;
+}
+
+/* Inner container with white background and some styling */
+.container_18 {
+    background: white;
+    border-radius: 10px;
+    width: 390px; 
+    border-top: 3px solid #3b82f6;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn_18 0.5s ease-in-out;
+}
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn_18 {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Success icon styling */
+.success-icon_18 {
+    width: 45px;
+    height: 45px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 18px auto;
+    animation: bounce_18 0.5s ease-in-out;
+}
+
+/* Keyframes for bounce animation */
+@keyframes bounce_18 {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Success icon checkmark symbol */
+.success-icon_18::after {
+    content: '✔';
+    color: white;
+    font-size: 22px;
+}
+
+/* Message text styling */
+.message_18 {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* Info text styling */
+.info_18 {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* Resend link container */
+.resend-container_18 {
+    margin-top: 18px;
+}
+
+/* Resend link styling */
+.resend_18 {
+    font-size: 13px;
+    font-weight: bold;
+    color: #3b82f6;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+/* Resend link hover effect */
+.resend_18:hover {
+    color: #1e40af;
+}
+
+/* Button styling */
+.btn_18 {
+    display: block;
+    width: 100%;
+    padding: 9px;
+    background: #3b82f6;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 12px;
+}
+
+/* Button hover effect */
+.btn_18:hover {
+    background: #1e40af;
+}
+
+/* Security box styling */
+.security-box_18 {
+    background: #eef2ff;
+    padding: 9px;
+    font-size: 11px;
+    color: #374151;
+    border-radius: 5px;
+    margin-top: 12px;
+    animation: fadeIn_18 0.8s ease-in-out;
+}

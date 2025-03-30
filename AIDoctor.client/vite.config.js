@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
-
 import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite'
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -8,7 +8,7 @@ import child_process from 'child_process';
 import { env } from 'process';
 
 const baseFolder =
-    env.APPDATA !== undefined && env.APPDATA !== ''
+    env.APPDATA && env.APPDATA !== ''
         ? `${env.APPDATA}/ASP.NET/https`
         : `${env.HOME}/.aspnet/https`;
 
@@ -16,30 +16,44 @@ const certificateName = "AIDoctor.client";
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
 const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
 
+// Ensure the folder exists
 if (!fs.existsSync(baseFolder)) {
     fs.mkdirSync(baseFolder, { recursive: true });
 }
 
+// Generate certificate if missing
 if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-    if (0 !== child_process.spawnSync('dotnet', [
-        'dev-certs',
-        'https',
-        '--export-path',
-        certFilePath,
-        '--format',
-        'Pem',
-        '--no-password',
-    ], { stdio: 'inherit', }).status) {
-        throw new Error("Could not create certificate.");
+    try {
+        const dotnetExists = child_process.spawnSync('dotnet', ['--version']).status === 0;
+        if (dotnetExists) {
+            const certCreation = child_process.spawnSync('dotnet', [
+                'dev-certs', 'https',
+                '--export-path', certFilePath,
+                '--format', 'Pem',
+                '--no-password',
+            ], { stdio: 'inherit' });
+
+            if (certCreation.status !== 0) {
+                console.warn("⚠️ Could not create HTTPS certificate. Running without HTTPS.");
+            }
+        } else {
+            console.warn("⚠️ .NET SDK is not installed. Running without HTTPS.");
+        }
+    } catch (error) {
+        console.warn("⚠️ Failed to check .NET SDK. Running without HTTPS.");
     }
 }
 
-const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-    env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7282';
+// Define the target backend URL
+const target = env.ASPNETCORE_HTTPS_PORT
+    ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
+    : env.ASPNETCORE_URLS
+        ? env.ASPNETCORE_URLS.split(';')[0]
+        : 'http://localhost:5000'; // Fallback to HTTP if needed
 
-// https://vitejs.dev/config/
+// Vite Configuration
 export default defineConfig({
-    plugins: [plugin()],
+    plugins: [plugin(), tailwindcss(),],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -49,13 +63,15 @@ export default defineConfig({
         proxy: {
             '^/weatherforecast': {
                 target,
-                secure: false
+                secure: false,
             }
         },
-        port: parseInt(env.DEV_SERVER_PORT || '52732'),
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
-        }
+        port: parseInt(env.DEV_SERVER_PORT || '5173'), // Default Vite port
+        https: fs.existsSync(certFilePath) && fs.existsSync(keyFilePath)
+            ? {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
+            }
+            : false, // Disable HTTPS if certificates are missing
     }
-})
+});

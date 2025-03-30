@@ -1,0 +1,193 @@
+.whole-container_10 {
+    background-color: #f9fafb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Animation */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.container_10 {
+    text-align: center;
+    width: 100%;
+    max-width: 750px;
+    padding: 40px 20px;
+}
+
+/* Logo */
+.logo_10 {
+    margin-left: 180px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+    margin-top: 10px;
+}
+
+.subtext_10 {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+/* Steps Section */
+.steps_10 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.step_10 {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: white;
+    color: #6b7280;
+}
+
+.step_10.active_10 {
+    background-color: #3b82f6;
+    color: white;
+    border: 2px solid #3b82f6;
+}
+
+.step-text_10 {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 10px;
+}
+
+.step-text_10.active_10 {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.line_10 {
+    width: 50px;
+    height: 2px;
+    background-color: #d1d5db;
+}
+
+/* AUTH FORM  */
+.auth-box_10 {
+    background: white;
+    padding: 30px;
+    width: 750px; 
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #3b82f6;
+    margin: 20px auto;
+    text-align: left;
+
+    opacity: 0;
+    transform: scale(0.9);
+
+  
+    animation: fadeInScale 1.5s ease-out 1s forwards;
+}
+
+/* Option Box */
+.option_10 {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    background: white;
+    transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.option_10:hover {
+    border-color: #3b82f6;
+    transform: scale(1.03);
+}
+
+.option_10 input {
+    margin-right: 10px;
+}
+
+.option_10 label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+.option_10 strong {
+    font-size: 16px;
+    color: #111827;
+}
+
+.option_10 span {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Continue Button */
+.continue-btn_10 {
+    width: 100%;
+    padding: 12px;
+    background-color: #3b82f6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.continue-btn_10:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer_10 {
+    font-size: 12px;
+    color: #6b7280;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: auto;
+    width: 100%;
+    padding: 15px;
+    background: #f3f4f6;
+}
+
+.footer-link_10 {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.footer-link_10:hover {
+    text-decoration: underline;
+    color: #2563eb;
+}
