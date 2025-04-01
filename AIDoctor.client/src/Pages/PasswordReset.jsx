@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import "../Styles/PasswordReset.css";
 import Logo from "../assets/logo";
 
 export default function SetNewPassword() {
@@ -9,8 +8,7 @@ export default function SetNewPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  const toggleConfirmPasswordVisibility = () =>
-    setShowConfirmPassword(!showConfirmPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   const evaluateStrength = (pass) => {
     let strength = 0;
@@ -29,32 +27,37 @@ export default function SetNewPassword() {
   const strengthInfo = evaluateStrength(password);
 
   return (
-    <div className="whole-container_19 flex items-center justify-center min-h-screen bg-blue-100 px-4">
-      <div className="container_19 bg-white rounded-lg shadow-lg p-6 w-full max-w-md border-t-4 border-blue-500 animate-fadeIn">
-        <div className="logo_19 flex justify-center mb-2">
-          <Logo />
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br bg-blue-100  px-4 animate-fadeIn transition-all duration-500">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-[350px] border-t-4 border-blue-600 animate-slideIn transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]">
+        
+        {/* Logo */}
+        <div className="flex justify-center mb-2">
+          <Logo className="w-14 h-14 animate-fadeIn transition-opacity duration-500" />
         </div>
-        <div className="title_19 text-lg font-semibold text-center">Set a New Password</div>
-        <div className="success-icon_19 mx-auto my-3 flex items-center justify-center w-12 h-12 bg-green-500 rounded-full text-white text-2xl">
+
+        {/* Title */}
+        <h2 className="text-lg font-bold text-gray-900 text-center">Set a New Password</h2>
+
+        {/* Success Icon */}
+        <div className="flex items-center justify-center w-12 h-12 mx-auto my-3 bg-green-500 rounded-full text-white text-2xl shadow-md animate-bounce">
           ✔
         </div>
-        <p className="info_19 text-gray-600 text-sm text-center">
-          Create a secure new password for your account.
-        </p>
+
+        <p className="text-gray-600 text-sm text-center">Create a secure new password for your account.</p>
 
         {/* New Password Input */}
-        <div className="input-container_19 mt-4">
-          <label className="input-label_19 text-xs font-bold block">New Password</label>
-          <div className="input-wrapper_19 relative">
+        <div className="mt-4">
+          <label className="text-xs font-bold block mb-1">New Password</label>
+          <div className="relative flex items-center border border-gray-300 rounded-lg bg-gray-100 p-2 focus-within:ring-2 focus-within:ring-blue-500 transition-all duration-300">
             <input
               type={showPassword ? "text" : "password"}
-              className="input_19 w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-400 text-sm"
               placeholder="Enter new password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <span
-              className="eye-icon_19 absolute right-3 top-2 cursor-pointer text-gray-500"
+              className="absolute right-3 top-2 cursor-pointer text-gray-500 hover:text-blue-600 transition-all duration-300"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? "👁️" : "🙈"}
@@ -63,18 +66,18 @@ export default function SetNewPassword() {
         </div>
 
         {/* Confirm Password Input */}
-        <div className="input-container_19 mt-3">
-          <label className="input-label_19 text-xs font-bold block">Confirm Password</label>
-          <div className="input-wrapper_19 relative">
+        <div className="mt-3">
+          <label className="text-xs font-bold block mb-1">Confirm Password</label>
+          <div className="relative flex items-center border border-gray-300 rounded-lg bg-gray-100 p-2 focus-within:ring-2 focus-within:ring-blue-500 transition-all duration-300">
             <input
               type={showConfirmPassword ? "text" : "password"}
-              className="input_19 w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-400 text-sm"
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <span
-              className="eye-icon_19 absolute right-3 top-2 cursor-pointer text-gray-500"
+              className="absolute right-3 top-2 cursor-pointer text-gray-500 hover:text-blue-600 transition-all duration-300"
               onClick={toggleConfirmPasswordVisibility}
             >
               {showConfirmPassword ? "👁️" : "🙈"}
@@ -84,28 +87,29 @@ export default function SetNewPassword() {
 
         {/* Password Strength Indicator */}
         {password.length > 0 && (
-          <>
-            <div className="password-strength_19 mt-3 flex items-center justify-between text-xs">
+          <div className="mt-3">
+            <div className="flex items-center justify-between text-xs">
               <div
-                className="strength-bar_19 h-1 rounded bg-gray-300"
+                className="h-1 rounded transition-all duration-300 bg-gray-300"
                 style={{ width: strengthInfo.width, backgroundColor: strengthInfo.color }}
               ></div>
-              <span className="strength-text_19 font-semibold" style={{ color: strengthInfo.color }}>
+              <span className="font-semibold transition-all duration-300" style={{ color: strengthInfo.color }}>
                 {strengthInfo.text}
               </span>
             </div>
 
-            <div className="strength-criteria_19 text-xs text-gray-600 mt-2">
+            {/* Strength Criteria */}
+            <div className="text-xs text-gray-600 mt-2 space-y-1 animate-fadeIn transition-all duration-300">
               <p>{password.length >= 8 ? "✔" : "✖"} At least 8 characters</p>
               <p>{/\d/.test(password) ? "✔" : "✖"} Contains numbers</p>
               <p>{/[A-Z]/.test(password) ? "✔" : "✖"} Includes uppercase letters</p>
               <p>{/[!@#$%^&*(),.?":{}|<>]/.test(password) ? "✔" : "✖"} Includes special characters</p>
             </div>
-          </>
+          </div>
         )}
 
         {/* Reset Password Button */}
-        <button className="btn_19 w-full mt-4 py-2 text-white bg-blue-500 font-semibold rounded-md hover:bg-blue-700 transition-all">
+        <button className="w-full mt-4 py-3 text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-md">
           🔑 Reset Password
         </button>
       </div>
