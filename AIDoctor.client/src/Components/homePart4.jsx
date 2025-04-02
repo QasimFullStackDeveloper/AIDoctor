@@ -17,9 +17,11 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-xl font-semibold text-center">Got Questions? Reach Out!</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 opacity-0 animate-fadeIn">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg transition-all duration-300 ease-in-out transform hover:scale-105">
+        <h2 className="text-xl font-semibold text-center transition-all duration-300 ease-in-out hover:scale-105">
+          Got Questions? Reach Out!
+        </h2>
         <p className="text-gray-600 text-center mb-6">
           We're here to help you with any questions about our AI doctor service.
         </p>
@@ -32,7 +34,7 @@ export default function ContactForm() {
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -42,7 +44,7 @@ export default function ContactForm() {
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105"
             />
           </div>
           <div>
@@ -51,12 +53,12 @@ export default function ContactForm() {
               placeholder="Your message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24 transition-all duration-300 ease-in-out transform hover:scale-105"
             ></textarea>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out transform hover:scale-105"
           >
             Send Message
           </button>

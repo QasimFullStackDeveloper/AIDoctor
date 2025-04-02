@@ -1,16 +1,33 @@
-import React from 'react';
-import Logo from '../../assets/logo';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import Logo from "../../assets/logo";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignupPage1() {
+  const [selectedAuthMethod, setSelectedAuthMethod] = useState("");
+  const navigate = useNavigate();
+
+  const handleRadioChange = (e) => {
+    setSelectedAuthMethod(e.target.id);
+  };
+
+  const handleContinueClick = () => {
+    if (selectedAuthMethod === "email") {
+      navigate("/signup/two-factor");
+    } else if (selectedAuthMethod === "auth-app") {
+      navigate("/signup/step-2");
+    }
+  };
+
   return (
-    <div className="whole-container_10 bg-gradient-to-br overflow-hidden  bg-blue-100 flex flex-col items-center justify-center min-h-screen w-full">
-      <div className="container_10 text-center w-full max-w-xl p-10 rounded-lg   animate-fadeInScale">       
-         <div className="logo_10 mb-5 ml-[220px] text-blue-500 font-bold animate-fadeIn">
-        <Logo />
-      </div>
+    <div className="bg-gradient-to-br overflow-hidden bg-blue-100 flex flex-col items-center justify-center min-h-screen w-full p-4">
+      <div className="container_10 text-center w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] p-10 rounded-lg animate-fadeInScale">
+        <div className="logo_10 mb- ml-[225px] text-blue-500 font-bold animate-fadeIn">
+          <Logo />
+        </div>
         <h1 className="text-xl font-bold text-gray-900 mt-2 animate-slideIn">Two-Factor Authentication</h1>
-        <p className="subtext_10 text-sm text-gray-600 mb-5 animate-fadeIn">Choose your preferred method to receive the code</p>
+        <p className="subtext_10 text-sm text-gray-600 mb-5 animate-fadeIn">
+          Choose your preferred method to receive the code
+        </p>
 
         {/* Steps Navigation */}
         <div className="steps_10 flex items-center justify-center mb-5">
@@ -43,7 +60,13 @@ export default function SignupPage1() {
           <h3 className="text-lg font-semibold text-gray-900">Select Authentication Method</h3>
 
           <div className="option_10 flex items-center p-4 border border-gray-300 rounded-lg my-3 cursor-pointer bg-white transition-all duration-500 hover:border-blue-500 hover:scale-105 hover:shadow-md">
-            <input type="radio" id="email" name="auth-method" className="mr-3" />
+            <input
+              type="radio"
+              id="email"
+              name="auth-method"
+              className="mr-3"
+              onChange={handleRadioChange}
+            />
             <label htmlFor="email" className="flex flex-col text-sm">
               <strong className="text-base text-gray-900">Email Authentication</strong>
               <span className="text-xs text-gray-600">Receive a code via your registered email</span>
@@ -51,16 +74,28 @@ export default function SignupPage1() {
           </div>
 
           <div className="option_10 flex items-center p-4 border border-gray-300 rounded-lg my-3 cursor-pointer bg-white transition-all duration-500 hover:border-blue-500 hover:scale-105 hover:shadow-md">
-            <input type="radio" id="auth-app" name="auth-method" className="mr-3" />
+            <input
+              type="radio"
+              id="auth-app"
+              name="auth-method"
+              className="mr-3"
+              onChange={handleRadioChange}
+            />
             <label htmlFor="auth-app" className="flex flex-col text-sm">
               <strong className="text-base text-gray-900">Authenticator App</strong>
               <span className="text-xs text-gray-600">Use an authentication app like Google Authenticator or Authy</span>
             </label>
           </div>
 
-       <Link to="/signup/step-2">   <button className="continue-btn_10 w-full py-3 bg-blue-500 text-white font-bold rounded-lg mt-4 transition-all duration-500 transform hover:scale-110 hover:bg-blue-600 hover:shadow-md">
+          <button
+            onClick={handleContinueClick}
+            className={`continue-btn_10 w-full py-3 bg-blue-500 text-white font-bold rounded-lg mt-4 transition-all duration-500 transform hover:scale-110 hover:bg-blue-600 hover:shadow-md ${
+              !selectedAuthMethod ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={!selectedAuthMethod}
+          >
             Continue
-          </button></Link>
+          </button>
         </div>
       </div>
 

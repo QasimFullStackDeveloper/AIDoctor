@@ -42,21 +42,20 @@ const Testimonials = () => {
         <p className="text-lg text-gray-600 mb-12">Real experiences from people who trust Doctor AI</p>
       </div>
 
+      {/* Testimonials Container with Responsiveness */}
       <div className="flex flex-wrap justify-center gap-8">
         {testimonials.map((testimonial) => (
           <div
             key={testimonial.id}
-            className="bg-gray-100 p-6 rounded-lg shadow-md w-80 text-center"
+            className="bg-gray-100 p-6 rounded-lg shadow-md w-80 text-center sm:w-96 md:w-1/3 transition-all duration-500 transform hover:scale-105 hover:shadow-xl"
           >
             <div className="flex flex-col items-center mb-4">
               <img
                 src={testimonial.image}
                 alt={testimonial.name}
-                className="w-16 h-16 rounded-full object-cover mb-2"
+                className="w-16 h-16 rounded-full object-cover mb-2 transition-all duration-500 transform hover:scale-110"
               />
-              <h3 className="text-lg font-semibold text-gray-800">
-                {testimonial.name}
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-800">{testimonial.name}</h3>
               <p className="text-gray-600">{testimonial.role}</p>
             </div>
             <p className="text-gray-700 italic mb-4">"{testimonial.review}"</p>

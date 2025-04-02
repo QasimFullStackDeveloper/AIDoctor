@@ -1,5 +1,6 @@
 import React from "react";
-import Logo from "../assets/logo";
+import Logo from "../../assets/logo";
+import { Link } from "react-router-dom";
 
 export default function LoginEmailSent() {
   return (
@@ -37,10 +38,11 @@ export default function LoginEmailSent() {
         </div>
 
         {/* Back to Login Button with Hover Scale */}
+        <Link to="/login">
         <button className="w-full py-2 bg-blue-500 text-white text-sm font-bold rounded-md mt-4 transition-transform duration-300 hover:bg-blue-700 hover:scale-105 shadow-md">
           ← Back to login
         </button>
-
+        </Link>
         {/* Security Notice */}
         <div className="bg-blue-100 p-3 text-xs text-gray-700 rounded-md mt-4 shadow-inner transition-opacity duration-300">
           🔒 The password reset link will expire in 30 minutes for security reasons.

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/logo";
 
 const SignupTwoFactorAuth = () => {
@@ -111,9 +112,21 @@ const SignupTwoFactorAuth = () => {
         </div>
 
         {/* Verify Button */}
-        <button className="signup_verify-btn w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105 animate-bounceIn">
-          Verify
-        </button>
+        <Link to="/signup/2fa-success">
+          <button className="signup_verify-btn w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105 animate-bounceIn">
+            Verify
+          </button>
+        </Link>
+
+        {/* Navigation Buttons */}
+        <div className="buttons_2 flex justify-between mt-3 text-xs">
+          <Link to="/signup/step-2">
+            <button className="back_2 text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
+          </Link>
+          <Link to="">
+            <button className="help_2 text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

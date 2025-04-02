@@ -27,7 +27,7 @@ export default function SetNewPassword() {
   const strengthInfo = evaluateStrength(password);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br bg-blue-100  px-4 animate-fadeIn transition-all duration-500">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br bg-blue-100 px-4 animate-fadeIn transition-all duration-500">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-[350px] border-t-4 border-blue-600 animate-slideIn transition-all duration-500 hover:shadow-2xl hover:scale-[1.02]">
         
         {/* Logo */}
