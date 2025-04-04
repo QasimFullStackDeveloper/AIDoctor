@@ -68,12 +68,23 @@ builder.Services.AddAuthentication(options =>
 
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", policy =>
+//    {
+//        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+//    });
+//});
+
+
+// Added to Deploy on Own Hosting Server 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .WithOrigins("http://your-ip:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 
@@ -102,9 +113,12 @@ app.MapScalarApiReference(option =>
 //}
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
-app.UseStaticFiles();
-app.UseRouting();
-app.UseCors("AllowAll");
+//app.UseStaticFiles();
+//app.UseRouting();
+//app.UseCors("AllowAll");
+
+// Added to Deploy on Own Hosting Server 
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
