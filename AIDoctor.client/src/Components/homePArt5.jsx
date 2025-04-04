@@ -36,34 +36,38 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">What Our Users Say</h2>
-        <p className="text-lg text-gray-600 mb-12">Real experiences from people who trust Doctor AI</p>
+    <section className="py-16 px-6 sm:px-8 lg:px-12 bg-gradient-to-r from-teal-100 to-blue-200 pb-24">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-wide">
+          What Our Users Say
+        </h2>
+        <p className="text-xl text-gray-700 mb-14 max-w-2xl mx-auto">
+          Real experiences from people who trust Doctor AI
+        </p>
       </div>
 
-      {/* Testimonials Container with Responsiveness */}
+      {/* Testimonials Container with Flex Layout for larger screens */}
       <div className="flex flex-wrap justify-center gap-8">
         {testimonials.map((testimonial) => (
           <div
             key={testimonial.id}
-            className="bg-gray-100 p-6 rounded-lg shadow-md w-80 text-center sm:w-96 md:w-1/3 transition-all duration-500 transform hover:scale-105 hover:shadow-xl"
+            className="bg-white p-8 rounded-3xl shadow-xl w-full sm:w-96 md:w-80 lg:w-1/3 xl:w-1/4 flex-shrink-0 text-center transition-all duration-500 transform hover:scale-105 hover:shadow-2xl"
           >
-            <div className="flex flex-col items-center mb-4">
+            <div className="flex flex-col items-center mb-6">
               <img
                 src={testimonial.image}
                 alt={testimonial.name}
-                className="w-16 h-16 rounded-full object-cover mb-2 transition-all duration-500 transform hover:scale-110"
+                className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-teal-400 shadow-lg transition-all duration-500 transform hover:scale-110"
               />
-              <h3 className="text-lg font-semibold text-gray-800">{testimonial.name}</h3>
-              <p className="text-gray-600">{testimonial.role}</p>
+              <h3 className="text-xl font-semibold text-gray-800">{testimonial.name}</h3>
+              <p className="text-gray-500">{testimonial.role}</p>
             </div>
-            <p className="text-gray-700 italic mb-4">"{testimonial.review}"</p>
-            <div className="flex justify-center gap-1 mb-2">
+            <p className="text-gray-700 italic mb-6">{`"${testimonial.review}"`}</p>
+            <div className="flex justify-center gap-1 mb-4">
               {[...Array(5)].map((_, index) => (
                 <FaStar
                   key={index}
-                  className={`text-yellow-400 ${index + 1 <= Math.round(testimonial.rating) ? "" : "opacity-50"}`}
+                  className={`text-yellow-500 ${index + 1 <= Math.round(testimonial.rating) ? "" : "opacity-50"}`}
                 />
               ))}
             </div>

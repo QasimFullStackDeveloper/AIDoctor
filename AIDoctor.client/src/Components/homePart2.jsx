@@ -8,79 +8,52 @@ import Privacy_icon from "../../public/Privacy_icon.svg";
 
 const DoctorChatbotFeatures = () => {
   return (
-    <section className="py-16 bg-gray-50 opacity-0 animate-fadeIn">
-      <div className="max-w-6xl mx-auto text-center px-4">
-        <h2 className="text-3xl font-semibold text-gray-900 transition-all duration-500 ease-in-out transform hover:scale-105">
+    <section className="py-24 bg-gray-50 w-[100%] opacity-0 animate-fadeIn">
+      {/* Section Header */}
+      <div className="max-w-screen-xl mx-auto text-center px-6">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-gray-900 mb-6">
           Why Choose Our Doctor Chatbot?
         </h2>
-        <p className="mt-2 text-gray-600 transition-all duration-500 ease-in-out transform hover:scale-105">
-          Our AI chatbot is built with doctor-approved knowledge — providing quick, confidential, and reliable advice.
+        <p className="mt-4 text-gray-600 text-lg sm:text-xl max-w-4xl mx-auto">
+          Our AI chatbot is built with doctor-approved knowledge — providing
+          quick, confidential, and reliable advice.
         </p>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      {/* Feature Cards Grid */}
+      <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-screen-xl mx-auto px-6 items-stretch">
         {/* 24/7 Instant Access */}
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
-          <img
-            src={Clock}
-            alt="Clock"
-            className="mx-auto w-16 h-16 sm:w-20 sm:h-20 transition-all duration-300 ease-in-out transform hover:scale-110"
-          />
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <img
-              src={Clock_icon}
-              alt="Clock Icon"
-              className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ease-in-out transform hover:scale-110"
-            />
-            <h3 className="text-lg font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
-              24/7 Instant Access
-            </h3>
+        <div className="bg-gradient-to-r from-indigo-500 to-blue-500 p-12 rounded-3xl shadow-2xl text-center w-full h-full flex flex-col">
+          <div className="mb-6 flex justify-center">
+            <img src={Clock} alt="Clock" className="mx-auto w-28 h-28 sm:w-32 sm:h-32" />
           </div>
-          <p className="mt-2 text-gray-600 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
+          <img src={Clock_icon} alt="Clock Icon" className="w-10 h-10 sm:w-10 sm:h-10 mb-4" />
+          <h3 className="text-2xl sm:text-3xl font-semibold text-left mb-6">24/7 Instant Access</h3>
+          <p className="mt-6 text-lg sm:text-xl flex-grow">
             Get medical advice anytime, anywhere. No waiting rooms, no appointments needed.
           </p>
         </div>
 
         {/* Medical Guidance */}
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
-          <img
-            src={Shield}
-            alt="Shield"
-            className="mx-auto w-16 h-16 sm:w-20 sm:h-20 transition-all duration-300 ease-in-out transform hover:scale-110"
-          />
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <img
-              src={Shield_icon}
-              alt="Shield Icon"
-              className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ease-in-out transform hover:scale-110"
-            />
-            <h3 className="text-lg font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
-              Medical Guidance
-            </h3>
+        <div className="bg-gradient-to-r from-teal-500 to-green-500 p-12 rounded-3xl shadow-2xl text-center w-full h-full flex flex-col">
+          <div className="mb-6 flex justify-center">
+            <img src={Shield} alt="Shield" className="mx-auto w-28 h-28 sm:w-32 sm:h-32" />
           </div>
-          <p className="mt-2 text-gray-600 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
+          <img src={Shield_icon} alt="Shield Icon" className="w-10 h-10 sm:w-10 sm:h-10 mb-4" />
+          <h3 className="text-2xl sm:text-3xl font-semibold text-left mb-6">Medical Guidance</h3>
+          <p className="mt-6 text-lg sm:text-xl flex-grow">
             All information is dependent on AI training data and may not be 100% reliable.
           </p>
         </div>
 
         {/* Privacy First */}
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
-          <img
-            src={Privacy}
-            alt="Lock"
-            className="mx-auto w-16 h-16 sm:w-20 sm:h-20 transition-all duration-300 ease-in-out transform hover:scale-110"
-          />
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <img
-              src={Privacy_icon}
-              alt="Lock Icon"
-              className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300 ease-in-out transform hover:scale-110"
-            />
-            <h3 className="text-lg font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
-              Privacy First
-            </h3>
+        <div className="bg-gradient-to-r from-pink-500 to-red-500 p-12 rounded-3xl shadow-2xl text-center w-full h-full flex flex-col">
+          <div className="mb-6 flex justify-center">
+            <img src={Privacy} alt="Lock" className="mx-auto w-28 h-28 sm:w-32 sm:h-32" />
           </div>
-          <p className="mt-2 text-gray-600 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
+          <img src={Privacy_icon} alt="Lock Icon" className="w-10 h-10 sm:w-10 sm:h-10 mb-4" />
+          <h3 className="text-2xl sm:text-3xl font-semibold text-left mb-6">Privacy First</h3>
+          <p className="mt-6 text-lg sm:text-xl flex-grow">
             Your health data is encrypted and protected with the highest security standards.
           </p>
         </div>

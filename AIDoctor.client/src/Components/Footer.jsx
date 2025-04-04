@@ -7,53 +7,61 @@ import Logo from "../assets/logo";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 p-6">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between space-y-8 md:space-y-0">
+    <footer className="bg-gray-900 text-gray-300 py-12 px-6">
+      <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row justify-between items-start space-y-10 lg:space-y-0 gap-x-12">
         {/* Left Side - Logo and Description */}
-        <div className="w-full md:w-1/3">
-          <div className="w-10 h-10 mb-3">
+        <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start space-y-4">
+          <div className="w-20 h-20 mb-4">
             <Logo />
           </div>
-          <p className="text-sm">
+          <p className="text-sm text-center lg:text-left text-gray-400">
             Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
           </p>
         </div>
 
         {/* Middle - Quick Links & Legal */}
-        <div className="w-full md:w-1/3 flex flex-col md:flex-row justify-around md:mt-0 space-y-6 md:space-y-0">
+        <div className="w-full lg:w-1/3 flex flex-col lg:flex-row justify-between space-y-6 lg:space-y-0">
           <div>
-            <h3 className="text-white font-semibold mb-2">Quick Links</h3>
-            <ul className="space-y-1">
-              <li className="hover:text-white cursor-pointer">Home</li>
-              <li className="hover:text-white cursor-pointer">Services</li>
-              <li className="hover:text-white cursor-pointer">About</li>
-              <li className="hover:text-white cursor-pointer">Contact</li>
+            <h3 className="text-white font-semibold text-lg mb-3">Quick Links</h3>
+            <ul className="space-y-2">
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Home</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Services</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">About</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Contact</li>
             </ul>
           </div>
           <div>
-            <h3 className="text-white font-semibold mb-2">Legal</h3>
-            <ul className="space-y-1">
-              <li className="hover:text-white cursor-pointer">Privacy Policy</li>
-              <li className="hover:text-white cursor-pointer">Terms of Service</li>
-              <li className="hover:text-white cursor-pointer">Cookie Policy</li>
+            <h3 className="text-white font-semibold text-lg mb-3">Legal</h3>
+            <ul className="space-y-2">
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Privacy Policy</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Terms of Service</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Cookie Policy</li>
             </ul>
           </div>
         </div>
 
         {/* Right - Social Media Icons */}
-        <div className="w-full md:w-1/3 mt-4 md:mt-0 flex flex-col items-center md:items-start">
-          <h3 className="text-white font-semibold mb-2">Connect</h3>
-          <div className="flex space-x-3">
-            <img src={Twitter} alt="Twitter" className="w-6 h-6" />
-            <img src={Facebook} alt="Facebook" className="w-6 h-6" />
-            <img src={Linkedin} alt="LinkedIn" className="w-6 h-6" />
-            <img src={Instagram} alt="Instagram" className="w-6 h-6" />
+        <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start mt-6 lg:mt-0">
+          <h3 className="text-white font-semibold text-lg mb-3">Connect</h3>
+          <div className="flex space-x-8">
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+              <img src={Twitter} alt="Twitter" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
+            </a>
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+              <img src={Facebook} alt="Facebook" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
+            </a>
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+              <img src={Linkedin} alt="LinkedIn" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
+            </a>
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+              <img src={Instagram} alt="Instagram" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
+            </a>
           </div>
         </div>
       </div>
 
       {/* Bottom Text */}
-      <div className="text-center text-gray-500 text-sm mt-6">
+      <div className="text-center text-gray-500 text-sm mt-8">
         &copy; 2024 Doctor AI. All rights reserved.
       </div>
     </footer>

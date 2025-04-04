@@ -7,17 +7,20 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-blue-100 shadow-md p-3 flex justify-between items-center">
-      <div className="flex items-center space-x-2">
-        <div className="w-8 h-8">
+    <nav className="bg-gradient-to-r bg-blue-300 text-white shadow-lg p-6 flex justify-between items-center w-full max-w-full mx-auto h-[100px] md:h-[120px] lg:h-[150px] transition-all duration-500 ease-in-out">
+      {/* Logo Section */}
+      <div className="flex items-center space-x-4">
+        <div className="w-16 h-16 md:w-20 md:h-20">
           <Logo />
         </div>
-        <span className="text-xl font-bold text-blue-900">AI Doctor</span>
+        <span className="text-4xl md:text-5xl font-extrabold text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110">
+          AI Doctor
+        </span>
       </div>
 
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-blue-900 text-2xl"
+        className="md:hidden text-4xl text-white hover:text-yellow-400 transition-all duration-300"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <FiX /> : <FiMenu />}
@@ -25,30 +28,29 @@ const Navbar = () => {
 
       {/* Navigation Links */}
       <ul
-        className={`absolute md:static top-16 left-0 w-full md:w-auto bg-blue-100 md:bg-transparent shadow-md md:shadow-none md:flex space-x-6 text-gray-700 font-medium p-4 md:p-0 transition-all ${
-          menuOpen ? "block" : "hidden"
-        }`}
+        className={`absolute md:static top-20 left-0 w-full md:w-auto bg-gradient-to-r from-blue-100 to-blue-300 md:bg-transparent shadow-lg md:shadow-none md:flex md:space-x-12 text-lg font-semibold p-6 md:p-0 transition-all duration-300 ease-in-out 
+        ${menuOpen ? "block" : "hidden"}`}
       >
         <Link to="/">
-          <li className="hover:text-blue-600 cursor-pointer">Home</li>
+          <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Home</li>
         </Link>
-        <li className="hover:text-blue-600 cursor-pointer">Services</li>
-        <li className="hover:text-blue-600 cursor-pointer">About</li>
-        <li className="hover:text-blue-600 cursor-pointer">Contact</li>
+        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Services</li>
+        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">About</li>
+        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Contact</li>
         <Link to="/premium-plans">
-          <li className="hover:text-blue-600 cursor-pointer">Premium</li>
+          <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Premium</li>
         </Link>
       </ul>
 
       {/* Buttons */}
-      <div className="hidden md:flex space-x-3">
+      <div className="hidden md:flex space-x-8">
         <Link to="/login">
-          <button className="border border-blue-500 text-blue-500 px-4 py-1 rounded-lg hover:bg-blue-500 hover:text-white transition">
+          <button className="border-2 border-yellow-400 text-yellow-400 px-10 py-4 rounded-full shadow-2xl flex items-center w-full md:w-auto transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-yellow-400 hover:text-white">
             Login
           </button>
         </Link>
         <Link to="/signup">
-          <button className="bg-blue-600 text-white px-4 py-1 rounded-lg hover:bg-blue-700 transition">
+          <button className="bg-yellow-500 text-white px-10 py-4 rounded-full shadow-2xl flex items-center w-full md:w-auto transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-yellow-600">
             Sign Up
           </button>
         </Link>

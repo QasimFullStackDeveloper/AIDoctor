@@ -11,98 +11,98 @@ import icon4 from "../../public/image4_icon.svg";
 const FeaturesSection = () => {
   return (
     <section className="py-12 px-4 md:px-16 lg:px-24 text-center opacity-0 animate-fadeIn">
-      <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 transition-all duration-500 ease-in-out transform hover:scale-105">
+      <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 transition-all duration-500 ease-in-out transform hover:scale-105">
         How Our AI Doctor Helps You
       </h2>
-      <p className="text-gray-600 mt-2 transition-all duration-500 ease-in-out transform hover:scale-105">
+      <p className="text-gray-600 mt-2 text-lg transition-all duration-500 ease-in-out transform hover:scale-105">
         Fast, friendly, and reliable healthcare advice at your fingertips.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-8">
         {/* Symptom Checker */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-200">
           <img
             src={image1}
             alt="Symptom Checker"
             className="w-full rounded-lg transition-all duration-300 ease-in-out transform hover:scale-110"
           />
-          <div className="flex items-center mt-4">
+          <div className="flex items-center mt-4 justify-center gap-3">
             <img
               src={icon1}
               alt="Icon"
-              className="w-6 h-6 mr-2 transition-all duration-300 ease-in-out transform hover:scale-110"
+              className="w-8 h-8 transition-all duration-300 ease-in-out transform hover:scale-110"
             />
-            <h3 className="text-lg font-medium text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
+            <h3 className="text-xl font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:text-blue-600">
               Symptom Checker
             </h3>
           </div>
-          <p className="text-gray-600 mt-2 transition-all duration-300 ease-in-out transform hover:scale-105">
+          <p className="text-gray-600 mt-2 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
             Advanced AI analysis of your symptoms with instant preliminary diagnosis and recommendations.
           </p>
         </div>
 
         {/* Medication Guidance */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
+        <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-green-200">
           <img
             src={image2}
             alt="Medication Guidance"
             className="w-full rounded-lg transition-all duration-300 ease-in-out transform hover:scale-110"
           />
-          <div className="flex items-center mt-4">
+          <div className="flex items-center mt-4 justify-center gap-3">
             <img
               src={icon2}
               alt="Icon"
-              className="w-6 h-6 mr-2 transition-all duration-300 ease-in-out transform hover:scale-110"
+              className="w-8 h-8 transition-all duration-300 ease-in-out transform hover:scale-110"
             />
-            <h3 className="text-lg font-medium text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
+            <h3 className="text-xl font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:text-green-600">
               Medication Guidance
             </h3>
           </div>
-          <p className="text-gray-600 mt-2 transition-all duration-300 ease-in-out transform hover:scale-105">
+          <p className="text-gray-600 mt-2 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
             Comprehensive information about medications, including dosage, side effects, and interactions.
           </p>
         </div>
 
         {/* Mental Health Support */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
+        <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-purple-200">
           <img
             src={image3}
             alt="Mental Health Support"
             className="w-full rounded-lg transition-all duration-300 ease-in-out transform hover:scale-110"
           />
-          <div className="flex items-center mt-4">
+          <div className="flex items-center mt-4 justify-center gap-3">
             <img
               src={icon3}
               alt="Icon"
-              className="w-6 h-6 mr-2 transition-all duration-300 ease-in-out transform hover:scale-110"
+              className="w-8 h-8 transition-all duration-300 ease-in-out transform hover:scale-110"
             />
-            <h3 className="text-lg font-medium text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
+            <h3 className="text-xl font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:text-purple-600">
               Mental Health Support
             </h3>
           </div>
-          <p className="text-gray-600 mt-2 transition-all duration-300 ease-in-out transform hover:scale-105">
+          <p className="text-gray-600 mt-2 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
             24/7 emotional support and resources for mental health concerns.
           </p>
         </div>
 
         {/* Connect to a Doctor */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105">
+        <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-yellow-200">
           <img
             src={image4}
             alt="Connect to a Doctor"
             className="w-full rounded-lg transition-all duration-300 ease-in-out transform hover:scale-110"
           />
-          <div className="flex items-center mt-4">
+          <div className="flex items-center mt-4 justify-center gap-3">
             <img
               src={icon4}
               alt="Icon"
-              className="w-6 h-6 mr-2 transition-all duration-300 ease-in-out transform hover:scale-110"
+              className="w-8 h-8 transition-all duration-300 ease-in-out transform hover:scale-110"
             />
-            <h3 className="text-lg font-medium text-gray-900 transition-all duration-300 ease-in-out transform hover:scale-110">
+            <h3 className="text-xl font-semibold text-gray-900 transition-all duration-300 ease-in-out transform hover:text-yellow-600">
               Connect to a Doctor
             </h3>
           </div>
-          <p className="text-gray-600 mt-2 transition-all duration-300 ease-in-out transform hover:scale-105">
+          <p className="text-gray-600 mt-2 text-sm transition-all duration-300 ease-in-out transform hover:scale-105">
             Seamless referral to certified healthcare professionals when needed.
           </p>
         </div>
