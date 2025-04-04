@@ -25,7 +25,7 @@ namespace AIDoctor.Application.Services.Implementations
                 ChatTitle = "New Chat",
                 UserID = "",
                 LastUpdatedAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow,
+                CreatedDate = DateTime.UtcNow,
             };
 
             _chatRepository.AddAsync(newChat);

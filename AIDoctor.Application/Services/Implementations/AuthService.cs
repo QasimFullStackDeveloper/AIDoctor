@@ -3,6 +3,7 @@ using AIDoctor.Application.Services.Interfaces;
 using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Application.Utils.Token_Generator;
 using AIDoctor.Domain.Entities;
+using AIDoctor.Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
