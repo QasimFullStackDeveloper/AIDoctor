@@ -1,6 +1,7 @@
 ﻿using AIDoctor.Application.DTOs.Auth;
 using AIDoctor.Application.Services.Interfaces;
 using AIDoctor.Application.Services.SMTP;
+using AIDoctor.Application.Utils.Token_Generator;
 using AIDoctor.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -103,7 +104,7 @@ namespace AIDoctor.Application.Services.Implementations
 
             await _userManager.SetTwoFactorEnabledAsync(user, result);
             await _signInManager.SignInAsync(user, isPersistent: false);
-            return GenerateJwtToken(user);
+            return TokenGenerator.GenerateJwtToken(user, _configuration);
         }
 
 
@@ -139,7 +140,7 @@ namespace AIDoctor.Application.Services.Implementations
                 throw new UnauthorizedAccessException("Invalid login attempt.");
             }
 
-            var token = GenerateJwtToken(user);
+            var token = TokenGenerator.GenerateJwtToken(user, _configuration);
 
             return token;
         }
@@ -147,39 +148,7 @@ namespace AIDoctor.Application.Services.Implementations
         
 
 
-        //              Generate JWT Token
-        /// <summary>
-        /// Generates a JWT token for the authenticated user.
-        /// </summary>
-        /// <param name="user">The authenticated user.</param>
-        /// <returns>A JWT token as a string.</returns>
-        /// <exception cref="ArgumentNullException">Thrown when JWT secret is missing in configuration.</exception>
-        /// <exception cref="ArgumentException">Thrown When User Email is null or empty</exception>
-        private string GenerateJwtToken(User user)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(user.Email);
-            var claims = new List<Claim>
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Secret"] ?? throw new ArgumentNullException("Jwt:Secret is missing in appsettings.json")));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.UtcNow.AddHours(3);
-
-            var token = new JwtSecurityToken(
-                _configuration["JwtSettings:Issuer"],
-                _configuration["JwtSettings:Audience"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
+        
 
         //              Forget Passwords
 
