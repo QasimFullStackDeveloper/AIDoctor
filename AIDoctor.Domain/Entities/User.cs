@@ -15,11 +15,4 @@ namespace AIDoctor.Domain.Entities
         public UserRoles Role { get; init; }
 
     }
-
-    public enum UserRoles
-    {
-        None = 0,
-        Default = 1,
-        Admin = 2,
-    }
 }

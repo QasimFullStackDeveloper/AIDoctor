@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AIDoctor.Domain.Enums
 {
-    public enum UserRoles
+    public enum PlanTypes
     {
-        None = 0,
-        Default = 1,
-        Admin = 2,
+        Free = 1,
+        Professional = 2, // Will be decided or added later
+        Enterprise = 3, // Will be decided or added later
     }
 }

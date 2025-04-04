@@ -8,14 +8,14 @@ namespace AIDoctor.Domain.Entities
 {
     public class Message
     {
-        public Guid MessageId { get; init; }
+        public Guid MessageID { get; init; }
         public Guid ChatID { get; init; }
         public required string Prompt { get; set; }
         public required string Response { get; set; }
 
         public Message()
         {
-            MessageId = Guid.NewGuid();
+            MessageID = Guid.NewGuid();
         }
     }
 }
