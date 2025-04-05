@@ -1,4 +1,5 @@
-﻿using AIDoctor.Application.Services.Interfaces_BaseClasses;
+﻿using AIDoctor.Application.DTOs;
+using AIDoctor.Application.Services.Interfaces_BaseClasses;
 using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Domain.Entities;
 using AIDoctor.Domain.Interfaces;
@@ -18,20 +19,31 @@ namespace AIDoctor.Application.Services.Implementations
         {
             _chatRepository = chatRepository;
         }
-        public Task CreateChat()
+        public async Task<Guid> CreateChat(Guid userId)
         {
             var newChat = new Chat
             {
                 ChatTitle = "New Chat",
-                UserID = "",
+                UserID = userId.ToString().ToLower(),
                 LastUpdatedAt = DateTime.UtcNow,
                 CreatedDate = DateTime.UtcNow,
             };
 
-            _chatRepository.AddAsync(newChat);
-            _chatRepository.SaveAsync();
+            await _chatRepository.AddAsync(newChat);
+            await _chatRepository.SaveAsync();
 
-            return Task.CompletedTask;
+            return newChat.ChatID;
         }
+
+        public async Task<IEnumerable<ChatHistoryDTO>> GetAllChatHistories(Guid userId)
+        {
+            var chats = await _chatRepository.GetAllChatsByUserIdAsync(userId) ?? throw new Exception("No data found");
+
+            var chatHistory = chats.Select(c => new ChatHistoryDTO(c.ChatID, c.ChatTitle, c.CreatedDate, c.LastUpdatedAt)).ToList();
+
+            return chatHistory;
+        }
+
+
     }
 }
