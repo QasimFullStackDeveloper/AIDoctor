@@ -113,7 +113,7 @@ app.MapScalarApiReference(option =>
 //}
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
-//app.UseStaticFiles();
+app.UseStaticFiles();
 //app.UseRouting();
 //app.UseCors("AllowAll");
 
