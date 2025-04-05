@@ -1,2 +1,4 @@
 .vs/*
-/AIDoctor.client/obj/Debug/package.g.props
+/AIDoctor.client/obj/Debug/*
+/AIDoctor.client/obj/Release/*
+
