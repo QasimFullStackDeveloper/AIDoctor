@@ -21,14 +21,14 @@ namespace AIDoctor.Infrastructure.Implementations
             _context = context;
             DbSet = _context.Set<TClass>();
         }
-        public async Task AddAsync(TClass entity)
+        public virtual async Task AddAsync(TClass entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
 
             await DbSet.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(Tkey key)
+        public virtual async Task DeleteAsync(Tkey key)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(key?.ToString());
 
@@ -39,12 +39,12 @@ namespace AIDoctor.Infrastructure.Implementations
             DbSet.Remove(result);
         }
 
-        public async Task<IEnumerable<TClass>> GetAllAsync()
+        public virtual async Task<IEnumerable<TClass>> GetAllAsync()
         {
             return await DbSet.ToListAsync();
         }
 
-        public async Task<TClass> GetByIdAsync(Tkey key)
+        public virtual async Task<TClass> GetByIdAsync(Tkey key)
         {
             ArgumentNullException.ThrowIfNullOrEmpty(key?.ToString());
 
@@ -55,12 +55,13 @@ namespace AIDoctor.Infrastructure.Implementations
             return result;
         }
 
-        public async Task SaveAsync()
+
+        public  async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(TClass entity)
+        public virtual Task UpdateAsync(TClass entity)
         {
             ArgumentNullException.ThrowIfNull(entity);
 

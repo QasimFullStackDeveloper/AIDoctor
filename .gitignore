@@ -1,1 +1,4 @@
 .vs/*
+/AIDoctor.client/obj/Debug/*
+/AIDoctor.client/obj/Release/*
+
