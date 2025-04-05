@@ -10,7 +10,7 @@ import Testimonials from '../../Components/homePArt5'
 export default function HomePage() {
   return (
     <>
-    <Navbar/>
+    <Navbar colour={"bg-[#BFDBFE]"}/>
     <HomeSection/>
     <WhyChooseChatbot/>
     <FeaturesSection/>

@@ -4,9 +4,22 @@ import { Link } from "react-router-dom";
 
 const HomeSection = () => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between bg-gradient-to-b from-blue-100 via-blue-400 to-green-600 mt-0 px-6 md:px-12 py-24 min-h-screen">
+    <div
+      className="flex flex-col md:flex-row items-center h-[90vh] justify-between px-[5%] py-[4%] w-full min-h-screen"
+      style={{
+        marginTop: 0,
+        opacity: 1,
+        background: `linear-gradient(
+          180deg,
+          #BFDBFE 0%,
+          #FFE8EF 50%,
+          #FFFBEE 80%,
+          #BFDBFE 100%
+        )`,
+      }}
+    >
       {/* Left Section (Text) */}
-      <div className="flex flex-col items-center md:items-start text-center md:text-left text-gray-900 max-w-3xl space-y-6">
+      <div className="flex flex-col items-center md:items-start text-center md:text-left mb-[10%] text-gray-900 max-w-3xl space-y-6">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
           Your AI Doctor, Just a{" "}
           <span className="text-[#2D5EFF]">Chat Away</span>
@@ -27,12 +40,13 @@ const HomeSection = () => {
         </div>
       </div>
 
+
       {/* Right Section (Image) */}
-      <div className="mt-8 md:mt-0 w-full md:w-1/2 flex justify-center animate-fadeIn delay-300">
+      <div className="mt-[6%] md:mt-0 w-full md:w-[45%] mb-[10%] flex justify-center">
         <img
           src={image}
           alt="AI Doctor Illustration"
-          className="w-full max-w-xl h-auto object-contain rounded-lg shadow-lg transition-transform transform hover:scale-105"
+          className="w-[90%] h-auto object-contain"
         />
       </div>
     </div>

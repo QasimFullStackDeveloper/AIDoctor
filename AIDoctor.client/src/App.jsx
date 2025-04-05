@@ -17,8 +17,10 @@ import PremiumPlans from "./Pages/HomePages/PremiumPlans";
 import HomePage from "./Pages/HomePages/HomePage";
 import EmailVerification from "./Pages/LoginPages/loginEmailverification";
 
+
 const App = () => {
   return (
+    
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />

@@ -6,11 +6,11 @@ import Footer from "../../Components/Footer";
 const PremiumPlans = () => {
   return (
     <>
-      <Navbar />
+      <Navbar colour={"bg-gray-100"} />
       <div className="bg-gray-100 mb-8 py-16 px-4 md:px-12 lg:px-24 xl:px-48 flex items-center justify-center" style={{ height: '73vh' }}>
         <div className="text-center w-full">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
-            Premium Features
+            Price Features
           </h2>
           <p className="text-gray-600 text-center mt-2 mb-10 md:text-lg xl:text-xl">
             Unlock these exclusive features with our premium plans

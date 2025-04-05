@@ -1,26 +1,25 @@
 import React, { useState } from "react";
 import Logo from "../assets/logo";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi"; // Importing icons for the menu
+import { FiMenu, FiX } from "react-icons/fi";
 
-const Navbar = () => {
+const Navbar = ({colour}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-gradient-to-r bg-blue-300 text-white shadow-lg p-6 flex justify-between items-center w-full max-w-full mx-auto h-[100px] md:h-[120px] lg:h-[150px] transition-all duration-500 ease-in-out">
-      {/* Logo Section */}
-      <div className="flex items-center space-x-4">
-        <div className="w-16 h-16 md:w-20 md:h-20">
+        <nav className={`${colour} opacity-[1] shadow-md shadow-[rgba(0,0,0,0.1)] py-[1.5%] px-[3%] flex justify-between items-center w-full relative z-10`}>
+
+      {/* Logo and Title */}
+      <div className="flex items-center gap-[1vw]">
+        <div className="w-[40px] h-[40px] flex items-center">
           <Logo />
         </div>
-        <span className="text-4xl md:text-5xl font-extrabold text-white hover:text-yellow-400 transition-all duration-300 ease-in-out transform hover:scale-110">
-          AI Doctor
-        </span>
+        <span className="text-[1.8vw] font-bold text-blue-900">AI Doctor</span>
       </div>
 
       {/* Mobile Menu Button */}
       <button
-        className="md:hidden text-4xl text-white hover:text-yellow-400 transition-all duration-300"
+        className="md:hidden text-blue-900 text-[6vw] z-20"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {menuOpen ? <FiX /> : <FiMenu />}
@@ -28,29 +27,31 @@ const Navbar = () => {
 
       {/* Navigation Links */}
       <ul
-        className={`absolute md:static top-20 left-0 w-full md:w-auto bg-gradient-to-r from-blue-100 to-blue-300 md:bg-transparent shadow-lg md:shadow-none md:flex md:space-x-12 text-lg font-semibold p-6 md:p-0 transition-all duration-300 ease-in-out 
-        ${menuOpen ? "block" : "hidden"}`}
+        className={`md:flex items-center gap-[3vw] text-[1.1vw] text-gray-700 font-medium md:static md:bg-transparent md:shadow-none md:p-0 md:w-auto transition-all duration-300 ease-in-out
+          absolute left-0 top-full w-full bg-blue-100 shadow-md px-[5%] py-[3%] z-10 ${
+            menuOpen ? "block" : "hidden"
+          }`}
       >
-        <Link to="/">
-          <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Home</li>
-        </Link>
-        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Services</li>
-        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">About</li>
-        <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Contact</li>
-        <Link to="/premium-plans">
-          <li className="hover:text-yellow-400 cursor-pointer transition-all duration-300 ease-in-out">Premium</li>
-        </Link>
+        <li className="hover:text-blue-600 cursor-pointer">
+          <Link to="/">Home</Link>
+        </li>
+        <li className="hover:text-blue-600 cursor-pointer">Services</li>
+        <li className="hover:text-blue-600 cursor-pointer">About</li>
+        <li className="hover:text-blue-600 cursor-pointer">Contact</li>
+        <li className="hover:text-blue-600 cursor-pointer">
+          <Link to="/premium-plans">Premium</Link>
+        </li>
       </ul>
 
-      {/* Buttons */}
-      <div className="hidden md:flex space-x-8">
+      {/* Auth Buttons */}
+      <div className="hidden md:flex gap-[1.5vw]">
         <Link to="/login">
-          <button className="border-2 border-yellow-400 text-yellow-400 px-10 py-4 rounded-full shadow-2xl flex items-center w-full md:w-auto transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-yellow-400 hover:text-white">
+          <button className="border border-blue-500 text-blue-500 px-[1.5vw] py-[0.6vw] rounded-lg hover:bg-blue-500 hover:text-white transition text-[1vw]">
             Login
           </button>
         </Link>
         <Link to="/signup">
-          <button className="bg-yellow-500 text-white px-10 py-4 rounded-full shadow-2xl flex items-center w-full md:w-auto transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-yellow-600">
+          <button className="bg-blue-600 text-white px-[1.5vw] py-[0.6vw] rounded-lg hover:bg-blue-700 transition text-[1vw]">
             Sign Up
           </button>
         </Link>
