@@ -8,7 +8,7 @@ import Privacy_icon from "../../public/Privacy_icon.svg";
 
 const DoctorChatbotFeatures = () => {
   return (
-    <section className="py-24 bg-blue-50 w-full">
+    <section className="py-24  w-full">
       {/* Section Header */}
       <div className="max-w-screen-xl mx-auto text-center px-6">
         <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-gray-900 mb-6">
@@ -23,7 +23,7 @@ const DoctorChatbotFeatures = () => {
       {/* Feature Cards Grid */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-screen-xl mx-auto px-6 items-stretch">
         {/* 24/7 Instant Access */}
-        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col opacity-100 bg-gradient-to-tl from-[#FDF2F8] via-[#FCE7F3] to-[#FFFFFF] border border-[#FCE7F3] shadow-lg shadow-[#FCE7F3] box-border">
+        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col bg-gradient-to-tr from-[#EFF6FF] to-[#FFFFFF] opacity-100 shadow-lg shadow-[#FCE7F3] box-border">
           <div className="mb-6 flex justify-center">
             <img
               src={Clock}
@@ -45,7 +45,7 @@ const DoctorChatbotFeatures = () => {
         </div>
 
         {/* Medical Guidance */}
-        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col opacity-100 bg-gradient-to-tl from-[#FDF2F8] via-[#FCE7F3] to-[#FFFFFF] border border-[#FCE7F3] shadow-lg shadow-[#FCE7F3] box-border">
+        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col  bg-gradient-to-tl [#FAF5FF] to-[#FFFFFF] opacity-100 border border-[#FCE7F3] shadow-lg shadow-[#FCE7F3] box-border">
           <div className="mb-6 flex justify-center">
             <img
               src={Shield}
@@ -67,7 +67,7 @@ const DoctorChatbotFeatures = () => {
         </div>
 
         {/* Privacy First */}
-        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col opacity-100 bg-gradient-to-tl from-[#FDF2F8] via-[#FCE7F3] to-[#FFFFFF] border border-[#FCE7F3] shadow-lg shadow-[#FCE7F3] box-border">
+        <div className="p-12 rounded-3xl text-center w-full h-full flex flex-col bg-gradient-to-tr from-[#FDF2F8] to-[#FFFFFF] opacity-100 border border-[#FCE7F3] shadow-lg shadow-[#FCE7F3] box-border">
           <div className="mb-6 flex justify-center">
             <img
               src={Privacy}

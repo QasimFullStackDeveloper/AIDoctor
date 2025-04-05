@@ -7,13 +7,16 @@ import Logo from "../assets/logo";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-6">
+    <footer className="bg-gray-900 text-gray-300 px-6 pt-12">
       <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row justify-between items-start space-y-10 lg:space-y-0 gap-x-12">
         {/* Left Side - Logo and Description */}
         <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start space-y-4">
-          <div className="w-20 h-20 mb-4">
+          <div className="w-20 h-20 ">
             <Logo />
           </div>
+          <p className="text-sm text-center lg:text-left text-gray-400">
+            Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
+          </p>
           <p className="text-sm text-center lg:text-left text-gray-400">
             Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
           </p>
@@ -44,24 +47,24 @@ const Footer = () => {
         <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start mt-6 lg:mt-0">
           <h3 className="text-white font-semibold text-lg mb-3">Connect</h3>
           <div className="flex space-x-8">
-            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full  hover:bg-gray-600 transition-all duration-300">
               <img src={Twitter} alt="Twitter" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
             </a>
-            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full  hover:bg-gray-600 transition-all duration-300">
               <img src={Facebook} alt="Facebook" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
             </a>
-            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full  hover:bg-gray-600 transition-all duration-300">
               <img src={Linkedin} alt="LinkedIn" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
             </a>
-            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-gray-600 transition-all duration-300">
+            <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full  hover:bg-gray-600 transition-all duration-300">
               <img src={Instagram} alt="Instagram" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Bottom Text */}
-      <div className="text-center text-gray-500 text-sm mt-8">
+      {/* Bottom Line and Text */}
+      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-500 text-sm">
         &copy; 2024 Doctor AI. All rights reserved.
       </div>
     </footer>

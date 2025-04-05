@@ -10,7 +10,7 @@ import icon4 from "../../public/image4_icon.svg";
 
 const FeaturesSection = () => {
   return (
-    <section className="py-12 px-4 md:px-16 lg:px-24 text-center opacity-100">
+    <section className="py-12 px-4 md:px-16 lg:px-24 bg-blue-50 text-center opacity-100">
       <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">
         How Our AI Doctor Helps You
       </h2>

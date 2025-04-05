@@ -5,21 +5,19 @@ import { Link } from "react-router-dom";
 const HomeSection = () => {
   return (
     <div
-      className="flex flex-col md:flex-row items-center h-[90vh] justify-between px-[5%] py-[4%] w-full min-h-screen"
+      className="flex flex-col md:flex-row items-center h-[80vh] justify-between px-[5%] py-[4%] w-full"
       style={{
         marginTop: 0,
         opacity: 1,
-        background: `linear-gradient(
-          180deg,
-          #BFDBFE 0%,
-          #FFE8EF 50%,
-          #FFFBEE 80%,
-          #BFDBFE 100%
-        )`,
+        backgroundImage: `
+        linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        linear-gradient(180deg, #BFDBFE 0%, #FFE8EF 69%, #FFFFFF 100%)
+      `,
+  
       }}
     >
       {/* Left Section (Text) */}
-      <div className="flex flex-col items-center md:items-start text-center md:text-left mb-[10%] text-gray-900 max-w-3xl space-y-6">
+      <div className="flex flex-col items-center md:items-start text-center md:text-left  text-gray-900 max-w-3xl space-y-6">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
           Your AI Doctor, Just a{" "}
           <span className="text-[#2D5EFF]">Chat Away</span>
@@ -40,9 +38,8 @@ const HomeSection = () => {
         </div>
       </div>
 
-
       {/* Right Section (Image) */}
-      <div className="mt-[6%] md:mt-0 w-full md:w-[45%] mb-[10%] flex justify-center">
+      <div className="mt-[6%] md:mt-0 w-full md:w-[45%]  flex justify-center">
         <img
           src={image}
           alt="AI Doctor Illustration"

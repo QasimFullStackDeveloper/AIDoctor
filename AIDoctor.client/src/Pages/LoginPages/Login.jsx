@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import image from "../../assets/left-image.png";
 import Logo from "../../assets/logo";
+import LeftImage from "../../Components/LeftImage";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -37,10 +38,7 @@ const Login = () => {
     <div className="bg-blue-100 min-h-screen flex flex-col">
       <div className="flex flex-col md:flex-row w-full h-full md:h-screen overflow-hidden">
         {/* Left Section */}
-        <div className="hidden md:flex md:w-1/2 bg-gray-300 animate-slideIn">
-          <img src={image} alt="Background" className="w-full h-full object-cover" />
-        </div>
-
+      <LeftImage/>
         {/* Right Section */}
         <div className="flex-1 flex justify-center items-center p-6">
           <div className="w-full max-w-[350px] md:max-h-[555px] p-6 mb-[45px] bg-white rounded-xl shadow-lg text-center opacity-0 animate-fadeIn">
