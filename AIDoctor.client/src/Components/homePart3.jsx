@@ -1,12 +1,12 @@
 import React from "react";
-import image1 from "../../public/image1.png";
-import icon1 from "../../public/image1_icon.svg";
-import image2 from "../../public/image2.png";
-import icon2 from "../../public/image2_icon.svg";
-import image3 from "../../public/image3.png";
-import icon3 from "../../public/image3_icon.svg";
-import image4 from "../../public/image24.png";
-import icon4 from "../../public/image4_icon.svg";
+import image1 from "../assets/image1.png";
+import icon1 from "../assets/image1_icon.svg";
+import image2 from "../assets/image2.png";
+import icon2 from "../assets/image2_icon.svg";
+import image3 from "../assets/image3.png";
+import icon3 from "../assets/image3_icon.svg";
+import image4 from "../assets/image24.png";
+import icon4 from "../assets/image4_icon.svg";
 
 const FeaturesSection = () => {
   return (

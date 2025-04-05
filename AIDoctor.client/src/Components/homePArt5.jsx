@@ -1,8 +1,8 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import user1 from "../../public/user1.png";
-import user2 from "../../public/user2.png";
-import user3 from "../../public/user3.png";
+import user1 from "../assets/user1.png";
+import user2 from "../assets/user2.png";
+import user3 from "../assets/user3.png";
 
 const testimonials = [
   {

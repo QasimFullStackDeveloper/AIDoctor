@@ -59,59 +59,75 @@ export default function Signup() {
   };
 
   return (
-    <div className="w-screen h-screen flex overflow-hidden">
-      {/* Left Side -  */}
-    <LeftImage/>
+    <div className="w-screen h-screen flex overflow-hidden relative bg-blue-100">
+      {/* Left Side */}
+      <LeftImage />
 
       {/* Right Side - Form */}
-      <div className="w-[50%] h-full flex justify-center items-center bg-white px-[5%]">
-        <div className="w-full max-w-[480px]">
-          <div className="text-center mb-6">
-            <Logo />
-            <h3 className="text-xl font-bold mt-2 text-gray-800">Create Your Account</h3>
+      <div className="w-[50%] h-full flex flex-col justify-center items-center bg-blue-100 p-6 gap-4">
+        <div className="w-full max-w-[450px] h-auto bg-white flex flex-col gap-4 p-6 mt-[-40px]"> {/* Added mt-[-40px] */}
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <Logo className="w-28 h-28" /> {/* Adjust logo size */}
           </div>
+          
+          <h3 className="text-2xl font-bold text-gray-800 text-center">Create Your Account</h3>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="flex gap-3">
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            {/* Name Fields */}
+            <div className="flex gap-5">
               <div className="w-1/2">
-                <label className="block text-xs font-bold text-gray-700 mb-1">First Name</label>
-                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} className="w-full p-2 border rounded-md text-sm" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md text-base"
+                />
               </div>
               <div className="w-1/2">
-                <label className="block text-xs font-bold text-gray-700 mb-1">Last Name</label>
-                <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} className="w-full p-2 border rounded-md text-sm" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded-md text-base"
+                />
               </div>
             </div>
 
-            <label className="block text-xs font-bold text-gray-700 mb-1">Email Address</label>
+            {/* Email Field */}
+            <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
             <div className="relative">
-              <FaEnvelope className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
+              <FaEnvelope className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-2 pl-10 border rounded-md text-sm"
+                className="w-full p-2 pl-12 border rounded-md text-base"
               />
             </div>
 
-            {/* Password + Confirm Password Fields */}
+            {/* Password Fields */}
             {["password", "confirmPassword"].map((field, index) => (
               <div key={index}>
-                <label className="block text-xs font-bold text-gray-700 mb-1">
+                <label className="block text-sm font-bold text-gray-700 mb-2">
                   {field === "password" ? "Password" : "Confirm Password"}
                 </label>
                 <div className="relative">
-                  <FaShieldAlt className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
+                  <FaShieldAlt className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type={field === "password" ? (showPassword ? "text" : "password") : showConfirmPassword ? "text" : "password"}
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 pl-10 pr-10 border rounded-md text-sm"
+                    className="w-full p-2 pl-12 pr-12 border rounded-md text-base"
                   />
                   <FaEye
-                    className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 cursor-pointer"
+                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 cursor-pointer"
                     onClick={() =>
                       field === "password"
                         ? setShowPassword(!showPassword)
@@ -122,22 +138,41 @@ export default function Signup() {
               </div>
             ))}
 
-            <label className="block text-xs font-bold text-gray-700 mb-1">Security Check</label>
-            <p className="text-gray-500 text-xs mb-2">Enter the code shown: {generatedCode}</p>
-            <input type="text" name="code" value={formData.code} onChange={handleChange} className="w-full p-2 border rounded-md text-sm" />
+            {/* Security Check */}
+            <label className="block text-sm font-bold text-gray-700 mb-2">Security Check</label>
+            <p className="text-gray-500 text-sm mb-4">Enter the code shown: {generatedCode}</p>
+            <input
+              type="text"
+              name="code"
+              value={formData.code}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md text-base"
+            />
 
-            <div className="flex items-start gap-2 mt-2">
-              <input type="checkbox" name="termsAccepted" checked={formData.termsAccepted} onChange={handleChange} className="w-4 h-4 mt-1" />
-              <label className="text-xs text-gray-700">
+            {/* Terms and Conditions */}
+            <div className="flex items-start gap-3 mt-3">
+              <input
+                type="checkbox"
+                name="termsAccepted"
+                checked={formData.termsAccepted}
+                onChange={handleChange}
+                className="w-5 h-5 mt-1"
+              />
+              <label className="text-sm text-gray-700">
                 I agree to the <a href="#" className="text-blue-600 underline">Terms of Service and Privacy Policy</a>
               </label>
             </div>
 
-            <button type="submit" className="w-full bg-[#6054ff] text-white p-2 mt-3 rounded-md text-sm font-semibold hover:bg-[#4f43d8]">
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#6054ff] text-white  rounded-md text-base font-semibold hover:bg-[#4f43d8]"
+            >
               Create Account
             </button>
 
-            <p className="text-xs mt-3 text-center">
+            {/* Sign-in Link */}
+            <p className="text-sm text-center">
               Already have an account? <a href="/login" className="text-blue-600 hover:underline">Sign in</a>
             </p>
           </form>

@@ -1,10 +1,10 @@
 import React from "react";
-import Clock from "../../public/Clock.png";
-import Clock_icon from "../../public/Clock_icon.svg";
-import Shield from "../../public/Shield.png";
-import Shield_icon from "../../public/Shield_icon.svg";
-import Privacy from "../../public/Privacy.png";
-import Privacy_icon from "../../public/Privacy_icon.svg";
+import Clock from "../assets/Clock.png";
+import Clock_icon from "../assets/Clock_icon.svg";
+import Shield from "../assets/Shield.png";
+import Shield_icon from "../assets/Shield_icon.svg";
+import Privacy from "../assets/Privacy.png";
+import Privacy_icon from "../assets/Privacy_icon.svg";
 
 const DoctorChatbotFeatures = () => {
   return (
