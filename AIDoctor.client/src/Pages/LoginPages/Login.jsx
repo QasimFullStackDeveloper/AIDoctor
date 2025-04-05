@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import image from "../../assets/left-image.png";
 import Logo from "../../assets/logo";
 import LeftImage from "../../Components/LeftImage";
 

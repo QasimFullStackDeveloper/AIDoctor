@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import image from "../../assets/leftimage.png";
 import Logo from "../../assets/logo";
 import { FaEye, FaShieldAlt, FaEnvelope } from "react-icons/fa";
 import LeftImage from "../../Components/LeftImage";
