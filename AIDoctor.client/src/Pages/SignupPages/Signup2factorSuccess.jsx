@@ -1,17 +1,17 @@
 import React from 'react';
 import tickIcon from '../../assets/Tick.svg';
 import infoIcon from '../../assets/info.svg';
-import Logo from '../../assets/logo';
 import { Link } from 'react-router-dom';
+import Logo from '../../Components/Logo';
 
 export default function Signup2factorSuccess() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] xl:h-[550px] border-t-4 border-blue-500 flex flex-col justify-between">
-        
+
         {/* Logo */}
         <div className="mb-4 flex justify-center">
-          <Logo />
+        <Logo/>
         </div>
 
         {/* Title */}

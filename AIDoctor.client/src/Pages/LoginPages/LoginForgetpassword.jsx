@@ -1,7 +1,7 @@
 import React from "react";
 import shieldIcon from "../../assets/shield.svg";
 import questionMark from "../../assets/questionMark.svg";
-import Logo from "../../assets/logo";
+import Logo from "../../Components/Logo";
 import { Link } from "react-router-dom";
 
 export default function LoginForgetPassword() {

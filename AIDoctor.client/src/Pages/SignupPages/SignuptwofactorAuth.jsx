@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo";
+import Logo from "../../Components/Logo";
 
 const SignupTwoFactorAuth = () => {
   const [selectedMethod, setSelectedMethod] = useState("email");
@@ -39,7 +39,7 @@ const SignupTwoFactorAuth = () => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[450px] xl:h-[600px] text-center flex flex-col justify-between">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
-          <Logo />
+        <Logo/>
         </div>
 
         {/* Title */}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../assets/logo";
+import Logo from "../Components/Logo";
 
 export default function SetNewPassword() {
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function SetNewPassword() {
 
         {/* Logo */}
         <div className="flex justify-center mb-2">
-          <Logo className="w-14 h-14" />
+          <Logo/>
         </div>
 
         {/* Title */}

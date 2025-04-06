@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo from '../../assets/logo';
+import Logo from "../../Components/Logo";
 
 export default function LogintwoFactor() {
   const [code, setCode] = useState('');

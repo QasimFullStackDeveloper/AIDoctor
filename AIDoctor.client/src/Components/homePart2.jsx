@@ -8,7 +8,7 @@ import Privacy_icon from "../assets/Privacy_icon.svg";
 
 const DoctorChatbotFeatures = () => {
   return (
-    <section className="py-24  w-full">
+    <section className="py-24 bg-amber-50 w-full ">
       {/* Section Header */}
       <div className="max-w-screen-xl mx-auto text-center px-6">
         <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-gray-900 mb-6">

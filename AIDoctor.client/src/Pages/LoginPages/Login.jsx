@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo";
 import LeftImage from "../../Components/LeftImage";
+import Logo from "../../Components/Logo";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -43,7 +43,7 @@ const Login = () => {
         <div className="flex-1 flex justify-center items-center p-8 lg:p-12">
           <div className="w-full max-w-[500px] lg:max-w-[600px] p-8 mb-[45px] bg-white rounded-xl shadow-lg text-center opacity-0 animate-fadeIn">
             <h2 className="text-3xl font-bold text-blue-600 mb-4 flex justify-center">
-              <Logo />
+            <Logo/>
             </h2>
             <h3 className="text-2xl font-bold mb-3">Welcome back</h3>
             <p className="text-gray-500 text-sm mb-6">Sign in to your account</p>

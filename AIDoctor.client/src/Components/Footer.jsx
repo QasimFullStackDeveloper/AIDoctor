@@ -3,7 +3,7 @@ import Facebook from "../assets/Facebook.svg";
 import Instagram from "../assets/Instragram.svg";
 import Linkedin from "../assets/Linkedin.svg";
 import Twitter from "../assets/Twitter.svg";
-import Logo from "../assets/logo";
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
@@ -12,7 +12,7 @@ const Footer = () => {
         {/* Left Side - Logo and Description */}
         <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start space-y-4">
           <div className="w-20 h-20 ">
-            <Logo />
+          <Logo/>
           </div>
           <p className="text-sm text-center lg:text-left text-gray-400">
             Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.

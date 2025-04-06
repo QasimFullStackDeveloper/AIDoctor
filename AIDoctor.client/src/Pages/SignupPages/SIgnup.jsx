@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo";
+import Logo from "../../Components/Logo";
 import { FaEye, FaShieldAlt, FaEnvelope } from "react-icons/fa";
 import LeftImage from "../../Components/LeftImage";
 
@@ -68,7 +68,7 @@ export default function Signup() {
         <div className="w-full max-w-[450px] h-auto bg-white flex flex-col gap-4 p-6 mt-[-40px]"> {/* Added mt-[-40px] */}
           {/* Logo */}
           <div className="flex justify-center mb-6">
-            <Logo className="w-28 h-28" /> {/* Adjust logo size */}
+        <Logo/>
           </div>
           
           <h3 className="text-2xl font-bold text-gray-800 text-center">Create Your Account</h3>
@@ -166,7 +166,7 @@ export default function Signup() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#6054ff] text-white  rounded-md text-base font-semibold hover:bg-[#4f43d8]"
+              className="w-full bg-blue-500 h-[3.5vh] text-white  rounded-md text-base font-semibold hover:bg-[#4f43d8]"
             >
               Create Account
             </button>

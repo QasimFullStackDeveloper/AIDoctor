@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Logo from "../../assets/logo";
 import { Link, useNavigate } from "react-router-dom";
+import Logo from "../../Components/Logo";
 
 export default function SignupPage1() {
   const [selectedAuthMethod, setSelectedAuthMethod] = useState("");
@@ -22,7 +22,7 @@ export default function SignupPage1() {
     <div className="bg-gradient-to-br overflow-hidden bg-blue-100 flex flex-col items-center justify-center min-h-screen w-full p-4">
       <div className="container_10 text-center w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[590px] p-10 rounded-lg animate-fadeInScale">
         <div className="logo_10 flex justify-center text-blue-500 font-bold animate-fadeIn">
-          <Logo />
+        <Logo/>
         </div>
         <h1 className="text-xl font-bold text-gray-900 mt-2 animate-slideIn">Two-Factor Authentication</h1>
         <p className="subtext_10 text-sm text-gray-600 mb-5 animate-fadeIn">

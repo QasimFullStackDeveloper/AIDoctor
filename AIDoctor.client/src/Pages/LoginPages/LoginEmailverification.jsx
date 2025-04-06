@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo";
+import Logo from "../../Components/Logo";
 import { MdMarkEmailRead } from "react-icons/md";
 
 export default function EmailVerification() {

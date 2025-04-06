@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Logo from "../assets/logo";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
+import Logo from "./Logo";
 
 const Navbar = ({colour}) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ const Navbar = ({colour}) => {
       {/* Logo and Title */}
       <div className="flex items-center gap-[2vw]">
         <div className="w-[5vw] h-[5vw] flex items-center">
-          <Logo />
+      <Logo/>
         </div>
         <span className="text-[1.8vw] font-bold text-blue-900">AI Doctor</span>
       </div>
