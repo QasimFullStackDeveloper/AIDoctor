@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Frontend
         run: |
-          cd AIDoctor.client
+          cd AIDoctor.Client
           npm install
           npm audit fix
           npm run build
@@ -41,19 +41,28 @@ jobs:
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
           $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
 
-          # Create a new PowerShell session to the RDP machine
-          $Session = New-PSSession -ComputerName $RdpHost -Credential $Credential -Authentication Negotiate
+          # Add the RDP host to TrustedHosts on the runner
+          $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
+          if ($CurrentTrustedHosts -notlike "*$RdpHost*") {
+            if ($CurrentTrustedHosts) {
+              Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$CurrentTrustedHosts,$RdpHost" -Force
+            } else {
+              Set-Item WSMan:\localhost\Client\TrustedHosts -Value $RdpHost -Force
+            }
+          }
+
+          # Create a new PowerShell session to the RDP machine using Basic authentication
+          $Session = New-PSSession -ComputerName $RdpHost -Credential $Credential -Authentication Basic
 
           # Copy files to RDP
           Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
 
           # Restart the app
           Invoke-Command -Session $Session -ScriptBlock {
-            # Use PowerShell error handling to ignore errors from taskkill
             try {
               taskkill /IM dotnet.exe /F 2>$null
             } catch {
-              # Ignore errors (equivalent to || exit 0 in Bash)
+              # Ignore errors
             }
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
