@@ -1,5 +1,5 @@
 import React from "react";
-import shieldIcon from "../../assets/shield.svg";
+import shieldIcon from "../../assets/Shield.svg";
 import questionMark from "../../assets/questionMark.svg";
 import Logo from "../../assets/logo";
 import { Link } from "react-router-dom";
