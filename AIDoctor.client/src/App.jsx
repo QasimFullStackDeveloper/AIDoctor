@@ -15,7 +15,7 @@ import EmailSuccess from "./Pages/LoginPages/LoginSuccess";
 import SignupTwoFactorAuth from "./Pages/SignupPages/SignuptwofactorAuth";
 import PremiumPlans from "./Pages/HomePages/PremiumPlans";
 import HomePage from "./Pages/HomePages/HomePage";
-import EmailVerification from "./Pages/LoginPages/loginEmailverification";
+import EmailVerification from "./Pages/LoginPages/LoginEmailverification";
 
 
 const App = () => {
