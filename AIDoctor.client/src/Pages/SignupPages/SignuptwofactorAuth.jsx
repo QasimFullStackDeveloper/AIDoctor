@@ -35,15 +35,20 @@ const SignupTwoFactorAuth = () => {
   };
 
   return (
-    <div className="signup_auth-container flex justify-center items-center w-full h-screen bg-blue-100 animate-fadeIn">
-      <div className="signup_auth-box bg-white p-6 rounded-lg shadow-lg w-[350px] text-center hover:scale-[1.02] transition-transform">
-        <div className="signup_logo mb-4 ml-[120px] animate-fadeIn"><Logo /></div>
-        <h2 className="signup_subtext text-lg font-semibold text-gray-700 animate-slideUp">
+    <div className="flex justify-center items-center w-full h-screen bg-blue-100 p-4">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[450px] xl:h-[600px] text-center flex flex-col justify-between">
+        {/* Logo */}
+        <div className="mb-4 flex justify-center">
+          <Logo />
+        </div>
+
+        {/* Title */}
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">
           Choose your preferred method to receive the code
         </h2>
 
         {/* Authentication Methods */}
-        <div className="signup_auth-method bg-gray-100 p-3 rounded-lg mb-3 animate-fadeIn">
+        <div className="bg-gray-100 p-3 rounded-lg mb-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -57,7 +62,7 @@ const SignupTwoFactorAuth = () => {
           </label>
         </div>
 
-        <div className="signup_auth-method bg-gray-100 p-3 rounded-lg mb-3 animate-fadeIn">
+        <div className="bg-gray-100 p-3 rounded-lg mb-3">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -73,11 +78,11 @@ const SignupTwoFactorAuth = () => {
 
         {/* Email Input */}
         {selectedMethod === "email" && (
-          <div className="signup_input-wrapper flex items-center border border-gray-300 rounded-md p-2 mt-4 animate-fadeIn">
+          <div className="flex items-center border border-gray-300 rounded-md p-2 mt-4">
             <input
               type="email"
               placeholder="Enter your email"
-              className="signup_email-input flex-1 outline-none text-sm bg-transparent"
+              className="flex-1 outline-none text-sm bg-transparent"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -85,7 +90,7 @@ const SignupTwoFactorAuth = () => {
         )}
 
         {/* OTP Input Fields */}
-        <div className="signup_code-container flex justify-between space-x-2 my-3 animate-slideUp">
+        <div className="flex justify-between space-x-2 my-3">
           {code.map((digit, index) => (
             <input
               key={index}
@@ -94,16 +99,16 @@ const SignupTwoFactorAuth = () => {
               maxLength={1}
               value={digit}
               onChange={(e) => handleCodeChange(index, e.target.value)}
-              className="signup_code-input w-10 h-10 text-center text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-10 h-10 text-center text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
             />
           ))}
         </div>
 
         {/* Resend Code Section */}
-        <div className="signup_resend-container flex justify-between text-sm text-gray-600 mt-2 animate-fadeIn">
+        <div className="flex justify-between text-sm text-gray-600 mt-2">
           <span>Resend code in 00:{countdown < 10 ? `0${countdown}` : countdown}</span>
           <button
-            className={`signup_resend-link font-semibold ${resendDisabled ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:underline"}`}
+            className={`font-semibold ${resendDisabled ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:underline"}`}
             onClick={handleResendCode}
             disabled={resendDisabled}
           >
@@ -113,18 +118,18 @@ const SignupTwoFactorAuth = () => {
 
         {/* Verify Button */}
         <Link to="/signup/2fa-success">
-          <button className="signup_verify-btn w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105 animate-bounceIn">
+          <button className="w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105">
             Verify
           </button>
         </Link>
 
         {/* Navigation Buttons */}
-        <div className="buttons_2 flex justify-between mt-3 text-xs">
+        <div className="flex justify-between mt-3 text-xs">
           <Link to="/signup/step-2">
-            <button className="back_2 text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
+            <button className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
           </Link>
           <Link to="">
-            <button className="help_2 text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
+            <button className="text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
           </Link>
         </div>
       </div>

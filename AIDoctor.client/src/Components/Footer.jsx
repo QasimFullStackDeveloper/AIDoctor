@@ -1,8 +1,8 @@
 import React from "react";
-import Facebook from "../../public/Facebook.svg";
-import Instagram from "../../public/Instragram.svg";
-import Linkedin from "../../public/Linkedin.svg";
-import Twitter from "../../public/Twitter.svg";
+import Facebook from "../assets/Facebook.svg";
+import Instagram from "../assets/Instragram.svg";
+import Linkedin from "../assets/Linkedin.svg";
+import Twitter from "../assets/Twitter.svg";
 import Logo from "../assets/logo";
 
 const Footer = () => {

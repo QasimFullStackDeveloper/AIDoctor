@@ -35,31 +35,42 @@ const Login = () => {
 
   return (
     <div className="bg-blue-100 min-h-screen flex flex-col">
-      <div className="flex flex-col md:flex-row w-full h-full md:h-screen overflow-hidden">
-        {/* Left Section */}
-      <LeftImage/>
-        {/* Right Section */}
-        <div className="flex-1 flex justify-center items-center p-6">
-          <div className="w-full max-w-[350px] md:max-h-[555px] p-6 mb-[45px] bg-white rounded-xl shadow-lg text-center opacity-0 animate-fadeIn">
-            <h2 className="text-2xl font-bold text-blue-600 mb-3 flex justify-center">
+      <div className="flex flex-col lg:flex-row w-full h-full lg:h-screen overflow-hidden">
+        {/* Left Section - Fixed at 50% width */}
+          <LeftImage />
+
+        {/* Right Section - Form */}
+        <div className="flex-1 flex justify-center items-center p-8 lg:p-12">
+          <div className="w-full max-w-[500px] lg:max-w-[600px] p-8 mb-[45px] bg-white rounded-xl shadow-lg text-center opacity-0 animate-fadeIn">
+            <h2 className="text-3xl font-bold text-blue-600 mb-4 flex justify-center">
               <Logo />
             </h2>
-            <h3 className="text-xl font-bold mb-2">Welcome back</h3>
-            <p className="text-gray-500 text-sm mb-5">Sign in to your account</p>
+            <h3 className="text-2xl font-bold mb-3">Welcome back</h3>
+            <p className="text-gray-500 text-sm mb-6">Sign in to your account</p>
 
-            <form className="text-left space-y-4" onSubmit={handleSubmit}>
+            <form className="text-left space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Email address</label>
-                <input type="email" placeholder="Enter your email" required className="w-full p-3 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">Email address</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  className="w-full p-4 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm"
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
-                <input type="password" placeholder="Enter your password" required className="w-full p-3 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm" />
+                <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  required
+                  className="w-full p-4 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm"
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Enter the code shown</label>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Enter the code shown</label>
                 <div className="flex items-center space-x-2">
                   <input
                     type="text"
@@ -67,7 +78,7 @@ const Login = () => {
                     value={inputCode}
                     onChange={(e) => setInputCode(e.target.value)}
                     required
-                    className="w-full p-3 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm"
+                    className="w-full p-4 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-sm"
                   />
                   <span className="bg-gray-200 p-2 rounded-md text-blue-600 font-bold text-sm">{code}</span>
                 </div>
@@ -83,7 +94,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white p-3 mt-6 rounded-md text-lg font-semibold hover:bg-blue-700 transform transition duration-200 hover:scale-105 shadow-md"
+                className="w-full bg-blue-600 text-white p-4 mt-6 rounded-md text-lg font-semibold hover:bg-blue-700 transform transition duration-200 hover:scale-105 shadow-md"
               >
                 Sign in
               </button>
