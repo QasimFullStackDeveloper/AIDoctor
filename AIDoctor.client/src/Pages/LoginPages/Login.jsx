@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo";
+import Logo from "../../assets/Logo.jsx";
 import LeftImage from "../../Components/LeftImage";
 
 const generateRandomCode = () => {
