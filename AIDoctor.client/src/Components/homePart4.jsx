@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-export default function ContactForm() {
+ const ContactForm=()=> {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();s
     if (!name || !email || !message) {
       setError("All fields are required");
       return;
@@ -67,3 +67,4 @@ export default function ContactForm() {
     </div>
   );
 }
+export default ContactForm
