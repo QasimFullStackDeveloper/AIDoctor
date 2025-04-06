@@ -1,5 +1,5 @@
 import React from "react";
-import image from "../assets/Homeimage.png";
+import image from "../assets/HomeImage.png";
 import { Link } from "react-router-dom";
 
 const HomeSection = () => {
