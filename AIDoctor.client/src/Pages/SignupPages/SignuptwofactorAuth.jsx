@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo";
+import Logo from "../../assets/Logo.jsx";
 
 const SignupTwoFactorAuth = () => {
   const [selectedMethod, setSelectedMethod] = useState("email");
