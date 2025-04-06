@@ -1,5 +1,5 @@
 import React from "react";
-import tick from "../../../public/Tic.svg";
+import tick from "../../assets/Tic.svg";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 
