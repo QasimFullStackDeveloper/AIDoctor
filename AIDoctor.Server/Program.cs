@@ -26,7 +26,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Configuration.AddEnvironmentVariables();
-builder.Services.AddSingleton<GlobalExceptionHandler>();
+//builder.Services.AddSingleton<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails(); // Enables standardized error responses
 
 
@@ -120,6 +120,17 @@ app.MapScalarApiReference(option =>
 // Added to Deploy on Own Hosting Server 
 app.UseCors("AllowFrontend");
 
+app.UseMiddleware<GlobalExceptionHandler>();
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.MapFallbackToFile("/index.html");
+
+app.Run();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

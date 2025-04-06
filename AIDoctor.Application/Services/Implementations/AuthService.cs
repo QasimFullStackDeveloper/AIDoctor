@@ -130,8 +130,8 @@ namespace AIDoctor.Application.Services.Implementations
 
             if (result.RequiresTwoFactor)
             {
-                var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
-                throw new TwoFactorRequiredException($"2 Factor Enabled with provider(s) {providers}");
+                var providerList = await _userManager.GetValidTwoFactorProvidersAsync(user);
+                throw new TwoFactorRequiredException($"Two Factor Required", providerList);
             }
             else if (result.IsLockedOut)
             {
