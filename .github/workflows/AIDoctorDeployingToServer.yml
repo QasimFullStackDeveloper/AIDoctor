@@ -38,6 +38,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: "[2600:4040:7978:200:20e2:6b78:527b:f0f2]"
+          port: 22
           username: "Aaban"
           password: ${{ secrets.RDP_PASSWORD }}
           source: "publish/*"
@@ -48,6 +49,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: "[2600:4040:7978:200:20e2:6b78:527b:f0f2]"
+          port: 22
           username: "Aaban"
           password: ${{ secrets.RDP_PASSWORD }}
           script: |
