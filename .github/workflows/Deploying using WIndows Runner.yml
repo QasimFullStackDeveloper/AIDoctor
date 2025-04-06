@@ -35,8 +35,8 @@ jobs:
 
       - name: Deploy to RDP
         run: |
-          $RdpHost = "4.tcp.ngrok.io:17168"
-          $RdpPort = 12345  # Replace with your Ngrok port (e.g., 12345)
+          $RdpHost = "4.tcp.ngrok.io"  # Ngrok hostname
+          $RdpPort = 17168  # Ngrok port
           $RdpUser = "Aaban"
           $RdpPass = "${{ secrets.RDP_PASSWORD }}"
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
