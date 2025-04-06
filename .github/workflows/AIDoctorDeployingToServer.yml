@@ -1,4 +1,4 @@
-name: Deploy AI Doctor to RDP
+name: Deploying My AI Doctor App to RDP/VPS
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Updated to Node.js 20 to support react-router
+          node-version: '20'
 
       - name: Build Backend
         run: |
@@ -29,8 +29,10 @@ jobs:
         run: |
           cd AIDoctor.Client
           npm install
+          npm audit fix
           npm run build
-          xcopy dist ..\publish\wwwroot /E /H /C /I /Y  # Changed 'build' to 'dist'
+          mkdir -p ../publish/wwwroot  # Create wwwroot directory
+          cp -r dist/* ../publish/wwwroot  # Copy dist to wwwroot (replaces xcopy)
 
       - name: Deploy to RDP
         uses: appleboy/scp-action@master
