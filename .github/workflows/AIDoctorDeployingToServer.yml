@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Frontend
         run: |
-          cd AIDoctor.Client
+          cd AIDoctor.client
           npm install
           npm audit fix
           npm run build
