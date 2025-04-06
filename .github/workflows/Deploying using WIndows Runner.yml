@@ -51,6 +51,9 @@ jobs:
             }
           }
 
+          # Allow unencrypted traffic on the client (GitHub Actions runner)
+          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
+
           # Create a new PowerShell session to the RDP machine using Basic authentication
           $Session = New-PSSession -ComputerName $RdpHost -Credential $Credential -Authentication Basic
 
