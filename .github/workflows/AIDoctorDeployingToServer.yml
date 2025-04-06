@@ -1,4 +1,4 @@
-name: Deploying My AI Doctor App to RDP/VPS
+name: Deploy AI Doctor to RDP
 
 on:
   push:
@@ -31,8 +31,8 @@ jobs:
           npm install
           npm audit fix
           npm run build
-          mkdir -p ../publish/wwwroot  # Create wwwroot directory
-          cp -r dist/* ../publish/wwwroot  # Copy dist to wwwroot (replaces xcopy)
+          mkdir -p ../publish/wwwroot
+          cp -r dist/* ../publish/wwwroot
 
       - name: Deploy to RDP
         uses: appleboy/scp-action@master
