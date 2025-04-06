@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '../../Components/Navbar'
-import FeaturesSection from '../../Components/homePart3'
-import Footer from '../../Components/Footer'
-import WhyChooseChatbot from '../../Components/homePart2'
-import Testimonials from '../../Components/homePArt5'
 import HomeSection from '../../Components/homePart1'
+import WhyChooseChatbot from '../../Components/homePart2'
+import FeaturesSection from '../../Components/homePart3'
 import ContactForm from '../../Components/homePart4'
+import Testimonials from '../../Components/homePArt5'
+import Footer from '../../Components/Footer'
 
 export default function HomePage() {
   return (
