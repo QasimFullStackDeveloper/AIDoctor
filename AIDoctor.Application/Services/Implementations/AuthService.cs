@@ -4,9 +4,11 @@ using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Application.Utils.Token_Generator;
 using AIDoctor.Domain.Entities;
 using AIDoctor.Domain.Enums;
+using AIDoctor.Domain.Utils.CustomExceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -118,22 +120,22 @@ namespace AIDoctor.Application.Services.Implementations
 
             var user = await _userManager.FindByEmailAsync(dTO.Email);
 
-            if (user == null) throw new ArgumentNullException(nameof(dTO), "User Not Found");
+            if (user == null) throw new KeyNotFoundException("User Not Found");
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-            if (!isEmailConfirmed) throw new InvalidOperationException("Email is not Confirmed");
+            if (!isEmailConfirmed) throw new UserNotConfirmedException("Email is not Confirmed");
 
             var result = await _signInManager.PasswordSignInAsync(user, dTO.Password, dTO.RememberMe, true);
 
 
             if (result.RequiresTwoFactor)
             {
-                var providers = await _userManager.GetValidTwoFactorProvidersAsync(user);
-                throw new InvalidOperationException($"2 Factor Enabled with provider(s) {providers}");
+                var providerList = await _userManager.GetValidTwoFactorProvidersAsync(user);
+                throw new TwoFactorRequiredException($"Two Factor Required", providerList);
             }
             else if (result.IsLockedOut)
             {
-                throw new InvalidOperationException("User account is locked out.");
+                throw new UserLockedOutException("User account is locked out.");
             }
             else if (!result.Succeeded)
             {
