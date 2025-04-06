@@ -1,0 +1,58 @@
+name: Deploy AI Doctor to RDP
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest  # Switch to Windows runner
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Build Backend
+        run: |
+          cd AIDoctor.Server
+          dotnet publish -c Release -o ../publish
+
+      - name: Build Frontend
+        run: |
+          cd AIDoctor.Client
+          npm install
+          npm audit fix
+          npm run build
+          xcopy dist ..\publish\wwwroot /E /H /C /I /Y
+
+      - name: Deploy to RDP
+        run: |
+          $RdpHost = "[2600:4040:7978:200:20e2:6b78:527b:f0f2]"
+          $RdpUser = "Aaban"
+          $RdpPass = "${{ secrets.RDP_PASSWORD }}"
+          $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
+          $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
+
+          # Create a new PowerShell session to the RDP machine
+          $Session = New-PSSession -ComputerName $RdpHost -Credential $Credential -Authentication Negotiate
+
+          # Copy files to RDP
+          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
+
+          # Restart the app
+          Invoke-Command -Session $Session -ScriptBlock {
+            taskkill /IM dotnet.exe /F 2>$null || exit 0
+            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
+          }
+
+          # Close the session
+          Remove-PSSession $Session
+        shell: powershell
