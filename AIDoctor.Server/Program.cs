@@ -11,15 +11,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Added Port to use on Azure
-///
-
-//builder.WebHost.ConfigureKestrel(serverOptions =>
-//{
-//    serverOptions.ListenAnyIP(5000); // Default for debugging
-//    serverOptions.ListenAnyIP(8080); // Additional for production
-//});
-
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -110,7 +101,6 @@ app.MapScalarApiReference(option =>
     option.WithTheme(ScalarTheme.Mars);
     option.WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Http);
 });
-//}
 
 // Added to Deploy to Azure App Service with HTTPS enabled by default
 app.UseStaticFiles();
@@ -122,15 +112,6 @@ app.UseRouting();
 
 app.UseMiddleware<GlobalExceptionHandler>();
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
-
-app.Run();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
