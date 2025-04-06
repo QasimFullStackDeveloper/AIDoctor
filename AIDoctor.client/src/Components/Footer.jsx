@@ -3,7 +3,7 @@ import Facebook from "../assets/Facebook.svg";
 import Instagram from "../assets/Instragram.svg";
 import Linkedin from "../assets/Linkedin.svg";
 import Twitter from "../assets/Twitter.svg";
-import Logo from "../assets/logo";
+import Logo from "../assets/Logo.jsx";
 
 const Footer = () => {
   return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logo from "../assets/logo";
+import Logo from "../assets/Logo.jsx";
 
 export default function SetNewPassword() {
   const [password, setPassword] = useState("");
