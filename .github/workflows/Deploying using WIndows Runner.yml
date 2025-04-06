@@ -58,16 +58,20 @@ jobs:
           # Create a new PowerShell session to the RDP machine using Basic authentication
           $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
 
-          # Copy files to RDP
-          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
-
-          # Restart the app
+          # Stop the running application before copying files
           Invoke-Command -Session $Session -ScriptBlock {
             try {
               taskkill /IM dotnet.exe /F 2>$null
             } catch {
               # Ignore errors
             }
+          }
+
+          # Copy files to RDP
+          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
+
+          # Start the app
+          Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
 
