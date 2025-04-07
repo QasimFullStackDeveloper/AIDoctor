@@ -1,6 +1,6 @@
-import React from "react";
-import image from "../assets/HomeImage.png";
-import { Link } from "react-router-dom";
+import React from 'react';
+import image from '../assets/HomeImage.png';
+import { Link } from 'react-router-dom';
 
 const HomeSection = () => {
   return (
@@ -13,13 +13,11 @@ const HomeSection = () => {
         linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
         linear-gradient(180deg, #BFDBFE 0%, #FFE8EF 69%, #FFFFFF 100%)
       `,
-  
-      }}
-    >
+      }}>
       {/* Left Section (Text) */}
       <div className="flex flex-col items-center md:items-start text-center md:text-left  text-gray-900 max-w-3xl space-y-6">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
-          Your AI Doctor, Just a{" "}
+          Your AI Doctor, Just a{' '}
           <span className="text-[#2D5EFF]">Chat Away</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-700 mb-6">
