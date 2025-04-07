@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function EmailSuccess() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-100 px-4">
-      <div className="w-full max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] min-h-[550px] bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between">
+      <div className="w-full max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] min-h-[550px] bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between custom_form">
 
         {/* Logo */}
         <div className="flex justify-center mb-2">
@@ -45,6 +45,15 @@ export default function EmailSuccess() {
           <p>Your account is now secure and ready to use. You'll receive a confirmation email shortly.</p>
         </div>
       </div>
+      <style jsx>{`
+      @media (min-width: 1400px) and (min-height: 1079px) {
+    .custom_form {
+      width: 450px;  
+      height: 55vh;  
+      padding: 40px;  
+    }
+  }
+`}</style>
     </div>
   );
 }

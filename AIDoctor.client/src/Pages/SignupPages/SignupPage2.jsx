@@ -4,7 +4,7 @@ import image from "../../assets/DIV.svg"
 export default function SignupPage2() {
   return (
     <div className="whole-container_11 bg-gradient-to-br bg-blue-100 flex items-center justify-center min-h-screen w-full overflow-hidden">
-      <div className="container_11 text-center w-full max-w-xl p-1 rounded-lg flex flex-col justify-between h-full">
+      <div className="container_11 text-center w-full max-w-xl p-1 rounded-lg flex flex-col justify-between h-full custom_form">
 
         {/* Progress Bar */}
         <div className="steps_11 flex items-center justify-between w-full mb-6 relative">
@@ -78,6 +78,15 @@ export default function SignupPage2() {
           </div>
         </div>
       </div>
+      <style jsx>{`
+      @media (min-width: 1400px) and (min-height: 1079px) {
+    .custom_form {
+      width: 750px;  
+      height: 65vh;  
+      padding: 10px;  
+    }
+  }
+`}</style>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../Components/Logo";
-import { FaEye, FaShieldAlt, FaEnvelope } from "react-icons/fa";
+import { HiOutlineMail, HiLockClosed, HiEye, HiEyeOff } from "react-icons/hi"; // Updated icons
 import LeftImage from "../../Components/LeftImage";
 
 export default function Signup() {
@@ -15,37 +15,32 @@ export default function Signup() {
     code: "",
     termsAccepted: false,
   });
+
   const [errorField, setErrorField] = useState({});
   const [generatedCode, setGeneratedCode] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
-    const generateCode = () => {
-      const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-      setGeneratedCode(randomCode);
-    };
-    generateCode();
+    const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+    setGeneratedCode(randomCode);
   }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
     setErrorField({ ...errorField, [name]: "" });
   };
 
   const validate = () => {
-    let errors = {};
-    if (!formData.firstName.trim()) errors.firstName = true;
-    if (!formData.lastName.trim()) errors.lastName = true;
-    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errors.email = true;
-    if (formData.password.length < 6) errors.password = "Password must be at least 6 characters long";
-    if (formData.password !== formData.confirmPassword) errors.confirmPassword = true;
-    if (formData.code.trim() !== generatedCode) errors.code = true;
-    if (!formData.termsAccepted) errors.termsAccepted = true;
+    const errors = {};
+    if (!formData.firstName.trim()) errors.firstName = "First name is required";
+    if (!formData.lastName.trim()) errors.lastName = "Last name is required";
+    if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errors.email = "Invalid email format";
+    if (formData.password.length < 6) errors.password = "Password must be at least 6 characters";
+    if (formData.password !== formData.confirmPassword) errors.confirmPassword = "Passwords do not match";
+    if (formData.code.trim() !== generatedCode) errors.code = "Incorrect code";
+    if (!formData.termsAccepted) errors.termsAccepted = "You must accept the terms";
 
     setErrorField(errors);
     return Object.keys(errors).length === 0;
@@ -59,125 +54,193 @@ export default function Signup() {
   };
 
   return (
-    <div className="w-screen h-screen flex overflow-hidden relative bg-blue-100">
-      {/* Left Side */}
-      <LeftImage />
+    <div className="min-h-screen flex flex-col md:flex-row bg-blue-100 overflow-hidden">
+      {/* Left Image Section */}
+      <div className="hidden md:flex w-[40%] lg:w-[50%] h-screen min-h-[768px]">
+        <LeftImage />
+      </div>
 
-      {/* Right Side - Form */}
-      <div className="w-[50%] h-full flex flex-col justify-center items-center bg-blue-100 p-6 gap-4">
-        <div className="w-full max-w-[450px] h-auto bg-white flex flex-col gap-4 p-6 mt-[-40px]"> {/* Added mt-[-40px] */}
-          {/* Logo */}
+      {/* Right Form Section */}
+      <div className="w-full md:w-[60%] lg:w-[50%] flex justify-center items-center px-4 py-8 overflow-auto max-h-screen">
+        <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
           <div className="flex justify-center mb-6">
-        <Logo/>
+            <Logo />
           </div>
-          
-          <h3 className="text-2xl font-bold text-gray-800 text-center">Create Your Account</h3>
+          <h3 className="text-2xl font-bold text-gray-800 text-center mb-4">
+            Create Your Account
+          </h3>
 
           <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            {/* Name Fields */}
-            <div className="flex gap-5">
-              <div className="w-1/2">
-                <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
+            {/* First & Last Name */}
+            <div className="flex flex-col md:flex-row gap-5">
+              <div className="w-full">
+                <label className="block text-sm font-bold mb-1 text-gray-700">First Name</label>
                 <input
                   type="text"
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded-md text-base"
+                  className={`w-full p-2 border rounded-md ${errorField.firstName ? "border-red-500" : ""}`}
                 />
+                {errorField.firstName && (
+                  <span className="text-sm text-red-500">{errorField.firstName}</span>
+                )}
               </div>
-              <div className="w-1/2">
-                <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
+              <div className="w-full">
+                <label className="block text-sm font-bold mb-1 text-gray-700">Last Name</label>
                 <input
                   type="text"
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full p-2 border rounded-md text-base"
+                  className={`w-full p-2 border rounded-md ${errorField.lastName ? "border-red-500" : ""}`}
                 />
+                {errorField.lastName && (
+                  <span className="text-sm text-red-500">{errorField.lastName}</span>
+                )}
               </div>
             </div>
 
-            {/* Email Field */}
-            <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-            <div className="relative">
-              <FaEnvelope className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 pl-12 border rounded-md text-base"
-              />
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-bold mb-1 text-gray-700">Email Address</label>
+              <div className="relative">
+                <HiOutlineMail className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 text-2xl mt-3" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full p-2 pl-12 border rounded-md ${errorField.email ? "border-red-500" : ""}`}
+                />
+              </div>
+              {errorField.email && (
+                <span className="text-sm text-red-500">{errorField.email}</span>
+              )}
             </div>
 
-            {/* Password Fields */}
+            {/* Password & Confirm Password */}
             {["password", "confirmPassword"].map((field, index) => (
               <div key={index}>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+                <label className="block text-sm font-bold mb-1 text-gray-700">
                   {field === "password" ? "Password" : "Confirm Password"}
                 </label>
                 <div className="relative">
-                  <FaShieldAlt className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400" />
+                  <HiLockClosed className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 text-2xl mt-3" />
                   <input
-                    type={field === "password" ? (showPassword ? "text" : "password") : showConfirmPassword ? "text" : "password"}
+                    type={(field === "password" && showPassword) || (field === "confirmPassword" && showConfirmPassword)
+                      ? "text"
+                      : "password"}
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 pl-12 pr-12 border rounded-md text-base"
+                    className={`w-full p-2 pl-12 pr-12 border rounded-md ${errorField[field] ? "border-red-500" : ""}`}
                   />
-                  <FaEye
-                    className="absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 cursor-pointer"
-                    onClick={() =>
-                      field === "password"
-                        ? setShowPassword(!showPassword)
-                        : setShowConfirmPassword(!showConfirmPassword)
-                    }
-                  />
+                  {(field === "password" || field === "confirmPassword") && (
+                    <span
+                      onClick={() =>
+                        field === "password"
+                          ? setShowPassword(!showPassword)
+                          : setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                    >
+                      {field === "password" && showPassword || field === "confirmPassword" && showConfirmPassword ? (
+                        <HiEye className=" absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 text-2xl mt-3" />
+                      ) : (
+                        <HiEyeOff className="text-gray-400 text-2xl mt-5 " />
+                      )}
+                    </span>
+                  )}
                 </div>
+                {errorField[field] && (
+                  <span className="text-sm text-red-500">{errorField[field]}</span>
+                )}
               </div>
             ))}
 
-            {/* Security Check */}
-            <label className="block text-sm font-bold text-gray-700 mb-2">Security Check</label>
-            <p className="text-gray-500 text-sm mb-4">Enter the code shown: {generatedCode}</p>
-            <input
-              type="text"
-              name="code"
-              value={formData.code}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md text-base"
-            />
+            {/* Security Code */}
+            <div>
+              <label className="block text-sm font-bold mb-1 text-gray-700">Security Check</label>
+              <p className="text-gray-600 text-sm mb-2">Enter the code shown: <strong>{generatedCode}</strong></p>
+              <input
+                type="text"
+                name="code"
+                value={formData.code}
+                onChange={handleChange}
+                className={`w-full p-2 border rounded-md ${errorField.code ? "border-red-500" : ""}`}
+              />
+              {errorField.code && (
+                <span className="text-sm text-red-500">{errorField.code}</span>
+              )}
+            </div>
 
-            {/* Terms and Conditions */}
-            <div className="flex items-start gap-3 mt-3">
+            {/* Terms */}
+            <div className="flex items-start gap-3">
               <input
                 type="checkbox"
                 name="termsAccepted"
                 checked={formData.termsAccepted}
                 onChange={handleChange}
-                className="w-5 h-5 mt-1"
+                className="mt-1"
               />
               <label className="text-sm text-gray-700">
                 I agree to the <a href="#" className="text-blue-600 underline">Terms of Service and Privacy Policy</a>
               </label>
             </div>
+            {errorField.termsAccepted && (
+              <span className="text-sm text-red-500">{errorField.termsAccepted}</span>
+            )}
 
-            {/* Submit Button */}
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-blue-500 h-[3.5vh] text-white  rounded-md text-base font-semibold hover:bg-[#4f43d8]"
+              className="w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition duration-200"
             >
               Create Account
             </button>
 
-            {/* Sign-in Link */}
-            <p className="text-sm text-center">
-              Already have an account? <a href="/login" className="text-blue-600 hover:underline">Sign in</a>
+            {/* Sign In Link */}
+            <p className="text-sm text-center mt-2">
+              Already have an account?{" "}
+              <a href="/login" className="text-blue-600 hover:underline">Sign in</a>
             </p>
           </form>
         </div>
       </div>
+      <style jsx>{`
+  @media (min-height: 700px) and (max-height 800) {
+    .form-container {
+      max-height: 92vh;
+      padding: 1rem;
+      overflow: hiden;
+    }
+
+    .form-container h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-container form {
+      gap: 1rem;
+    }
+
+    .form-container input,
+    .form-container button {
+      padding: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .form-container label {
+      font-size: 0.75rem;
+    }
+
+    .form-container .text-sm {
+      font-size: 0.7rem;
+    }
+  }
+`}</style>
+
     </div>
   );
 }

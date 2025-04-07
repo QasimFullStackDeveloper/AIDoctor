@@ -7,7 +7,7 @@ import Logo from '../../Components/Logo';
 export default function Signup2factorSuccess() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-[400px] md:w-[450px] lg:w-[500px] xl:w-[550px] xl:h-[550px] border-t-4 border-blue-500 flex flex-col justify-between">
+      <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-[400px] md:w-[450px] lg:w-[450px] xl:w-[500px] xl:h-[550px] border-t-4 border-blue-500 flex flex-col justify-between custom_form">
 
         {/* Logo */}
         <div className="mb-4 flex justify-center">
@@ -54,6 +54,15 @@ export default function Signup2factorSuccess() {
           Save your backup codes in a secure location in case you lose access to your authentication device.
         </div>
       </div>
+      <style jsx>{`
+      @media (min-width: 1400px) and (min-height: 1079px) {
+    .custom_form {
+      width: 600px;  
+      height: 60vh;  
+      padding: 40px;  
+    }
+  }
+`}</style>
     </div>
   );
 }

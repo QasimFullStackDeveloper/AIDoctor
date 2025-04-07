@@ -9,8 +9,8 @@ export default function LogintwoFactor() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[530px] min-h-[550px] bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between">
+    <div className="flex justify-center items-center min-h-screen bg-blue-50 p-4">
+      <div className="w-full max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[530px] min-h-[550px] bg-white p-6 rounded-lg shadow-lg text-center border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between custom_form">
 
         {/* Logo */}
         <div className="font-bold text-xl flex justify-center text-[#3f51b5] uppercase mb-4">
@@ -88,6 +88,15 @@ export default function LogintwoFactor() {
           Back to Login
         </a>
       </div>
+      <style jsx>{`
+      @media (min-width: 1400px) and (min-height: 1079px) {
+    .custom_form {
+      width: 750px;  
+      height: 65vh;  
+      padding: 10px;  
+    }
+  }
+`}</style>
     </div>
   );
 }
