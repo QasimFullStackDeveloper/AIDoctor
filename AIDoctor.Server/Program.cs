@@ -24,7 +24,7 @@ builder.Services.AddProblemDetails(); // Enables standardized error responses
 
 
 /*
- * adds the infrastructure services (Repos, DBContext, External Services, etc)
+ *** adds the infrastructure services (Repos, DBContext, External Services, etc)
  */
 builder.Services.AddInfrastructure(builder.Configuration);
 
