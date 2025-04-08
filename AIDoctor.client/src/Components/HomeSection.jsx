@@ -21,7 +21,7 @@ const HomeSection = () => {
       ></div>
 
       {/* Left Section */}
-      <div className="z-10 flex-1 flex flex-col justify-center text-left text-gray-900 max-w-[600px]">
+      <div className="z-10 flex-1 flex flex-col justify-center ml-8 text-left text-gray-900 max-w-[600px]">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
           Your AI Doctor, Just a <br />
           Chat Away
