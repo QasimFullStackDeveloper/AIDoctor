@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite'
+import autoprefixer from 'autoprefixer';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -53,7 +54,7 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // Vite Configuration
 export default defineConfig({
-    plugins: [plugin(), tailwindcss(),],
+    plugins: [plugin(), tailwindcss(),autoprefixer(),],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
