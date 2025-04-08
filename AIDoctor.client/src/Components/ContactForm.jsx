@@ -17,8 +17,8 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-200">
-      <div className="bg-white p-8 h-[70%] rounded-lg shadow-2xl w-11/12 max-w-2xl">
+    <div className="flex justify-center items-center min-h-screen bg-[#F9FAFB] opacity-100 ">
+      <div className=" p-8 h-[70%]  w-11/12 max-w-2xl">
         <h2 className="text-2xl md:text-3xl font-semibold text-center">
           Got Questions? Reach Out!
         </h2>
