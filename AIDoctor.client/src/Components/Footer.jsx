@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start space-y-4">
           <div className="w-20 h-20 ">
           <Logo/>
-          </div>
+          </div >
           <p className="text-sm text-center lg:text-left text-gray-400">
             Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
           </p>
@@ -65,7 +65,7 @@ const Footer = () => {
 
       {/* Bottom Line and Text */}
       <div className="border-t border-gray-700 mt-10 py-4  text-center text-gray-500 text-sm">
-        &copy; 2024 Doctor AI. All rights reserved.
+        &copy; 2025 Doctor AI. All rights reserved.
       </div>
     </footer>
   );
