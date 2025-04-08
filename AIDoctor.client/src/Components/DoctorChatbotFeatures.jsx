@@ -66,7 +66,7 @@ const DoctorChatbotFeatures = () => {
             <h3 className="text-2xl sm:text-3xl font-semibold text-left mb-6 custom-head">
               {feature.title}
             </h3>
-            <p className="mt-6 text-lg sm:text-xl flex-grow">
+            <p className=" text-lg sm:text-xl flex-grow">
               {feature.description}
             </p>
           </div>

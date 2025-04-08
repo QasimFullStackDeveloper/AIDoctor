@@ -27,7 +27,7 @@ const FeaturesSection = () => {
             title: "Symptom Checker",
             desc: "Advanced AI analysis of your symptoms with instant preliminary diagnosis and recommendations.",
             bg: "from-blue-50 to-blue-100",
-            hoverBg: "from-blue-100 to-blue-200", 
+            // hoverBg: "from-blue-100 to-blue-200", 
           },
           {
             img: image2,
@@ -35,7 +35,7 @@ const FeaturesSection = () => {
             title: "Medication Guidance",
             desc: "Comprehensive information about medications, including dosage, side effects, and interactions.",
             bg: "from-green-50 to-green-100",
-            hoverBg: "from-green-100 to-green-200", 
+            // hoverBg: "from-green-100 to-green-200", 
           },
           {
             img: image3,
@@ -43,7 +43,7 @@ const FeaturesSection = () => {
             title: "Mental Health Support",
             desc: "24/7 emotional support and resources for mental health concerns.",
             bg: "from-purple-50 to-purple-100",
-            hoverBg: "from-purple-100 to-purple-200", 
+            // hoverBg: "from-purple-100 to-purple-200", 
           },
           {
             img: image4,
@@ -51,12 +51,12 @@ const FeaturesSection = () => {
             title: "Connect to a Doctor",
             desc: "Seamless referral to certified healthcare professionals when needed.",
             bg: "from-yellow-50 to-yellow-100",
-            hoverBg: "from-yellow-100 to-yellow-200",
+            // hoverBg: "from-yellow-100 to-yellow-200",
           }
         ].map((feature, index) => (
           <div
             key={index}
-            className={`bg-gradient-to-r ${feature.bg} rounded-2xl shadow-lg p-6 hover:bg-gradient-to-r ${feature.hoverBg} transform hover:scale-105 transition duration-300 ease-in-out`}
+            className={`bg-gradient-to-r ${feature.bg} rounded-2xl shadow-lg p-6  transform hover:scale-100 transition duration-500 ease-in-out`}
           >
             <img
               src={feature.img}

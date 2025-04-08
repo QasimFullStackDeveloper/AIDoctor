@@ -6,7 +6,7 @@ import backgroundImage from '../assets/HeroSectionImage.svg';
 const HomeSection = () => {
   return (
     <div
-      className="flex flex-col md:flex-row items-center h-auto md:h-[90vh] justify-between px-6 py-8 md:px-[5%] md:py-[4%] w-full relative"
+      className="flex flex-col md:flex-row items-center h-auto md:h-[90vh] justify-between px-6 py-8 md:px-[4%] md:py-[3%] w-full relative"
       style={{
         marginTop: 0,
         opacity: 1,
@@ -19,10 +19,10 @@ const HomeSection = () => {
         style={{ backgroundImage: `url(${image})`, opacity: 0.5 }}></div>
 
       {/* Left Section  */}
-      <div className="flex flex-col items-center md:items-start text-center md:text-left text-gray-900 max-w-3xl space-y-6 relative z-10">
+      <div className="flex flex-col  max-w-[100%] items-center md:items-start text-center  text-gray-900 max-w-3xl  space-y-4 relative z-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6 md:whitespace-normal whitespace-nowrap">
           Your AI Doctor, Just a <br />
-          <span className="mt-6 text-[#2D5EFF]">Chat Away</span>
+          <span className="mt-6">Chat Away</span>
         </h1>
         <p className="text-base sm:text-lg md:text-x2 text-gray-700 mb-6">
           Get instant, reliable medical advice anytime with our AI-powered
@@ -42,7 +42,7 @@ const HomeSection = () => {
       </div>
 
       {/* Right Section (Image) */}
-      <div className="mt-6 md:mt-0 w-full md:w-[50%] justify-center md:block hidden">
+      <div className="mt-6 md:mt-0 w-full md:w-[40%] justify-center  md:block hidden">
         <img
           src={backgroundImage}
           alt="AI Doctor Illustration"
@@ -53,7 +53,7 @@ const HomeSection = () => {
       <style jsx>{`
         @media (min-width: 1400px) {
           .flex {
-            align-items: flex-start; /
+            align-items: flex-center; 
             flex-wrap: wrap;
           }
 
