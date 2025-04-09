@@ -19,7 +19,7 @@ const Navbar = ({ colour }) => {
           </div>
 
           {/* Menu links */}
-          <ul className={`hidden md:flex items-center gap-8 text-base text-gray-700 font-medium lg:text-xl`}>
+          <ul className={`hidden md:flex items-center gap-8 text-base text-gray-700 lg:font-medium xl:text-xl`}>
             <li className="hover:text-blue-600 font-bold">
               <Link to="/index">Home</Link>
             </li>
