@@ -54,6 +54,7 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // Vite Configuration
 export default defineConfig({
+    base:"/index/",
     plugins: [plugin(), tailwindcss(),autoprefixer(),],
     resolve: {
         alias: {
@@ -67,7 +68,7 @@ export default defineConfig({
                 secure: false,
             }
         },
-        port: parseInt(env.DEV_SERVER_PORT || '5173'), // Default Vite port
+        port: parseInt(env.DEV_SERVER_PORT || '5173'), 
         https: fs.existsSync(certFilePath) && fs.existsSync(keyFilePath)
             ? {
                 key: fs.readFileSync(keyFilePath),

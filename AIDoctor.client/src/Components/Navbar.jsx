@@ -7,19 +7,19 @@ const Navbar = ({ colour }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className={`${colour} py-2 px-4 md:px-10 shadow-md w-full z-20`}>
+    <nav className={`${colour} py-2 px-4 md:px-10 2xl:px-20 2xl:py-4 shadow-md w-full z-20`}>
       <div className="max-w-[1920px] mx-auto flex justify-between items-center relative">
         {/* Left Section: Logo + Links */}
-        <div className="flex items-center gap-10">
-          <div className="flex items-center gap-4 ml-4 md:ml-10">
-            <div className="w-10 h-10 flex items-center">
+        <div className="flex items-center gap-10 2xl:gap-16">
+          <div className="flex items-center gap-4 ml-4 md:ml-5 2xl:gap-6">
+            <div className="w-10 h-10 2xl:w-14 2xl:h-14 flex items-center">
               <Logo />
             </div>
-            <span className="text-xl font-bold text-blue-900">AI Doctor</span>
+            <span className="text-xl font-bold text-blue-900 2xl:text-3xl">AI Doctor</span>
           </div>
 
           {/* Menu links */}
-          <ul className={`hidden md:flex items-center gap-8 text-base text-gray-700 lg:font-medium xl:text-xl`}>
+          <ul className="hidden md:flex items-center gap-8 2xl:gap-14 text-base 2xl:text-2xl ml-8 text-gray-700">
             <li className="hover:text-blue-600 font-bold">
               <Link to="/index">Home</Link>
             </li>
@@ -33,14 +33,14 @@ const Navbar = ({ colour }) => {
         </div>
 
         {/* Auth Buttons (desktop) */}
-        <div className="hidden md:flex gap-4 mr-4 md:mr-10">
+        <div className="hidden md:flex gap-4 2xl:gap-6 mr-4 md:mr-10">
           <Link to="/login">
-            <button className="border border-blue-500 text-blue-500 px-5 py-2 rounded-lg hover:bg-blue-500 hover:text-white transition text-sm 2xl:text-base">
+            <button className="border border-blue-500 text-blue-500 px-5 py-2 2xl:px-6 2xl:py-3 rounded-lg hover:bg-blue-500 hover:text-white transition text-sm 2xl:text-lg">
               Login
             </button>
           </Link>
           <Link to="/signup">
-            <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition text-sm 2xl:text-base">
+            <button className="bg-blue-600 text-white px-5 py-2 2xl:px-6 2xl:py-3 rounded-lg hover:bg-blue-700 transition text-sm 2xl:text-lg">
               Sign Up
             </button>
           </Link>

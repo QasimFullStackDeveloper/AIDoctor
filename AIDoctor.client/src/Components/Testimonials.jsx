@@ -14,7 +14,7 @@ const testimonials = [
       "The instant medical advice helped me make intensive decisions about my health. It's like having a doctor in my pocket.",
     rating: 5,
     background:
-      "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #EFF6FF -2%, #FFFFFF 99%)",
+      "linear-gradient(135deg, #ECFEFF 0%, #FFFFFF 100%)", // Simplified gradient
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const testimonials = [
       "As a healthcare provider, I'm impressed with the economy and results of life of diagnosis. It's a great help behind clinical for patients.",
     rating: 4.5,
     background:
-    "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #FAF5FF -2%, #FFFFFF 99%)",
+      "linear-gradient(135deg, #FAF5FF 0%, #FFFFFF 100%)", // Simplified gradient
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const testimonials = [
       "This mental health support because has been a game-champion. It's so popular to have someone to talk to 24/7.",
     rating: 5,
     background:
-      " linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #FDF2F8 -2%, #FFFFFF 99%)",
+      "linear-gradient(135deg, #FDF2F8 0%, #FFFFFF 100%)", // Simplified gradient
   },
 ];
 
@@ -101,17 +101,17 @@ const Testimonials = () => {
         ))}
       </div>
 
-      {/*  buttons */}
+      {/* Buttons */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-0">
-  {[0, 1, 2, 3].map((i) => (
-    <button
-      key={i}
-      className={`w-3 h-3 rounded-full ${
-        i === 0 ? "bg-blue-600" : "bg-yellow-300"
-      }`}
-    />
-  ))}
-</div>
+        {[0, 1, 2, 3].map((i) => (
+          <button
+            key={i}
+            className={`w-3 h-3 rounded-full ${
+              i === 0 ? "bg-blue-600" : "bg-gray-300"
+            }`}
+          />
+        ))}
+      </div>
     </section>
   );
 };

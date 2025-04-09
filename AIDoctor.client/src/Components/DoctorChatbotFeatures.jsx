@@ -16,7 +16,10 @@ const features = [
       "Get medical advice anytime, anywhere. No waiting rooms, no appointments needed.",
     customStyle: {
       background:
-        "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #EFF6FF -3%, #FFFFFF 100%)",
+        "linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%)", 
+      height: "100%",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     },
   },
   {
@@ -27,7 +30,10 @@ const features = [
       "All information is dependent on AI training data and may not be 100% reliable.",
     customStyle: {
       background:
-        "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #FAF5FF 1%, #FFFFFF 99%)",
+        "linear-gradient(135deg, #FAF5FF 1%, #FFFFFF 99%)",
+      height: "100%",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     },
   },
   {
@@ -38,7 +44,10 @@ const features = [
       "Your health data is encrypted and protected with the highest security standards.",
     customStyle: {
       background:
-        "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #FDF2F8 -3%, #FFFFFF 100%)",
+        "linear-gradient(135deg, #FDF2F8 -3%, #FFFFFF 100%)",
+      height: "100%",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
     },
   },
 ];
@@ -61,7 +70,7 @@ const DoctorChatbotFeatures = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="rounded-[8px] opacity-100 border border-[#DBEAFE] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] p-10 text-left w-full h-full flex flex-col justify-start"
+            className="rounded-[8px] opacity-100 border border-[#DBEAFE] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] p-10 text-left w-full h-full flex flex-col justify-start transition-all duration-200 ease-in-out hover:scale-[1.01] hover:shadow-lg"
             style={feature.customStyle}
           >
             <div className="mb-4 flex justify-center">

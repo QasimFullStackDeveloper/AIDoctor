@@ -14,28 +14,28 @@ const features = [
     icon: icon1,
     title: "Symptom Checker",
     desc: "Advanced AI analysis of your symptoms with instant preliminary diagnosis and recommendations.",
-    bg: "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #ECFEFF -1%, #FFFFFF 99%)",
+    bg: "linear-gradient(135deg, #ECFEFF 0%, #FFFFFF 100%)", 
   },
   {
     img: image2,
     icon: icon2,
     title: "Medication Guidance",
     desc: "Comprehensive information about medications, including dosage, side effects, and interactions.",
-    bg: "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #F0FDF4 -1%, #FFFFFF 99%)",
+    bg: "linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%)", 
   },
   {
     img: image3,
     icon: icon3,
     title: "Mental Health Support",
     desc: "24/7 emotional support and resources for mental health concerns.",
-    bg: "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #F5F3FF -1%, #FFFFFF 99%)",
+    bg: "linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%)", 
   },
   {
     img: image4,
     icon: icon4,
     title: "Connect to a Doctor",
     desc: "Seamless referral to certified healthcare professionals when needed.",
-    bg: "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(0, 0, 0, 0), linear-gradient(135deg, #FEFCE8 -1%, #FFFFFF 99%)",
+    bg: "linear-gradient(135deg, #FEFCE8 0%, #FFFFFF 100%)", 
   },
 ];
 
@@ -49,7 +49,7 @@ const FeaturesSection = () => {
         Fast, friendly, and reliable healthcare advice at your fingertips.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-10 s">
         {features.map((feature, index) => (
           <div
             key={index}
@@ -60,9 +60,8 @@ const FeaturesSection = () => {
               boxShadow:
                 "0px 4px 6px -4px rgba(0, 0, 0, 0.1), 0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
             }}
-            className="p-6 text-left"
-          >
-            <img
+            className="p-6 text-left transition-all duration-200 ease-in-out hover:scale-[1.01] hover:shadow-lg"
+>            <img
               src={feature.img}
               alt={feature.title}
               className="w-full rounded-lg mb-4"
