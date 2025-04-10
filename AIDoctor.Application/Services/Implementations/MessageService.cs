@@ -58,13 +58,13 @@ namespace AIDoctor.Application.Services.Implementations
         }
         public async Task AddMessage(string userId, MessageDTO dTO)
         {
-            var newMessage = new Message
-            {
-                Prompt = dTO.Prompt,
-                ChatID = Guid.Parse(dTO.ChatId),
-                Response = await _botService.GetResponse(dTO.Prompt),
-            };
-            await _messgaeRepository.AddAsync(newMessage);
+            //var newMessage = new Message
+            //{
+            //    Prompt = dTO.Prompt,
+            //    ChatID = Guid.Parse(dTO.ChatId),
+            //    Response = await _botService.GetResponse(dTO.Prompt),
+            //};
+            //await _messgaeRepository.AddAsync(newMessage);
             await _messgaeRepository.SaveChangesAsync();
         }
     }
