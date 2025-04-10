@@ -9,7 +9,7 @@ namespace AIDoctor.Server.Controllers
     [ApiController]
     public class AuthenticatedBaseController : ControllerBase
     {
-        protected int UserId => (int)HttpContext.Items["UserId"];
+        protected string UserId => (string)HttpContext.Items["UserId"];
         protected string UserEmail => (string)HttpContext.Items["UserEmail"];
 
         public AuthenticatedBaseController()
@@ -27,7 +27,7 @@ namespace AIDoctor.Server.Controllers
                 throw new UnauthorizedAccessException("Missing required claims (sub or UserEmail).");
             }
 
-            HttpContext.Items["UserId"] = int.Parse(userIdClaim);
+            HttpContext.Items["UserId"] = userIdClaim;
             HttpContext.Items["UserEmail"] = UserEmailClaim;
         }
     }

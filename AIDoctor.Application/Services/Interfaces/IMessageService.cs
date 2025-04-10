@@ -31,7 +31,7 @@ namespace AIDoctor.Application.Services.Interfaces
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="userId"/> or <paramref name="dTO"/> is null.</exception>
         /// <exception cref="InvalidOperationException">Thrown when the message cannot be added due to invalid data.</exception>
-        Task AddMessage(string userId, MessageDTO dTO);
+        Task<string> AddMessage(string userId, MessageDTO dTO);
 
         /// <summary>
         /// Retrieves all favorite messages for a specific user.
