@@ -9,43 +9,41 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 w-full overflow-x-hidden">
       <div className="max-w-screen-xl mx-auto px-6 pt-12">
-        <div className="flex flex-col lg:flex-row justify-between items-start space-y-10 lg:space-y-0 gap-x-12">
+        {/* Flex container to keep 4 items in a row */}
+        <div className="flex flex-wrap justify-between gap-12">
           {/* Left Side - Logo and Description */}
-          <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start space-y-4">
+          <div className="flex-1 min-w-[250px]">
             <div className="w-20 h-20">
               <Logo />
             </div>
             <p className="text-sm text-center lg:text-left text-gray-400">
               Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
             </p>
-            <p className="text-sm text-center lg:text-left text-gray-400">
-              Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
-            </p>
           </div>
 
-          {/* Middle - Quick Links & Legal */}
-          <div className="w-full lg:w-1/3 flex flex-col lg:flex-row justify-between space-y-6 lg:space-y-0">
-            <div>
-              <h3 className="text-white font-semibold text-lg mb-3">Quick Links</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Home</li>
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Services</li>
-                <li className="hover:text-white cursor-pointer transition-all duration-300">About</li>
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Contact</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold text-lg mb-3">Legal</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Privacy Policy</li>
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Terms of Service</li>
-                <li className="hover:text-white cursor-pointer transition-all duration-300">Cookie Policy</li>
-              </ul>
-            </div>
+          {/* Middle - Quick Links */}
+          <div className="flex-1 min-w-[250px]">
+            <h3 className="text-white font-semibold text-lg mb-3">Quick Links</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Home</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Services</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">About</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Contact</li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div className="flex-1 min-w-[250px]">
+            <h3 className="text-white font-semibold text-lg mb-3">Legal</h3>
+            <ul className="space-y-2 text-gray-400">
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Privacy Policy</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Terms of Service</li>
+              <li className="hover:text-white cursor-pointer transition-all duration-300">Cookie Policy</li>
+            </ul>
           </div>
 
           {/* Right - Social Media Icons */}
-          <div className="w-full lg:w-1/4 flex flex-col items-center lg:items-start mt-6 lg:mt-0">
+          <div className="flex-1 min-w-[250px]">
             <h3 className="text-white font-semibold text-lg mb-3">Connect</h3>
             <div className="flex space-x-2">
               <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full">
@@ -63,6 +61,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Bottom Footer with copyright */}
         <div className="mt-10">
           <div className="w-[100vw] border-t border-gray-700 relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw]">
             <div className="max-w-screen-xl mx-auto py-4 text-center text-gray-500 text-sm px-6">
