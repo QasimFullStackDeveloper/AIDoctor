@@ -2,7 +2,7 @@
 
 namespace AIDoctor.Domain.Interfaces
 {
-    public interface IChatRepository : IGenricRepository<Chat, Guid>
+    public interface IChatRepository : IGenericRepository<Chat, Guid>
     {
         /// <summary>
         /// Asynchronously retrieves all chat records associated with a specific user ID.

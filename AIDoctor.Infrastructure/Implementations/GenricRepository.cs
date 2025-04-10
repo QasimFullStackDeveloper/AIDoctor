@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AIDoctor.Infrastructure.Implementations
 {
-    public class GenericRepository<TClass, Tkey> : IGenricRepository<TClass, Tkey>
+    public class GenericRepository<TClass, Tkey> : IGenericRepository<TClass, Tkey>
         where TClass : class
     {
         private readonly AIDoctorDBContext _context;
@@ -51,7 +51,7 @@ namespace AIDoctor.Infrastructure.Implementations
         }
 
 
-        public async Task SaveAsync()
+        public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }

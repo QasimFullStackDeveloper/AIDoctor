@@ -24,7 +24,7 @@ namespace AIDoctor.Application.Services.Implementations
             };
 
             await _chatRepository.AddAsync(newChat);
-            await _chatRepository.SaveAsync();
+            await _chatRepository.SaveChangesAsync();
 
             return newChat.ChatID;
         }
