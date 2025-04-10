@@ -23,7 +23,7 @@ const App = () => {
     
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/index" element={<HomePage />} />
         <Route path="/premium-plans" element={<PremiumPlans />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup/two-factor" element={<SignupTwoFactorAuth />} />

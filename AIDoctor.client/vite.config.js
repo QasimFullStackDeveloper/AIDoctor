@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite'
+import autoprefixer from 'autoprefixer';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -53,7 +54,8 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // Vite Configuration
 export default defineConfig({
-    plugins: [plugin(), tailwindcss(),],
+    base:"/index/",
+    plugins: [plugin(), tailwindcss(),autoprefixer(),],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -66,7 +68,7 @@ export default defineConfig({
                 secure: false,
             }
         },
-        port: parseInt(env.DEV_SERVER_PORT || '5173'), // Default Vite port
+        port: parseInt(env.DEV_SERVER_PORT || '5173'), 
         https: fs.existsSync(certFilePath) && fs.existsSync(keyFilePath)
             ? {
                 key: fs.readFileSync(keyFilePath),

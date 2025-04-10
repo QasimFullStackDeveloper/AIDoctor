@@ -1,61 +1,84 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi";
-import Logo from "./Logo";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiMenu, FiX } from 'react-icons/fi';
+import Logo from './Logo.jsx';
 
-const Navbar = ({colour}) => {
+const Navbar = ({ colour }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className={`${colour} opacity-[1] shadow-md shadow-[rgba(0,0,0,0.1)] py-[0.8%] px-[3%] flex justify-between items-center w-full relative z-10`}>
-      
-      {/* Logo and Title */}
-      <div className="flex items-center gap-[2vw]">
-        <div className="w-[5vw] h-[5vw] flex items-center">
-      <Logo/>
+    <nav className={`${colour} py-2 px-4 md:px-10 2xl:px-20 2xl:py-4 shadow-md w-full z-20`}>
+      <div className="max-w-[1920px] mx-auto flex justify-between items-center relative">
+        {/* Left Section: Logo + Links */}
+        <div className="flex items-center gap-10 2xl:gap-16">
+          <div className="flex items-center gap-4 ml-4 md:ml-5 2xl:gap-6">
+            <div className="w-10 h-10 2xl:w-14 2xl:h-14 flex items-center">
+              <Logo />
+            </div>
+            <span className="text-xl font-bold text-blue-900 2xl:text-3xl">AI Doctor</span>
+          </div>
+
+          {/* Menu links */}
+          <ul className="hidden md:flex items-center gap-8 2xl:gap-14 text-base 2xl:text-2xl ml-8 text-gray-700">
+            <li className="hover:text-blue-600 font-bold">
+              <Link to="/index">Home</Link>
+            </li>
+            <li className="hover:text-blue-600 font-bold cursor-pointer">Services</li>
+            <li className="hover:text-blue-600 font-bold cursor-pointer">About</li>
+            <li className="hover:text-blue-600 font-bold cursor-pointer">Contact</li>
+            <li className="hover:text-blue-600 font-bold">
+              <Link to="/premium-plans">Pricing</Link>
+            </li>
+          </ul>
         </div>
-        <span className="text-[1.8vw] font-bold text-blue-900">AI Doctor</span>
+
+        {/* Auth Buttons (desktop) */}
+        <div className="hidden md:flex gap-4 2xl:gap-6 mr-4 md:mr-10">
+          <Link to="/login">
+            <button className="border border-blue-500 text-blue-500 px-5 py-2 2xl:px-6 2xl:py-3 rounded-lg hover:bg-blue-500 hover:text-white transition text-sm 2xl:text-lg">
+              Login
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button className="bg-blue-600 text-white px-5 py-2 2xl:px-6 2xl:py-3 rounded-lg hover:bg-blue-700 transition text-sm 2xl:text-lg">
+              Sign Up
+            </button>
+          </Link>
+        </div>
+
+        {/* Mobile menu toggle */}
+        <button
+          className="md:hidden text-blue-900 text-3xl absolute right-4"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FiX /> : <FiMenu />}
+        </button>
       </div>
 
-      {/* Mobile Menu Button */}
-      <button
-        className="md:hidden text-blue-900 text-[7vw] z-20"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        {menuOpen ? <FiX /> : <FiMenu />}
-      </button>
-
-      {/* Navigation Links */}
-      <ul
-        className={`md:flex items-center gap-[3vw] text-[1.4vw] text-gray-700 font-medium md:static md:bg-transparent md:shadow-none md:p-0 md:w-auto transition-all duration-300 ease-in-out
-          absolute left-0 top-full w-full bg-blue-100 shadow-md px-[5%] py-[1.5%] z-10 ${
-            menuOpen ? "block" : "hidden"
-          }`}
-      >
-        <li className="hover:text-blue-600 cursor-pointer">
-          <Link to="/">Home</Link>
-        </li>
-        <li className="hover:text-blue-600 cursor-pointer">Services</li>
-        <li className="hover:text-blue-600 cursor-pointer">About</li>
-        <li className="hover:text-blue-600 cursor-pointer">Contact</li>
-        <li className="hover:text-blue-600 cursor-pointer">
-          <Link to="/premium-plans">Premium</Link>
-        </li>
-      </ul>
-
-      {/* Auth Buttons */}
-      <div className="hidden md:flex gap-[2vw]">
-        <Link to="/login">
-          <button className="border border-blue-500 text-blue-500 px-[2vw] py-[0.6vw] rounded-lg hover:bg-blue-500 hover:text-white transition text-[1.2vw]">
-            Login
-          </button>
-        </Link>
-        <Link to="/signup">
-          <button className="bg-blue-600 text-white px-[2vw] py-[0.6vw] rounded-lg hover:bg-blue-700 transition text-[1.2vw]">
-            Sign Up
-          </button>
-        </Link>
-      </div>
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-blue-50 rounded-lg shadow-md mt-2 mx-4 px-4 py-4 space-y-3">
+          <Link to="/index" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-medium hover:text-blue-600">
+            Home
+          </Link>
+          <span className="block text-gray-800 font-medium hover:text-blue-600">Services</span>
+          <span className="block text-gray-800 font-medium hover:text-blue-600">About</span>
+          <span className="block text-gray-800 font-medium hover:text-blue-600">Contact</span>
+          <Link to="/premium-plans" onClick={() => setMenuOpen(false)} className="block text-gray-800 font-medium hover:text-blue-600">
+            Pricing
+          </Link>
+          <Link to="/login" onClick={() => setMenuOpen(false)}>
+            <button className="w-full border border-blue-500 text-blue-500 py-2 rounded-lg hover:bg-blue-500 hover:text-white transition text-sm">
+              Login
+            </button>
+          </Link>
+          <Link to="/signup" onClick={() => setMenuOpen(false)}>
+            <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition text-sm">
+              Sign Up
+            </button>
+          </Link>
+        </div>
+      )}
     </nav>
   );
 };

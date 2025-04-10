@@ -36,10 +36,10 @@ const SignupTwoFactorAuth = () => {
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-blue-100 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[450px] xl:h-[600px] text-center flex flex-col justify-between">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[450px] xl:h-[600px] text-center flex flex-col justify-between custom_form">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
-        <Logo/>
+          <Logo />
         </div>
 
         {/* Title */}
@@ -99,7 +99,7 @@ const SignupTwoFactorAuth = () => {
               maxLength={1}
               value={digit}
               onChange={(e) => handleCodeChange(index, e.target.value)}
-              className="w-10 h-10 text-center text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              className="w-12 h-12 text-center text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
             />
           ))}
         </div>
@@ -118,7 +118,7 @@ const SignupTwoFactorAuth = () => {
 
         {/* Verify Button */}
         <Link to="/signup/2fa-success">
-          <button className="w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105">
+          <button className="min-w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105">
             Verify
           </button>
         </Link>
@@ -133,6 +133,15 @@ const SignupTwoFactorAuth = () => {
           </Link>
         </div>
       </div>
+      <style jsx>{`
+      @media (min-width: 1400px) and (min-height: 1079px) {
+    .custom_form {
+      width: 550px;  
+      height: 65vh;  
+      padding: 40px;  
+    }
+  }
+`}</style>
     </div>
   );
 };

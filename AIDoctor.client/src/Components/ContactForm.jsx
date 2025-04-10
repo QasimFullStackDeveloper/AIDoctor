@@ -1,24 +1,24 @@
-import { useState } from "react";
+import { useState } from 'react';
 
- const ContactForm=()=> {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault();s
+    e.preventDefault();
     if (!name || !email || !message) {
-      setError("All fields are required");
+      setError('All fields are required');
       return;
     }
-    setError("");
-    alert("Message sent successfully!");
+    setError('');
+    alert('Message sent successfully!');
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 h-[70%] rounded-lg shadow-2xl w-11/12 max-w-2xl">
+    <div className="flex justify-center items-center min-h-screen bg-[#F9FAFB] opacity-100 ">
+      <div className=" p-8 h-[70%]  w-11/12 max-w-2xl">
         <h2 className="text-2xl md:text-3xl font-semibold text-center">
           Got Questions? Reach Out!
         </h2>
@@ -28,7 +28,9 @@ import { useState } from "react";
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-base font-medium text-gray-700">Name</label>
+            <label className="block text-base font-medium text-gray-700">
+              Name
+            </label>
             <input
               type="text"
               placeholder="Your name"
@@ -38,7 +40,9 @@ import { useState } from "react";
             />
           </div>
           <div>
-            <label className="block text-base font-medium text-gray-700">Email</label>
+            <label className="block text-base font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               placeholder="your@email.com"
@@ -48,23 +52,23 @@ import { useState } from "react";
             />
           </div>
           <div>
-            <label className="block text-base font-medium text-gray-700">Message</label>
+            <label className="block text-base font-medium text-gray-700">
+              Message
+            </label>
             <textarea
               placeholder="Your message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="mt-2 block w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
-            ></textarea>
+              className="mt-2 block w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"></textarea>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
+            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             Send Message
           </button>
         </form>
       </div>
     </div>
   );
-}
-export default ContactForm
+};
+export default ContactForm;
