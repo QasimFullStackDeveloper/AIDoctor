@@ -1,10 +1,7 @@
 using AIDoctor.Application;
-using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Infrastructure;
 using AIDoctor.Infrastructure.Utils.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;

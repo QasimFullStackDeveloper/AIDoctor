@@ -1,13 +1,6 @@
 ﻿using AIDoctor.Application.DTOs.Auth;
-using AIDoctor.Application.Services.Implementations;
 using AIDoctor.Application.Services.Interfaces;
-using AIDoctor.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Text;
 
 namespace AIDoctor.Server.Controllers
 {
@@ -21,14 +14,15 @@ namespace AIDoctor.Server.Controllers
         {
             _authService = authService;
         }
+
         //                                                  Registration
         /// <summary>
         /// Registers a new user with the provided SignUpDTO data transfer object.
         /// </summary>
-        /// <param name="dTO">The SignUpDTO containing user registration details.</param>
+        /// <param name="dTO">The SignUpDTO containing user registration details, including full name, email, and password.</param>
         /// <returns>A Task representing the asynchronous operation.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("Create")]
+        [HttpPost("register")]
         public async Task<IActionResult> SignupUser([FromBody] SignUpDTO dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
@@ -37,69 +31,66 @@ namespace AIDoctor.Server.Controllers
 
             return Ok();
         }
-        
-        
-        //                                                  Two Factor Authentication
 
+        //                                                  Two Factor Authentication
 
         /// <summary>
         /// Generates a TOTP (Time-based One-Time Password) for two-factor authentication using an authenticator app.
         /// </summary>
-        /// <param name="userId">The ID of the user.</param>
-        /// <returns>A Task representing the asynchronous operation, containing an object with the manual setup key and OTP auth URL.</returns>
+        /// <param name="userEmail">The email address of the user.</param>
+        /// <returns>A Task representing the asynchronous operation, containing an object with the manual setup key and OTP auth URL for the authenticator app.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("TFAByApp")]
-        public async Task<IActionResult> TwoFactorAuthenticationByApp([FromBody] string userId)
+        [HttpPost("two-factor/setup-app")]
+        public async Task<IActionResult> TwoFactorAuthenticationByApp([FromBody] string userEmail)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
 
-            var dTO = await _authService.TwoFactorAuthenticationByAppAsync(userId);
+            var dTO = await _authService.TwoFactorAuthenticationByAppAsync(userEmail);
 
             return Ok(dTO);
         }
 
         /// <summary>
-        /// Generates an OTP (One-Time Password) and sends it to the user's email for two-factor authentication.
+        /// Sends a one-time password (OTP) to the user's email for two-factor authentication.
         /// </summary>
-        /// <param name="userId">The ID of the user.</param>
+        /// <param name="userEmail">The UserEmailDto containing the user's email address.</param>
         /// <returns>A Task representing the asynchronous operation.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("TFAByEmail")]
-        public async Task<IActionResult> TwoFactorAuthenticationByEmail([FromBody] string userId)
+        [HttpPost("two-factor/setup-email")]
+        public async Task<IActionResult> TwoFactorAuthenticationByEmail([FromBody] UserEmailDto userEmail)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
 
-            await _authService.TwoFactorAuthenticationByEmailAsync(userId);
+            await _authService.TwoFactorAuthenticationByEmailAsync(userEmail.Email);
             return Ok();
         }
 
         /// <summary>
-        /// Enables two-factor authentication for the user by verifying the provided OTP.
+        /// Enables two-factor authentication for the user by verifying the provided OTP and token provider.
         /// </summary>
         /// <param name="dTO">The EnableTfaDTO containing user ID, token provider, and OTP.</param>
-        /// <returns>A Task representing the asynchronous operation, containing a JWT token.</returns>
-        /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("SetupTFA")]
+        /// <returns>A Task representing the asynchronous operation, containing a JWT token upon successful verification.</returns>
+        /// <exception cref="Exception">Thrown when model state is invalid or token provider is invalid.</exception>
+        [HttpPost("two-factor/enable")]
         public async Task<IActionResult> EnableTwoFactorAuthention([FromBody] EnableTfaDTO dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
             if (dTO.tokenProvider.ToLower() != "email" && dTO.tokenProvider.ToLower() != "authenticator") throw new Exception("Invalid TokenProvider, " +
                 "It must be either Email or Authentuicator");
-            
+
             var token = await _authService.EnableTwoFactorAuthentication(dTO.userId, dTO.tokenProvider, dTO.oTP);
 
             return Ok(token);
         }
 
-
         //                                  Login
         /// <summary>
         /// Logs in a user with the provided LoginDTO data transfer object.
         /// </summary>
-        /// <param name="dTO">The LoginDTO containing user login details.</param>
-        /// <returns>A Task representing the asynchronous operation, containing a JWT token.</returns>
+        /// <param name="dTO">The LoginDTO containing user login details, including email, password, and optional "Remember Me" flag.</param>
+        /// <returns>A Task representing the asynchronous operation, containing a JWT token upon successful login.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
@@ -109,7 +100,6 @@ namespace AIDoctor.Server.Controllers
             return Ok(token);
         }
 
-
         //                                  Forget/Reset Password
         /// <summary>
         /// Initiates the password reset process by generating a password reset token and sending a reset link to the user's email.
@@ -117,7 +107,7 @@ namespace AIDoctor.Server.Controllers
         /// <param name="email">The email address of the user who wants to reset their password.</param>
         /// <returns>A Task representing the asynchronous operation.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("ForgetPassword")]
+        [HttpPost("password/forgot")]
         public async Task<IActionResult> ForgetPassword([FromBody] string email)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
@@ -133,11 +123,26 @@ namespace AIDoctor.Server.Controllers
         /// <param name="dTO">A ResetPasswordDTO containing the user's email, reset token, new password, and confirmation of the new password.</param>
         /// <returns>A Task representing the asynchronous operation.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("ResetPassword")]
+        [HttpPost("password/reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
             await _authService.RestPasswordAsync(dTO);
+            return Ok();
+        }
+
+        //                                  Email Confirmation
+        /// <summary>
+        /// Sends a confirmation email to the user to verify their email address.
+        /// </summary>
+        /// <param name="dTO">The UserEmailDto containing the user's email address.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        /// <exception cref="Exception">Thrown when model state is invalid.</exception>
+        [HttpPost("account/confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] UserEmailDto dTO)
+        {
+            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            await _authService.SendConfirmationEmailAsync(dTO.Email);
             return Ok();
         }
     }

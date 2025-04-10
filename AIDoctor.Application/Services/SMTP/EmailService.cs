@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace AIDoctor.Application.Services.SMTP
 {
@@ -65,7 +60,7 @@ namespace AIDoctor.Application.Services.SMTP
                 $"If you didn’t request this, please ignore this email.\r\n" +
                 $"Thanks,\r\n" +
                 $"AiDoctor";
-            await SendEmailAsync(recieverEmail,subject, body);
+            await SendEmailAsync(recieverEmail, subject, body);
         }
 
         public async Task SendResetPasswordConfirmationAsync(string recieverEmail)
@@ -79,5 +74,16 @@ namespace AIDoctor.Application.Services.SMTP
             await SendEmailAsync(recieverEmail, subject, body);
         }
 
+        public async Task SendConfirmationEmailLinkAsync(string recieverEmail, string confirmationLink)
+        {
+            var subject = "Confirm Your Email";
+            var body = $"<strong>Hello Dear User</strong>,\r\n" +
+                $"Thank you for joining AiDoctor! Please click the link below to confirm your email address and get started:\r\n" +
+                $"<a href=\"{confirmationLink}\">Confirm Your Email</a>\r\n" +
+                $"This link will expire in 24 hours. If you didn’t sign up, feel free to ignore this email—no action is needed.\r\n" +
+                $"Best regards,\r\n" +
+                $"The AiDoctor Team";
+            await SendEmailAsync(recieverEmail, subject, body);
+        }
     }
 }

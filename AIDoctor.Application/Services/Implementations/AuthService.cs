@@ -7,11 +7,6 @@ using AIDoctor.Domain.Enums;
 using AIDoctor.Domain.Utils.CustomExceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace AIDoctor.Application.Services.Implementations
 {
@@ -30,6 +25,17 @@ namespace AIDoctor.Application.Services.Implementations
             _emailService = emailService;
             _configuration = configuration;
         }
+
+
+        // Find User by Email
+
+        private async Task<User> GetUserAsync(string email)
+        {
+            ArgumentNullException.ThrowIfNullOrWhiteSpace(email);
+            var user = await _userManager.FindByEmailAsync(email) ?? throw new KeyNotFoundException("User Not Found");
+            return user;
+        }
+
 
         //                                  Registeration/Signup
         public async Task ResgisterUserAsync(SignUpDTO dto)
@@ -53,12 +59,10 @@ namespace AIDoctor.Application.Services.Implementations
 
         //              Create TOTP via Authenticator App
 
-        public async Task<object> TwoFactorAuthenticationByAppAsync(string userId)
+        public async Task<object> TwoFactorAuthenticationByAppAsync(string userEmail)
         {
-            ArgumentException.ThrowIfNullOrEmpty(userId);
-            var user = await _userManager.FindByIdAsync(userId);
-
-            ArgumentNullException.ThrowIfNull(user);
+            ArgumentException.ThrowIfNullOrEmpty(userEmail);
+            var user = await GetUserAsync(userEmail);
 
 
             await _userManager.ResetAuthenticatorKeyAsync(user);
@@ -76,12 +80,12 @@ namespace AIDoctor.Application.Services.Implementations
 
         //              Create OTP via Email
 
-        public async Task TwoFactorAuthenticationByEmailAsync(string userId)
+        public async Task TwoFactorAuthenticationByEmailAsync(string userEmail)
         {
-            ArgumentException.ThrowIfNullOrEmpty(userId);
+            ArgumentException.ThrowIfNullOrEmpty(userEmail);
 
-            var user = await _userManager.FindByIdAsync(userId);
-            ArgumentNullException.ThrowIfNull(user);
+            var user = await GetUserAsync(userEmail);
+
             ArgumentException.ThrowIfNullOrWhiteSpace(user.Email);
 
             var token = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
@@ -91,15 +95,17 @@ namespace AIDoctor.Application.Services.Implementations
         }
 
 
+
+
         //              Verify (T)OTP to Enable Two Factor Authentication
 
-        public async Task<string> EnableTwoFactorAuthentication(string userId, string tokenProvider, string oTP)
+        public async Task<string> EnableTwoFactorAuthentication(string userEmail, string tokenProvider, string oTP)
         {
-            ArgumentException.ThrowIfNullOrEmpty(userId);
+            ArgumentException.ThrowIfNullOrEmpty(userEmail);
             ArgumentException.ThrowIfNullOrEmpty(tokenProvider);
             ArgumentException.ThrowIfNullOrWhiteSpace(oTP);
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await GetUserAsync(userEmail);
             ArgumentNullException.ThrowIfNull(user);
 
             var result = await _userManager.VerifyTwoFactorTokenAsync(user, tokenProvider, oTP);
@@ -118,12 +124,14 @@ namespace AIDoctor.Application.Services.Implementations
         {
             ArgumentNullException.ThrowIfNull(dTO);
 
-            var user = await _userManager.FindByEmailAsync(dTO.Email);
-
-            if (user == null) throw new KeyNotFoundException("User Not Found");
+            var user = await _userManager.FindByEmailAsync(dTO.Email) ?? throw new KeyNotFoundException("User Not Found");
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
-            if (!isEmailConfirmed) throw new UserNotConfirmedException("Email is not Confirmed");
+            if (!isEmailConfirmed)
+            {
+                await SendConfirmationEmailAsync(user);
+                throw new UserNotConfirmedException("Email is not Confirmed");
+            }
 
             var result = await _signInManager.PasswordSignInAsync(user, dTO.Password, dTO.RememberMe, true);
 
@@ -148,10 +156,10 @@ namespace AIDoctor.Application.Services.Implementations
             return token;
         }
 
-        
 
 
-        
+
+
 
         //              Forget Passwords
 
@@ -160,8 +168,6 @@ namespace AIDoctor.Application.Services.Implementations
             ArgumentNullException.ThrowIfNullOrWhiteSpace(_email);
 
             var user = await _userManager.FindByEmailAsync(_email);
-
-            ArgumentNullException.ThrowIfNull(user);
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -185,13 +191,40 @@ namespace AIDoctor.Application.Services.Implementations
 
             var user = await _userManager.FindByEmailAsync(dTO.Email);
             ArgumentNullException.ThrowIfNull(user);
-            
+
             var result = await _userManager.ResetPasswordAsync(user, dTO.Token, dTO.NewPassword);
             if (!result.Succeeded) throw new InvalidOperationException("Something went wrong");
 
             await _emailService.SendResetPasswordConfirmationAsync(dTO.Email);
 
             return;
+        }
+
+
+        // Confimation Email
+
+        private async Task SendConfirmationEmailAsync(User user)
+        {
+            if (user is null || string.IsNullOrWhiteSpace(user.Email)) throw new ArgumentNullException(nameof(user));
+
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var confirmationLink = $"{_configuration["ClientSettings:Url"]}/Account/confirmemail?email={user.Email}&token={token}";
+            await _emailService.SendConfirmationEmailLinkAsync(user.Email, confirmationLink);
+        }
+
+
+        /// <summary>
+        /// Sends a confirmation email to the specified user by their email address.
+        /// </summary>
+        /// <param name="userEmail">The email address of the user to whom the confirmation email will be sent.</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the user with the specified email is not found.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the user or their email is null.</exception>
+        public async Task SendConfirmationEmailAsync(string userEmail)
+        {
+            var user = await GetUserAsync(userEmail);
+            await SendConfirmationEmailAsync(user);
         }
     }
 }

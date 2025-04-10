@@ -1,19 +1,10 @@
 ﻿using AIDoctor.Domain.Utils.CustomExceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.ExceptionHandling;
 
 namespace AIDoctor.Infrastructure.Utils.Exceptions
 {
@@ -76,7 +67,7 @@ namespace AIDoctor.Infrastructure.Utils.Exceptions
                     problemDetails.Title = "Argument Out of Range";
                     break;
                 case UserLockedOutException _:
-                    problemDetails.Status = (int)HttpStatusCode.Forbidden;
+                    problemDetails.Status = (int)HttpStatusCode.Locked;
                     problemDetails.Title = "User Locked Out";
                     break;
                 case UserNotConfirmedException _:

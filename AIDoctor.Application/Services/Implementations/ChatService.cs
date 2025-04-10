@@ -1,17 +1,11 @@
 ﻿using AIDoctor.Application.DTOs;
 using AIDoctor.Application.Services.Interfaces_BaseClasses;
-using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Domain.Entities;
 using AIDoctor.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIDoctor.Application.Services.Implementations
 {
-    public class ChatService :  IChatService
+    public class ChatService : IChatService
     {
         private readonly IChatRepository _chatRepository;
 

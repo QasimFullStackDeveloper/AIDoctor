@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIDoctor.Server.Controllers
@@ -14,7 +13,7 @@ namespace AIDoctor.Server.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index() 
+        public ActionResult Index()
         {
             return Ok("Hello World");
         }

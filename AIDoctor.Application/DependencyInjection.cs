@@ -2,11 +2,6 @@
 using AIDoctor.Application.Services.Interfaces;
 using AIDoctor.Application.Services.SMTP;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIDoctor.Application
 {
