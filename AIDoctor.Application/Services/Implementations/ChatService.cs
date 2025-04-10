@@ -13,7 +13,7 @@ namespace AIDoctor.Application.Services.Implementations
         {
             _chatRepository = chatRepository;
         }
-        public async Task<Guid> CreateChat(Guid userId)
+        public async Task<Guid> CreateChatAsync(string userId)
         {
             var newChat = new Chat
             {
@@ -24,12 +24,12 @@ namespace AIDoctor.Application.Services.Implementations
             };
 
             await _chatRepository.AddAsync(newChat);
-            await _chatRepository.SaveAsync();
+            await _chatRepository.SaveChangesAsync();
 
             return newChat.ChatID;
         }
 
-        public async Task<IEnumerable<ChatHistoryDTO>> GetAllChatHistories(Guid userId)
+        public async Task<IEnumerable<ChatHistoryDTO>> GetAllChatHistoriesAsync(string userId)
         {
             var chats = await _chatRepository.GetAllChatsByUserIdAsync(userId) ?? throw new Exception("No data found");
 

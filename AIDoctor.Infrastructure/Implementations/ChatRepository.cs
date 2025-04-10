@@ -7,7 +7,7 @@ namespace AIDoctor.Infrastructure.Implementations
 {
     public class ChatRepository(AIDoctorDBContext context) : GenericRepository<Chat, Guid>(context), IChatRepository
     {
-        public async Task<IEnumerable<Chat>> GetAllChatsByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<Chat>> GetAllChatsByUserIdAsync(string userId)
         {
             var chats = await DbSet.Where(c => string.Equals(c.UserID, userId.ToString())).ToListAsync();
 

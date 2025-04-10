@@ -1,6 +1,6 @@
 ﻿namespace AIDoctor.Domain.Interfaces
 {
-    public interface IGenricRepository<TClass, Tkey>
+    public interface IGenericRepository<TClass, Tkey>
         where TClass : class
     {
         Task<TClass> GetByIdAsync(Tkey key);
@@ -8,7 +8,7 @@
         Task AddAsync(TClass entity);
         Task UpdateAsync(TClass entity);
         Task DeleteAsync(Tkey key);
-        Task SaveAsync();
+        Task SaveChangesAsync();
 
     }
 }

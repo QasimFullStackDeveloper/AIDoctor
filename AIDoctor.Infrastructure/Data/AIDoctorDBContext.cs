@@ -8,7 +8,7 @@ namespace AIDoctor.Infrastructure.Data
     {
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<SavedQuestion> SavedQuestions { get; set; }
+        public DbSet<FavouriteMessages> SavedQuestions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
