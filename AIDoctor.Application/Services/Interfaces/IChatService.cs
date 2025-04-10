@@ -1,11 +1,4 @@
-﻿using AIDoctor.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AIDoctor.Application.Services.Interfaces_BaseClasses
+﻿namespace AIDoctor.Application.Services.Interfaces_BaseClasses
 {
     public interface IChatService
     {

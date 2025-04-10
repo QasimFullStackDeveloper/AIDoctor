@@ -1,11 +1,6 @@
 ﻿using AIDoctor.Domain.Interfaces;
 using AIDoctor.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIDoctor.Infrastructure.Implementations
 {
@@ -56,7 +51,7 @@ namespace AIDoctor.Infrastructure.Implementations
         }
 
 
-        public  async Task SaveAsync()
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
