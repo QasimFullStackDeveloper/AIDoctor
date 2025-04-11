@@ -1,4 +1,5 @@
 using AIDoctor.Application;
+using AIDoctor.Application.Services.ChatBot;
 using AIDoctor.Application.Services.SMTP;
 using AIDoctor.Infrastructure;
 using AIDoctor.Infrastructure.Utils.Exceptions;
@@ -31,7 +32,7 @@ try
     builder.Configuration.AddEnvironmentVariables();
     builder.Services.AddProblemDetails(); // Enables standardized error responses
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-    builder.Services.AddHttpContextAccessor();
+    builder.Services.Configure<ChatBotSettings>(builder.Configuration.GetSection("APIConfigurations"));
 
 
 
