@@ -13,7 +13,7 @@ namespace AIDoctor.Server.Controllers
         private readonly IChatService _chatService;
         private readonly IMessageService _messageService;
 
-        public ChatController(IChatService chatService, IMessageService messageService, HttpContextAccessor httpContextAccessor) : base(httpContextAccessor) 
+        public ChatController(IChatService chatService, IMessageService messageService)
         {
             _chatService = chatService;
             _messageService = messageService;

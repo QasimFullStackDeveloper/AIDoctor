@@ -13,7 +13,7 @@ namespace AIDoctor.Server.Controllers
     {
         private readonly IMessageService _messageService;
 
-        public MessageController(IMessageService messageService, HttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public MessageController(IMessageService messageService)
         {
             _messageService = messageService;
         }
@@ -27,8 +27,19 @@ namespace AIDoctor.Server.Controllers
 
             return CreatedAtAction( nameof(AddMessageAsync),result);
         }
+        [HttpPost("favourite")]
+        public async Task<IActionResult> AddFavouriteMessage([FromBody] string messageId)
+        {
+            await _messageService.AddMessageToFavourites(UserId, Guid.Parse(messageId));
+            return Ok("Message added to favourites");
+        }
 
-
+        [HttpGet("favourites")]
+        public async Task<IActionResult> GetAllFavouriteMessages()
+        {
+            var result = await _messageService.GetAllFavouriteMessagesByUserId(UserId);
+            return Ok(result);
+        }
 
     }
 }

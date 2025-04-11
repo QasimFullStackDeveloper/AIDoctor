@@ -66,6 +66,7 @@ try
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"]
         };
+        options.MapInboundClaims = false;
     });
 
 

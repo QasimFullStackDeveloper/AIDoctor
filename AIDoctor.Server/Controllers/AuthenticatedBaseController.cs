@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AIDoctor.Server.Utils.Filters;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace AIDoctor.Server.Controllers
 {
-
-    [Route("api/[controller]")]
-    [ApiController]
+    [AuthenticateUser]
     public class AuthenticatedBaseController : ControllerBase
     {
         protected string UserId => HttpContext.Items["UserId"] as string ?? throw new UnauthorizedAccessException("UserId is not available.");
@@ -14,21 +14,7 @@ namespace AIDoctor.Server.Controllers
 
         public AuthenticatedBaseController()
         {
-            if (HttpContext?.User?.Identity?.IsAuthenticated != true)
-            {
-                throw new UnauthorizedAccessException("Authentication required.");
-            }
-
-            var userIdClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-            var userEmailClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
-
-            if (string.IsNullOrEmpty(userIdClaim) || string.IsNullOrEmpty(userEmailClaim))
-            {
-                throw new UnauthorizedAccessException("Missing required claims (sub or UserEmail).");
-            }
-
-            HttpContext.Items["UserId"] = userIdClaim;
-            HttpContext.Items["UserEmail"] = userEmailClaim;
+            
         }
     }
 }
