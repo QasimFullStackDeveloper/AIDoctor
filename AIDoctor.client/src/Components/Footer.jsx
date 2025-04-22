@@ -7,68 +7,53 @@ import Logo from "./Logo";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 w-full overflow-x-hidden">
-      <div className="max-w-screen-xl mx-auto px-6 pt-12">
-        {/* Flex container to keep 4 items in a row */}
-        <div className="flex flex-wrap justify-between gap-12">
-          {/* Left Side - Logo and Description */}
-          <div className="flex-1 min-w-[250px]">
-            <div className="w-20 h-20">
+    <footer className="bg-gray-900 text-gray-300 w-full overflow-x-hidden IpadPro:pb-[220px] IpadAir:pb-[40px] surfacePro:pb-[220px] Zenbook:pb-[125px]">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 pt-12 pb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
+          <div className="text-center sm:text-left">
+            <div className="w-20 h-20 mx-auto sm:mx-0 mb-3">
               <Logo />
             </div>
-            <p className="text-sm text-center lg:text-left text-gray-400">
+            <p className="text-sm text-gray-400 leading-relaxed">
               Your trusted AI healthcare companion, available 24/7 for reliable medical guidance and support.
             </p>
           </div>
 
-          {/* Middle - Quick Links */}
-          <div className="flex-1 min-w-[250px]">
+          <div>
             <h3 className="text-white font-semibold text-lg mb-3">Quick Links</h3>
             <ul className="space-y-2 text-gray-400">
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Home</li>
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Services</li>
-              <li className="hover:text-white cursor-pointer transition-all duration-300">About</li>
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Contact</li>
+              <li className="hover:text-white cursor-pointer">Home</li>
+              <li className="hover:text-white cursor-pointer">Services</li>
+              <li className="hover:text-white cursor-pointer">About</li>
+              <li className="hover:text-white cursor-pointer">Contact</li>
             </ul>
           </div>
 
-          {/* Legal */}
-          <div className="flex-1 min-w-[250px]">
+          <div>
             <h3 className="text-white font-semibold text-lg mb-3">Legal</h3>
             <ul className="space-y-2 text-gray-400">
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Privacy Policy</li>
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Terms of Service</li>
-              <li className="hover:text-white cursor-pointer transition-all duration-300">Cookie Policy</li>
+              <li className="hover:text-white cursor-pointer">Privacy Policy</li>
+              <li className="hover:text-white cursor-pointer">Terms of Service</li>
+              <li className="hover:text-white cursor-pointer">Cookie Policy</li>
             </ul>
           </div>
 
-          {/* Right - Social Media Icons */}
-          <div className="flex-1 min-w-[250px]">
+          <div>
             <h3 className="text-white font-semibold text-lg mb-3">Connect</h3>
-            <div className="flex space-x-2">
-              <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full">
-                <img src={Twitter} alt="Twitter" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
-              </a>
-              <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full">
-                <img src={Facebook} alt="Facebook" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
-              </a>
-              <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full">
-                <img src={Linkedin} alt="LinkedIn" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
-              </a>
-              <a href="#" className="w-8 h-8 flex items-center justify-center rounded-full">
-                <img src={Instagram} alt="Instagram" className="w-6 h-6 transition-all duration-300 hover:scale-110" />
-              </a>
+            <div className="flex justify-center sm:justify-start space-x-4">
+              <img src={Twitter} alt="Twitter" className="w-6 h-6 hover:scale-110 transition-transform" />
+              <img src={Facebook} alt="Facebook" className="w-6 h-6 hover:scale-110 transition-transform" />
+              <img src={Linkedin} alt="LinkedIn" className="w-6 h-6 hover:scale-110 transition-transform" />
+              <img src={Instagram} alt="Instagram" className="w-6 h-6 hover:scale-110 transition-transform" />
             </div>
           </div>
         </div>
 
-        {/* Bottom Footer with copyright */}
-        <div className="mt-10">
-          <div className="w-[100vw] border-t border-gray-700 relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw]">
-            <div className="max-w-screen-xl mx-auto py-4 text-center text-gray-500 text-sm px-6">
-              &copy; 2025 Doctor AI. All rights reserved.
-            </div>
-          </div>
+        {/* Copyright aligned to bottom */}
+        <div className="w-[100vw] border-t border-gray-700 relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] mt-10 pt-2">
+          <p className="text-center text-sm text-gray-500">
+            &copy; 2025 Doctor AI. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

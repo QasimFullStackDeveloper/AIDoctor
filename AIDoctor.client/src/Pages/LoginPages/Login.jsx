@@ -8,6 +8,7 @@ import lockIcon from "../../assets/lock.svg";
 import refreshIcon from "../../assets/reload.svg";
 import eyeIcon from "../../assets/eye.svg";
 import eyeOffIcon from "../../assets/eye-off.svg";
+import Loading from "../../Components/Loading";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -23,10 +24,12 @@ const Login = () => {
     email: "",
     password: "",
     inputCode: "",
+    rememberMe: false,
   });
   const [errors, setErrors] = useState({});
   const [code, setCode] = useState(generateRandomCode());
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -53,16 +56,45 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length === 0) {
-      navigate("/login/two-factor");
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:7282/Auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+            rememberMe: formData.rememberMe,
+          }),
+        });
+
+        console.log("Response status:", response.status);
+
+        const result = await response.json();
+        console.log("Response data:", result);
+
+        if (response.ok) {
+          navigate("/login/two-factor");
+        } else {
+          alert(result.message || "Login failed.");
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(validationErrors);
     }
   };
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -76,14 +108,15 @@ const Login = () => {
     <div className="max-h-screen flex flex-col md:flex-row bg-blue-100 overflow-hidden" style={{
       background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
     }}>
+      
       {/* Left Image (hidden on smaller screens) */}
-      <div className="hidden lg:block md:w-1/2 2xl:w-[70%] h-screen">
+      <div className="hidden lg:flex thousand:hidden w-[54%] h-screen min-h-[768px] 2xl:w-[70%]">
         <LeftImage />
       </div>
 
       {/* Right Form Side */}
-      <div className="w-full md:w-1/2 h-screen flex flex-col items-center justify-center px-6 sm:px-6 overflow-auto">
-        <div className="w-full  sm:max-w-[478px] md:mt-[200px] 2xl:mt-0 p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md md:rounded-[12px] shadow-md md:shadow-lg border-t-4 border-blue-500 " 
+      <div className="w-full lg:w-[56%] flex flex-col items-center justify-center px-4 py-6 overflow-auto max-h-screen bg-blue-100">
+        <div className="w-full  sm:max-w-[478px] md:mt-[180px] lg:mt-0 2xl:mt-0 p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md md:rounded-[12px] shadow-md md:shadow-lg border-t-4 border-blue-500 "
           style={{
             background:
               "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(255, 255, 255, 0.9)",
@@ -103,155 +136,163 @@ const Login = () => {
           <p className="text-sm text-center text-gray-500 mb-8">
             Sign in to your account
           </p>
+          {loading ? (
+            <Loading />
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Email address
+                </label>
+                <div className="relative flex items-center">
+                  <img
+                    src={emailIcon}
+                    alt="Email"
+                    className="absolute left-4 w-5 h-5"
+                    style={{ top: "50%", transform: "translateY(-50%)" }}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    placeholder="Enter your email"
+                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${errors.email ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    style={{
+                      borderRadius: "8px",
+                      background: "#FFFFFF",
+                      border: "1px solid #D1D5DB",
+                    }}
+                  />
+                </div>
+                {errors.email && (
+                  <p className="text-xs text-red-500 mt-1">{errors.email}</p>
+                )}
+              </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Email address
-              </label>
-              <div className="relative flex items-center">
-                <img
-                  src={emailIcon}
-                  alt="Email"
-                  className="absolute left-4 w-5 h-5"
-                  style={{ top: "50%", transform: "translateY(-50%)" }}
-                />
+              {/* Password */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Password
+                </label>
+                <div className="relative flex items-center">
+                  <img
+                    src={lockIcon}
+                    alt="Password"
+                    className="absolute left-4 w-5 h-5"
+                    style={{ top: "50%", transform: "translateY(-50%)" }}
+                  />
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    placeholder="Enter your password"
+                    className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${errors.password ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    style={{
+                      borderRadius: "8px",
+                      background: "#FFFFFF",
+                      border: "1px solid #D1D5DB",
+                    }}
+                  />
+                  <img
+                    src={passwordVisible ? eyeOffIcon : eyeIcon}
+                    alt="Toggle Visibility"
+                    onClick={() => setPasswordVisible(!passwordVisible)}
+                    className="absolute right-4 w-5 h-5 cursor-pointer"
+                    style={{ top: "50%", transform: "translateY(-50%)" }}
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-xs text-red-500 mt-1">{errors.password}</p>
+                )}
+              </div>
+
+              {/* Security Code */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Security Code
+                </label>
+                <div className="flex items-center justify-between bg-gray-200 px-4 py-3 rounded-md mb-2">
+                  <span className="text-sm font-semibold tracking-widest text-gray-800">
+                    {code}
+                  </span>
+                  <img
+                    src={refreshIcon}
+                    alt="Refresh"
+                    onClick={() => setCode(generateRandomCode())}
+                    className="w-5 h-5 cursor-pointer"
+                  />
+                </div>
+              </div>
+
+              {/* Code Input Field */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Enter Code
+                </label>
                 <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
+                  type="text"
+                  name="inputCode"
+                  value={formData.inputCode}
                   onChange={handleChange}
                   onFocus={handleFocus}
-                  placeholder="Enter your email"
-                  className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  placeholder="Enter the code shown above"
+                  className={`w-full py-3 px-4 rounded-md text-sm ${errors.inputCode ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   style={{
                     borderRadius: "8px",
                     background: "#FFFFFF",
                     border: "1px solid #D1D5DB",
                   }}
                 />
+                {errors.inputCode && (
+                  <p className="text-xs text-red-500 mt-1">{errors.inputCode}</p>
+                )}
               </div>
-              {errors.email && (
-                <p className="text-xs text-red-500 mt-1">{errors.email}</p>
-              )}
-            </div>
 
-            {/* Password */}
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Password
-              </label>
-              <div className="relative flex items-center">
-                <img
-                  src={lockIcon}
-                  alt="Password"
-                  className="absolute left-4 w-5 h-5"
-                  style={{ top: "50%", transform: "translateY(-50%)" }}
-                />
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  onFocus={handleFocus}
-                  placeholder="Enter your password"
-                  className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                  style={{
-                    borderRadius: "8px",
-                    background: "#FFFFFF",
-                    border: "1px solid #D1D5DB",
-                  }}
-                />
-                <img
-                  src={passwordVisible ? eyeOffIcon : eyeIcon}
-                  alt="Toggle Visibility"
-                  onClick={() => setPasswordVisible(!passwordVisible)}
-                  className="absolute right-4 w-5 h-5 cursor-pointer"
-                  style={{ top: "50%", transform: "translateY(-50%)" }}
-                />
+              {/* Remember & Forgot */}
+              <div className="flex justify-between items-center text-sm text-gray-600">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    className="mr-2 accent-blue-600"
+                    name="rememberMe"
+                    checked={formData.rememberMe}
+                    onChange={(e) =>
+                      setFormData({ ...formData, rememberMe: e.target.checked })
+                    }
+                  />
+
+                  Remember me
+                </label>
+                <Link
+                  to="/login/forgot-password"
+                  className="text-blue-600 hover:underline"
+                >
+                  Forgot password?
+                </Link>
               </div>
-              {errors.password && (
-                <p className="text-xs text-red-500 mt-1">{errors.password}</p>
-              )}
-            </div>
 
-            {/* Security Code */}
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Security Code
-              </label>
-              <div className="flex items-center justify-between bg-gray-200 px-4 py-3 rounded-md mb-2">
-                <span className="text-sm font-semibold tracking-widest text-gray-800">
-                  {code}
-                </span>
-                <img
-                  src={refreshIcon}
-                  alt="Refresh"
-                  onClick={() => setCode(generateRandomCode())}
-                  className="w-5 h-5 cursor-pointer"
-                />
-              </div>
-            </div>
-
-            {/* Code Input Field */}
-            <div>
-              <label className="text-sm font-medium text-gray-700 mb-1 block">
-                Enter Code
-              </label>
-              <input
-                type="text"
-                name="inputCode"
-                value={formData.inputCode}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                placeholder="Enter the code shown above"
-                className={`w-full py-3 px-4 rounded-md text-sm ${
-                  errors.inputCode ? "border-red-500" : "border-gray-300"
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                style={{
-                  borderRadius: "8px",
-                  background: "#FFFFFF",
-                  border: "1px solid #D1D5DB",
-                }}
-              />
-              {errors.inputCode && (
-                <p className="text-xs text-red-500 mt-1">{errors.inputCode}</p>
-              )}
-            </div>
-
-            {/* Remember & Forgot */}
-            <div className="flex justify-between items-center text-sm text-gray-600">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2 accent-blue-600" />
-                Remember me
-              </label>
-              <Link
-                to="/login/forgot-password"
-                className="text-blue-600 hover:underline"
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r bg-blue-500 hover:to-blue-600 text-white font-medium py-3 rounded-lg transition duration-150"
               >
-                Forgot password?
-              </Link>
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r bg-blue-500 hover:to-blue-600 text-white font-medium py-3 rounded-lg transition duration-150"
-            >
-              Sign in
-            </button>
-          </form>
-
+                Sign in
+              </button>
+            </form>
+          )}
           {/* Sign up Link */}
           <p className="text-sm text-center mt-6 text-gray-700">
             Don’t have an account?{" "}
             <Link
-              to="/signup"
+              to="/index/signup"
               className="text-blue-600 hover:underline font-medium"
             >
               Sign up

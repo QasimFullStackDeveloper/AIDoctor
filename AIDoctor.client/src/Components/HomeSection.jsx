@@ -8,7 +8,7 @@ import explore from '../assets/exploreIcon.svg';
 const HomeSection = () => {
   return (
     <div
-      className="flex flex-col md:flex-row items-center justify-center w-full min-h-[90vh] sm:min-h-[85vh] md:min-h-[75vh] lg:min-h-[80vh] xl:min-h-[70vh] 2xl:min-h-[65vh] px-4 sm:px-6 md:px-20 2xl:px-24 py-10 2xl:py-4 relative gap-6 2xl:gap-1"
+      className="flex flex-col md:flex-row items-center justify-center w-full h-auto px-4 sm:px-6 md:px-14 xl:px-20 2xl:px-24 py-10 2xl:py-16 2xl:min-h-[65vh] relative gap-6 "
       style={{
         backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0)), 
                           linear-gradient(180deg, #BFDBFE 0%, #FFE8EF 69%, #FFFFFF 100%)`,
@@ -21,35 +21,35 @@ const HomeSection = () => {
       ></div>
 
       {/* Left Section */}
-      <div className="z-10 flex-1 flex flex-col items-center md:items-start text-center sm:mt-[300px] md:mt-0 2xl:ml-[100px] md:text-left text-gray-900 max-w-3xl space-y-4 sm:space-y-6 2xl:space-y-1 mx-auto px-2 sm:px-0 mt-20 ">
-        <h1 className=" text-2xl sm:text-3xl md:text-4xl lg:text-[50px] 2xl:text-[55px] font-bold leading-tight mb-6 sm:mb-8 2xl:mb-10">
+      <div className="z-10 flex-1 flex flex-col items-center md:items-start text-center md:text-left text-gray-900 space-y-4 sm:space-y-5 md:space-y-6 mx-auto px-2 sm:px-0 max-w-2xl">
+        <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[48px] 2xl:text-[55px] font-bold leading-tight mb-4 sm:mb-6">
           <span className="block whitespace-nowrap">Your AI Doctor, Just a</span>
-          <span className="block mt-2 sm:mt-4 ">Chat Away</span>
+          <span className="block mt-2 sm:mt-4 md:mt-2 lg:mt-3">Chat Away</span>
         </h1>
 
-        <p className="text-sm sm:text-base md:text-[18px] 2xl:mt-6 font-['Roboto'] text-gray-700 mb-4 sm:mb-6 2xl:mb-4 max-w-md sm:max-w-xl leading-snug sm:leading-normal">
-          Get instant, reliable medical advice anytime with our AI-powered doctor chatbot.
-          Professional healthcare guidance at your fingertips.
+        <p className="text-sm sm:text-base md:text-[16px] lg:text-[17px] 2xl:text-[18px] font-['Roboto'] text-gray-700 mb-4 sm:mb-6 max-w-md sm:max-w-xl mx-3 leading-snug sm:leading-normal md:leading-relaxed">
+          Get instant, reliable medical advice anytime with our AI-powered doctor chatbot. Professional healthcare guidance at your fingertips.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto">
-          <button className="w-full 2xl:mt-10 sm:w-auto h-14 bg-[#2563EB] border-2 border-[#2563EB] hover:bg-[#0044CC] text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105">
-            <img src={explore} alt="explore" className="mr-2" /> Chat Now
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 md:gap-6 w-full sm:w-auto ml-3 sm:ml-0">
+          <button className="w-full sm:w-auto h-12 md:h-14 bg-[#2563EB] border-2 border-[#2563EB] hover:bg-[#0044CC] text-white px-6 md:px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 text-sm sm:text-base md:text-lg truncate">
+            <img src={explore} alt="explore" className="mr-2 w-5 h-5" /> Chat Now
           </button>
-          <Link to="/premium-plans" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto 2xl:mt-10 h-14 bg-white border border-[#2D5EFF] hover:bg-[#2D5EFF] text-[#2D5EFF] hover:text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105">
-              <img src={search} alt="search" className="mr-2" /> Explore Features
+          <Link to="/index/premium-plans" className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto h-12 md:h-14 bg-white border border-[#2D5EFF] hover:bg-[#2D5EFF] text-[#2D5EFF] hover:text-white px-6 md:px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 text-sm sm:text-base md:text-lg truncate">
+              <img src={search} alt="search" className="mr-2 w-5 h-5" /> Explore Features
             </button>
           </Link>
+
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="z-10 flex-1 justify-center items-center mt-10 md:mt-0 mx-auto hidden md:flex 2xl:mr-[120px]">
+      <div className="z-10 flex-1  justify-center items-center mt-10 md:mt-0 hidden md:flex">
         <img
           src={backgroundImage}
           alt="AI Doctor Illustration"
-          className="object-contain w-[250px] sm:w-[300px] md:w-[380px] lg:w-[440px] xl:w-[500px] 2xl:w-[600px] max-w-none"
+          className="object-contain w-full max-w-[500px] md:max-w-[420px] lg:max-w-[480px] xl:max-w-[550px] 2xl:max-w-[600px] aspect-[4/3]"
         />
       </div>
     </div>

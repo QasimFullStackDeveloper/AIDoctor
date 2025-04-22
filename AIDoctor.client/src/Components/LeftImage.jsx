@@ -1,14 +1,15 @@
 import React from "react";
-import image from "../assets/left-image.png";
+import image from "../assets/leftimage.png";
+
 
 const LeftImage = () => {
   return (
-    <div className="w-full h-full">    
-    <img
-      src={image}
-      alt="Signup Visual"
-      className="w-full h-full object-cover  opacity-100"
-/>
+    <div className="w-full h-full">
+      <img
+        src={image}
+        alt="Decorative"
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 };

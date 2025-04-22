@@ -5,7 +5,6 @@ import Shield from "../assets/Shield.png";
 import Shield_icon from "../assets/Shield_icon.svg";
 import Privacy from "../assets/Privacy.png";
 import Privacy_icon from "../assets/Privacy_icon.svg";
-import "./DoctorChatbot.css";
 
 const features = [
   {
@@ -57,7 +56,7 @@ const DoctorChatbotFeatures = () => {
     <section className="py-24 bg-white w-full">
       {/* Section Header */}
       <div className="max-w-screen-xl mx-auto text-center px-6">
-        <h2 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-semibold text-gray-900 mb-6">
+        <h2 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-semibold text-gray-900 mb-6">
           Why Choose Our Doctor Chatbot?
         </h2>
         <p className="mt-4 text-gray-600 text-lg sm:text-xl max-w-4xl mx-auto">
@@ -66,12 +65,13 @@ const DoctorChatbotFeatures = () => {
       </div>
 
       {/* Feature Cards Grid */}
-      <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-screen-xl mx-auto px-6 md:px-12 xl:px-0">
+      <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-screen-xl mx-auto px-6 md:px-12 xl:px-0 2xl:px-24">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="rounded-[8px] opacity-100 border border-[#DBEAFE] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] p-10 text-left w-full h-full flex flex-col justify-start transition-all duration-200 ease-in-out hover:scale-[1.01] hover:shadow-lg"
-            style={feature.customStyle}
+            className={`rounded-[8px] opacity-100 border border-[#DBEAFE] shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)] p-10 text-left w-full h-full flex flex-col justify-start transition-all duration-200 ease-in-out hover:scale-[1.01] hover:shadow-lg 
+              ${index === 2 ? 'sm:col-span-2 sm:mx-auto sm:w-2/3 lg:col-span-1 lg:mx-0 lg:w-full' : ''}`}
+                        style={feature.customStyle}
           >
             <div className="mb-4 flex justify-center">
               <img
