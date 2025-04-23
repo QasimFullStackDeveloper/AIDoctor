@@ -57,7 +57,7 @@ export default function EmailVerification() {
 
         {/* Bottom - Button & Info */}
         <div className="space-y-3">
-          <Link to="/login/success" className="block">
+          <Link to="/index/login/success" className="block">
             <button className="w-full bg-blue-500 text-white mb-[30px] py-2 rounded-lg font-medium hover:bg-blue-600 transition-transform duration-200 hover:scale-105">
               Verify Email
             </button>

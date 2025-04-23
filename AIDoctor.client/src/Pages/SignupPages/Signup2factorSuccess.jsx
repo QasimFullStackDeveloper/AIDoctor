@@ -33,16 +33,16 @@ export default function Signup2factorSuccess() {
         </p>
 
         {/* Setup Instructions Link */}
-        <a
+        <Link
           href="#"
           className="text-black font-semibold mt-3 block hover:underline mb-4"
         >
           View setup instructions
-        </a>
+        </Link>
 
         {/* Return to Login Button */}
         <Link
-          to="/login"
+          to="/index/login"
           className="bg-blue-600 text-white py-2 px-5 rounded-md inline-block mt-3 font-medium hover:bg-blue-700 transition-transform transform hover:scale-105 mb-4"
         >
           ← Return to login

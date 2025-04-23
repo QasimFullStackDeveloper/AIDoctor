@@ -39,7 +39,7 @@ export default function LoginEmailSent() {
           </div>
 
           {/* Back to Login Button */}
-          <Link to="/login">
+          <Link to="/index/login">
             <button className="w-full py-2 bg-blue-500 text-white text-sm font-bold rounded-md transition duration-300 hover:bg-blue-700 hover:scale-105 shadow-md">
               ← Back to login
             </button>

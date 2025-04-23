@@ -117,7 +117,7 @@ const SignupTwoFactorAuth = () => {
         </div>
 
         {/* Verify Button */}
-        <Link to="/signup/2fa-success">
+        <Link to="/index/signup/2fa-success">
           <button className="min-w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105">
             Verify
           </button>
@@ -125,7 +125,7 @@ const SignupTwoFactorAuth = () => {
 
         {/* Navigation Buttons */}
         <div className="flex justify-between mt-3 text-xs">
-          <Link to="/signup/step-2">
+          <Link to="/index/signup/step-2">
             <button className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
           </Link>
           <Link to="">

@@ -12,9 +12,9 @@ export default function SignupPage1() {
 
   const handleContinueClick = () => {
     if (selectedAuthMethod === "email") {
-      navigate("/signup/two-factor");
+      navigate("/index/signup/two-factor");
     } else if (selectedAuthMethod === "auth-app") {
-      navigate("/signup/step-2");
+      navigate("/index/signup/step-2");
     }
   };
 

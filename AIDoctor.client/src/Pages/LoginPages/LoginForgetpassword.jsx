@@ -40,7 +40,7 @@ export default function LoginForgetPassword() {
 
           <div className="flex justify-between text-sm text-gray-700 font-medium">
             <Link
-              to="/login"
+              to="/index/login"
               className="hover:underline text-blue-700 transition-all hover:text-blue-900"
             >
               ← Back to login

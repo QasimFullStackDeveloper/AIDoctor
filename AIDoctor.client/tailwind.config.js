@@ -26,7 +26,10 @@ export default {
         'Laptop': {
           'raw': '(min-width: 1366px) and (max-width: 1370px) and (min-height: 760px) and (max-height:770px)'
         }
-
+        ,
+        'laptopDesktop': {
+          'raw': '(max-width: 1536px) and (min-width: 1360x) and (min-height: 768px) and (max-height:982px)'
+        }
       },
     },
   },

@@ -33,7 +33,7 @@ export default function EmailSuccess() {
         </p>
 
         {/* Button */}
-        <Link to="/login">
+        <Link to="/index/login">
           <button className="bg-blue-500 text-white py-2 px-4 rounded-md text-sm font-bold w-full mt-2 transition duration-300 hover:scale-105 hover:bg-blue-600">
             ← Back to login
           </button>

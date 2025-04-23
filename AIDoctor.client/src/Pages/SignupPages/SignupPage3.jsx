@@ -78,7 +78,7 @@ export default function SignupPage3() {
             <label className="block text-gray-700 text-xs font-medium">Verification Code</label>
             <input type="text" placeholder="Enter 6-digit code" className="w-full p-2 border border-gray-300 rounded-lg bg-white text-xs mb-2 transition-all duration-300 hover:bg-gray-100" />
 
-            <Link to="/signup/2fa-success" >
+            <Link to="/index/signup/2fa-success" >
               <button className="verify-btn_2 mt-3 w-full bg-blue-500 text-white px-4 py-1 rounded-lg font-bold text-sm hover:bg-blue-600 transition-all duration-300">
                 Verify Setup
               </button>
@@ -87,10 +87,10 @@ export default function SignupPage3() {
 
           {/* Navigation Buttons */}
           <div className="buttons_2 flex justify-between mt-4 text-xs">
-            <Link to="/signup/step-2">
+            <Link to="/index/signup/step-2">
               <button className="back_2 text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
             </Link>
-            <Link to="">
+            <Link to="#">
               <button className="help_2 text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
             </Link>
           </div>

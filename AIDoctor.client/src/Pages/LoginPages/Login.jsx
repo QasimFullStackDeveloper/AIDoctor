@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LeftImage from "../../Components/LeftImage";
 import Logo from "../../Components/Logo";
@@ -31,6 +31,16 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setVH();
+    window.addEventListener("resize", setVH);
+    return () => window.removeEventListener("resize", setVH);
+  }, []);
 
   const validate = () => {
     const newErrors = {};
@@ -65,9 +75,7 @@ const Login = () => {
       try {
         const response = await fetch("http://localhost:7282/Auth/login", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: formData.email,
             password: formData.password,
@@ -75,10 +83,7 @@ const Login = () => {
           }),
         });
 
-        console.log("Response status:", response.status);
-
         const result = await response.json();
-        console.log("Response data:", result);
 
         if (response.ok) {
           navigate("/login/two-factor");
@@ -95,7 +100,6 @@ const Login = () => {
     }
   };
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -105,25 +109,31 @@ const Login = () => {
   };
 
   return (
-    <div className="max-h-screen flex flex-col md:flex-row bg-blue-100 overflow-hidden" style={{
-      background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
-    }}>
-      
-      {/* Left Image (hidden on smaller screens) */}
-      <div className="hidden lg:flex thousand:hidden w-[54%] h-screen min-h-[768px] 2xl:w-[70%]">
+    <div
+      className="flex min-h-screen bg-blue-100"
+      style={{
+        background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
+        height: "calc(var(--vh, 1vh) * 100)",
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Left Image */}
+      <div className="hidden lg:flex IpadPro:hidden w-[54%] min-h-full">
         <LeftImage />
       </div>
 
-      {/* Right Form Side */}
-      <div className="w-full lg:w-[56%] flex flex-col items-center justify-center px-4 py-6 overflow-auto max-h-screen bg-blue-100">
-        <div className="w-full  sm:max-w-[478px] md:mt-[180px] lg:mt-0 2xl:mt-0 p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md md:rounded-[12px] shadow-md md:shadow-lg border-t-4 border-blue-500 "
+      {/* Right Form */}
+      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
+        <div
+          className="w-full sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md shadow-md md:shadow-lg border-t-4 border-blue-500"
           style={{
-            background:
-              "linear-gradient(0deg, rgba(0, 0, 0, 0.001), rgba(0, 0, 0, 0.001)), rgba(255, 255, 255, 0.9)",
+            background: "rgba(255, 255, 255, 0.9)",
             borderRadius: "12px",
             backdropFilter: "blur(4px)",
-            boxShadow:
-              "0px 4px 6px -4px ) 0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
+            maxHeight: "85vh", 
+            overflowY: "auto", 
           }}
         >
           <div className="flex justify-center mb-6">
@@ -136,6 +146,7 @@ const Login = () => {
           <p className="text-sm text-center text-gray-500 mb-8">
             Sign in to your account
           </p>
+
           {loading ? (
             <Loading />
           ) : (
@@ -159,8 +170,9 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your email"
-                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${errors.email ? "border-red-500" : "border-gray-300"
-                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
+                      errors.email ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -192,8 +204,9 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your password"
-                    className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${errors.password ? "border-red-500" : "border-gray-300"
-                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
+                      errors.password ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -209,7 +222,9 @@ const Login = () => {
                   />
                 </div>
                 {errors.password && (
-                  <p className="text-xs text-red-500 mt-1">{errors.password}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.password}
+                  </p>
                 )}
               </div>
 
@@ -231,7 +246,7 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Code Input Field */}
+              {/* Code Input */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">
                   Enter Code
@@ -243,8 +258,9 @@ const Login = () => {
                   onChange={handleChange}
                   onFocus={handleFocus}
                   placeholder="Enter the code shown above"
-                  className={`w-full py-3 px-4 rounded-md text-sm ${errors.inputCode ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`w-full py-3 px-4 rounded-md text-sm ${
+                    errors.inputCode ? "border-red-500" : "border-gray-300"
+                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   style={{
                     borderRadius: "8px",
                     background: "#FFFFFF",
@@ -252,11 +268,13 @@ const Login = () => {
                   }}
                 />
                 {errors.inputCode && (
-                  <p className="text-xs text-red-500 mt-1">{errors.inputCode}</p>
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.inputCode}
+                  </p>
                 )}
               </div>
 
-              {/* Remember & Forgot */}
+              {/* Remember Me + Forgot Password */}
               <div className="flex justify-between items-center text-sm text-gray-600">
                 <label className="flex items-center">
                   <input
@@ -265,14 +283,16 @@ const Login = () => {
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={(e) =>
-                      setFormData({ ...formData, rememberMe: e.target.checked })
+                      setFormData({
+                        ...formData,
+                        rememberMe: e.target.checked,
+                      })
                     }
                   />
-
                   Remember me
                 </label>
                 <Link
-                  to="/login/forgot-password"
+                  to="/index/login/forgot-password"
                   className="text-blue-600 hover:underline"
                 >
                   Forgot password?
@@ -288,7 +308,8 @@ const Login = () => {
               </button>
             </form>
           )}
-          {/* Sign up Link */}
+
+          {/* Sign Up Link */}
           <p className="text-sm text-center mt-6 text-gray-700">
             Don’t have an account?{" "}
             <Link

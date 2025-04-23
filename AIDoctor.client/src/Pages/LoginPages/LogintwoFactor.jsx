@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Logo from "../../Components/Logo";
+import { Link } from 'react-router-dom';
 
 export default function LogintwoFactor() {
   const [code, setCode] = useState('');
@@ -81,12 +82,12 @@ export default function LogintwoFactor() {
           Verify
         </a>
 
-        <a
-          href="#"
+        <Link
+          href="/index/login"
           className="bg-blue-500 text-white py-3 rounded-lg block text-center mt-3 transition-transform transform hover:scale-105 hover:bg-[#303f9f]"
         >
           Back to Login
-        </a>
+        </Link>
       </div>
       <style jsx>{`
       @media (min-width: 1400px) and (min-height: 1079px) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Logo from "../../Components/Logo";
 import LeftImage from "../../Components/LeftImage";
 import emailIcon from "../../assets/SVG.svg";
@@ -35,6 +35,13 @@ export default function Signup() {
 
   useEffect(() => {
     generateCode();
+    const setVH = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    setVH();
+    window.addEventListener("resize", setVH);
+    return () => window.removeEventListener("resize", setVH);
   }, []);
 
   const handleChange = (e) => {
@@ -65,215 +72,211 @@ export default function Signup() {
     if (!validate()) return;
 
     setLoading(true);
-
     try {
       const response = await fetch("https://localhost:7282/api/Auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: formData.firstName.trim(),
-          lastName: formData.lastName.trim(),
-          email: formData.email.trim(),
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-          termsAccepted: true,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, termsAccepted: true }),
       });
-
       const data = await response.json();
-      setLoading(false);
-
-      if (!response.ok) {
-        throw new Error(data.message || "Signup failed");
-      }
-
+      if (!response.ok) throw new Error(data.message || "Signup failed");
       navigate("/index/signup/two-factor");
     } catch (error) {
+      alert(error.message || "Unexpected error occurred");
+    } finally {
       setLoading(false);
-      alert(error.message || "An unexpected error occurred. Please try again.");
     }
   };
 
   return (
-    <div className="max-h-screen flex flex-col md:flex-row bg-blue-100 overflow-hidden" style={{
-      background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
-    }}>
-      <div className="hidden lg:flex w-[54%] thousand:hidden thousand:bg-black h-screen min-h-[768px] 2xl:w-[70%]">
+    <div
+      className="flex min-h-screen bg-blue-100"
+      style={{
+        background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
+        height: "calc(var(--vh, 1vh) * 100)",
+        overflow: "hidden",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* Left Image */}
+      <div className="hidden lg:flex IpadPro:hidden w-[54%] min-h-full">
         <LeftImage />
       </div>
 
-      <div className="w-full lg:w-[56%] flex flex-col items-center justify-center px-4 py-6 Desktop1:-mt-0 overflow-y-auto max-h-screen bg-blue-100 thousand">
-      <div className="w-full max-w-md flex md:mt-[150px] Laptop:mt-[230px] sm:mt-[0px]  Desktop:mt-[0px] bigScr:mt-0 flex-col items-center mb-4 m-0 ">
-          <Logo />
-          <h3 className="text-3xl font-bold text-center text-gray-900 mb-1 mt-1.5 font-roboto">
-            Create Your Account
-          </h3>
-          <p className="text-sm text-gray-600 mt-1">Get personalized healthcare support</p>
-        </div>
+      {/* Right Side Form */}
+      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
+        <div
+          className="w-full sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 2xl:overflow-hidden bg-white rounded-md shadow-md md:shadow-lg IpadPro:mb-[220px] border-t-4 border-blue-500"
+          style={{
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "12px",
+            backdropFilter: "blur(4px)",
+            boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
+            maxHeight: "85vh",
+            overflowY: "auto",
+          }}
+        >
+          <div className="flex justify-center mb-6">
+            <Logo />
+          </div>
 
-        <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg border-t-4 border-blue-500">
+          <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Create Your Account</h2>
+          <p className="text-sm text-center text-gray-500 mb-6">Get personalized healthcare support</p>
+
           {loading ? (
             <Loading />
           ) : (
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-              <div className="flex flex-col md:flex-row gap-5">
-                <div className="w-full">
-                  <label className="block text-sm font-bold mb-1 text-gray-700">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    className={`w-full p-2 border rounded-md ${errorField.firstName ? "border-red-500" : ""}`}
-                  />
-                  {errorField.firstName && <span className="text-sm text-red-500">{errorField.firstName}</span>}
-                </div>
-                <div className="w-full">
-                  <label className="block text-sm font-bold mb-1 text-gray-700">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    className={`w-full p-2 border rounded-md ${errorField.lastName ? "border-red-500" : ""}`}
-                  />
-                  {errorField.lastName && <span className="text-sm text-red-500">{errorField.lastName}</span>}
-                </div>
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              {/* Name Fields */}
+              <div className="flex gap-3">
+                {["firstName", "lastName"].map((field, i) => (
+                  <div key={i} className="w-1/2">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">
+                      {field === "firstName" ? "First Name" : "Last Name"}
+                    </label>
+                    <input
+                      type="text"
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      onFocus={handleFocus}
+                      className={`w-full py-2 px-3 rounded-md text-sm ${
+                        errorField[field] ? "border-red-500" : "border-gray-300"
+                      } border`}
+                    />
+                    {errorField[field] && <p className="text-xs text-red-500 mt-1">{errorField[field]}</p>}
+                  </div>
+                ))}
               </div>
 
+              {/* Email */}
               <div>
-                <label className="block text-sm font-bold mb-1 text-gray-700">Email Address</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-4 flex items-center">
-                    <img src={emailIcon} alt="Email" className="w-5 h-5" />
-                  </div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Email Address</label>
+                <div className="relative flex items-center">
+                  <img src={emailIcon} alt="Email" className="absolute left-4 w-5 h-5" />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     onFocus={handleFocus}
-                    className={`w-full p-2 pl-12 border rounded-md ${errorField.email ? "border-red-500" : ""}`}
+                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
+                      errorField.email ? "border-red-500" : "border-gray-300"
+                    } border`}
                   />
                 </div>
-                {errorField.email && <span className="text-sm text-red-500">{errorField.email}</span>}
+                {errorField.email && <p className="text-xs text-red-500 mt-1">{errorField.email}</p>}
               </div>
 
-              {["password", "confirmPassword"].map((field, index) => (
-                <div key={index}>
-                  <label className="block text-sm font-bold mb-1 text-gray-700">
+              {/* Passwords */}
+              {["password", "confirmPassword"].map((field, i) => (
+                <div key={i}>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">
                     {field === "password" ? "Password" : "Confirm Password"}
                   </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-4 flex items-center">
-                      <img src={lockIcon} alt="Lock" className="w-5 h-5" />
-                    </div>
+                  <div className="relative flex items-center">
+                    <img src={lockIcon} alt="Lock" className="absolute left-4 w-5 h-5" />
                     <input
-                      type={(field === "password" && showPassword) || (field === "confirmPassword" && showConfirmPassword) ? "text" : "password"}
+                      type={(field === "password" ? showPassword : showConfirmPassword) ? "text" : "password"}
                       name={field}
                       value={formData[field]}
                       onChange={handleChange}
                       onFocus={handleFocus}
-                      className={`w-full p-2 pl-12 pr-12 border rounded-md ${errorField[field] ? "border-red-500" : ""}`}
+                      className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
+                        errorField[field] ? "border-red-500" : "border-gray-300"
+                      } border`}
                     />
-                    <div
+                    <img
+                      src={(field === "password" ? showPassword : showConfirmPassword) ? eyeOffIcon : eyeIcon}
+                      alt="Toggle visibility"
+                      className="absolute right-4 w-5 h-5 cursor-pointer"
                       onClick={() =>
                         field === "password"
                           ? setShowPassword(!showPassword)
                           : setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute inset-y-0 right-4 flex items-center cursor-pointer"
-                    >
-                      <img
-                        src={(field === "password" && showPassword) || (field === "confirmPassword" && showConfirmPassword) ? eyeIcon : eyeOffIcon}
-                        alt="Toggle"
-                        className="w-5 h-5"
-                      />
-                    </div>
+                    />
                   </div>
-                  {errorField[field] && <span className="text-sm text-red-500">{errorField[field]}</span>}
+                  {errorField[field] && <p className="text-xs text-red-500 mt-1">{errorField[field]}</p>}
                 </div>
               ))}
 
+              {/* Security Code */}
               <div>
-                <label className="block text-sm font-bold mb-1 text-gray-700">Security Check</label>
-                <div className="flex items-center justify-between bg-gray-100 px-3 py-2 rounded">
-                  <span className="text-lg font-semibold text-gray-800">{generatedCode}</span>
-                  <button type="button" onClick={generateCode} className="p-1">
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Security Check</label>
+                <div className="flex justify-between items-center px-3 py-2 bg-gray-100 rounded">
+                  <span className="text-base font-semibold text-gray-800">{generatedCode}</span>
+                  <button type="button" onClick={generateCode}>
                     <img src={refreshIcon} alt="Refresh Code" className="w-5 h-5" />
                   </button>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-bold mb-1 text-gray-700">Enter Code</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Enter Code</label>
                 <input
                   type="text"
                   name="code"
                   value={formData.code}
                   onChange={handleChange}
                   onFocus={handleFocus}
-                  className={`w-full p-2 border rounded-md ${errorField.code ? "border-red-500" : ""}`}
+                  className={`w-full py-2 px-3 border rounded-md ${
+                    errorField.code ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
-                {errorField.code && <span className="text-sm text-red-500">{errorField.code}</span>}
+                {errorField.code && <p className="text-xs text-red-500 mt-1">{errorField.code}</p>}
               </div>
 
+              {/* Terms */}
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
                   name="termsAccepted"
                   checked={formData.termsAccepted}
                   onChange={handleChange}
-                  onFocus={handleFocus}
                   className="mt-1"
                 />
                 <label className="text-sm text-gray-700">
-                  I agree to the <a href="#" className="text-blue-600 underline">Terms of Service and Privacy Policy</a>
+                  I agree to the{" "}
+                  <a href="#" className="text-blue-600 underline">
+                    Terms of Service and Privacy Policy
+                  </a>
                 </label>
               </div>
-              {errorField.termsAccepted && <span className="text-sm text-red-500">{errorField.termsAccepted}</span>}
+              {errorField.termsAccepted && <p className="text-xs text-red-500">{errorField.termsAccepted}</p>}
 
               <button
                 type="submit"
+                className="w-full text-white font-semibold py-2 rounded-md"
                 style={{
-                  borderRadius: "4px",
-                  opacity: 1,
                   background: "linear-gradient(90deg, #3B82F6 0%, #4F46E5 100%)",
-                  color: "white",
-                  padding: "0.75rem",
-                  fontWeight: "bold",
                 }}
               >
                 Create Account
               </button>
 
-              <p className="text-sm text-center mt-2">
+              <p className="text-sm text-center mt-3">
                 Already have an account?{" "}
-                <a href="/index/login" className="text-blue-600 hover:underline">Sign in</a>
+                <Link to="/index/login" className="text-blue-600 underline">
+                  Sign in
+                </Link>
               </p>
             </form>
           )}
-        </div>
 
-        <div className="w-full mt-6 text-center text-sm text-gray-500">
-          <div className="flex items-center justify-center space-x-2 mb-1">
-            <img
-              src={shield}
-              alt="Shield Icon"
-              className="w-4 h-4"
-            />
-            <span>Your data is encrypted and secure</span>
+          {/* Footer */}
+          <div className="mt-6 text-center text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <img src={shield} alt="Shield" className="w-4 h-4" />
+              <span>Your data is encrypted and secure</span>
+            </div>
+            <p className="text-xs">
+              Need help? Contact{" "}
+              <a href="mailto:support@doctorchatbot.com" className="text-blue-600 underline">
+                support@doctorchatbot.com
+              </a>
+            </p>
           </div>
-          <p className="text-xs">
-            Need help? Contact support at{' '}
-            <a href="mailto:support@doctorchatbot.com" className="text-blue-600 underline">
-              support@doctorchatbot.com
-            </a>
-          </p>
         </div>
       </div>
     </div>
