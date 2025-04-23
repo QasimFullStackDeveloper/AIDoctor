@@ -6,7 +6,6 @@ import WhyChooseChatbot from '../../Components/DoctorChatbotFeatures';
 import FeaturesSection from '../../Components/FeaturesSection';
 import ContactForm from '../../Components/ContactForm';
 import Testimonials from '../../Components/Testimonials';
-import Abc from './Chatbot';
 
 export default function HomePage() {
   return (

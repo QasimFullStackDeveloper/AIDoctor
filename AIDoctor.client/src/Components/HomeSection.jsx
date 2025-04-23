@@ -21,13 +21,13 @@ const HomeSection = () => {
       ></div>
 
       {/* Left Section */}
-      <div className="z-10 flex-1 flex flex-col items-center md:items-start text-center md:text-left text-gray-900 space-y-4 sm:space-y-5 md:space-y-6 mx-auto px-2 sm:px-0 max-w-2xl">
-        <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[48px] 2xl:text-[55px] font-bold leading-tight mb-4 sm:mb-6">
+      <div className="z-10 flex-1 flex flex-col items-center md:items-start text-center md:text-left text-gray-900 space-y-4 sm:space-y-5 md:space-y-6 mx-auto px-2 sm:px-0 max-w-2xl  bigScr1:ml-28 ">
+      <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-[42px] xl:text-[48px] 2xl:text-[60px] font-bold leading-tight mb-4 sm:mb-6 ">
           <span className="block whitespace-nowrap">Your AI Doctor, Just a</span>
-          <span className="block mt-2 sm:mt-4 md:mt-2 lg:mt-3">Chat Away</span>
-        </h1>
+          <span className="block mt-2 sm:mt-4 md:mt-2 lg:mt-3 2xl:mt-5 w-full text-center lg:text-center"> Chat Away</span>
+          </h1>
 
-        <p className="text-sm sm:text-base md:text-[16px] lg:text-[17px] 2xl:text-[18px] font-['Roboto'] text-gray-700 mb-4 sm:mb-6 max-w-md sm:max-w-xl mx-3 leading-snug sm:leading-normal md:leading-relaxed">
+          <p className="text-sm sm:text-base md:text-[16px] lg:text-[17px] 2xl:text-[18px] font-['Roboto'] text-gray-700 mb-4 sm:mb-6 w-full mx-3 sm:mx-0 leading-snug sm:leading-normal md:leading-relaxed 2xl:mt-0">
           Get instant, reliable medical advice anytime with our AI-powered doctor chatbot. Professional healthcare guidance at your fingertips.
         </p>
 
