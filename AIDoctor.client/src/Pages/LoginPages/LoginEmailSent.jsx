@@ -1,56 +1,59 @@
 import React from "react";
 import Logo from "../../Components/Logo";
+import info from "../../assets/info.svg";
+import tickmark from "../../assets/properTickmark.svg";
 import { Link } from "react-router-dom";
 
 export default function LoginEmailSent() {
   return (
-    <>
-      <div className="flex justify-center items-center h-screen bg-gradient-to-br from-blue-100 to-blue-200">
-        <div className="max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] min-h-[550px] w-full bg-white rounded-lg border-t-4 border-blue-600 px-6 py-8 text-center shadow-xl transition duration-300 hover:shadow-2xl hover:scale-[1.02]">
-          
-          {/* Logo */}
-          <div className="mb-6 flex justify-center">
-            <Logo />
-          </div>
+    <div className="flex justify-center items-center min-h-screen bg-[#f9fafb] px-4">
+      <div className="w-full max-w-md bg-white rounded-xl border-t-4 border-blue-600 shadow-lg p-8 sm:p-10 text-center">
+        
+        {/* Logo */}
+        <div className="mb-4 flex justify-center">
+          <Logo />
+        </div>
 
-          {/* Success Message */}
-          <h2 className="text-2xl font-bold text-gray-700 mb-4 transition-colors duration-300">
-            Email Sent Successfully!
-          </h2>
+        {/* Title */}
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">
+          Email Sent Successfully!
+        </h2>
 
-          {/* Success Icon */}
-          <div className="w-14 h-14 bg-green-500 rounded-full flex justify-center items-center mx-auto mb-6 shadow-lg transition-transform duration-300">
-            <span className="text-white text-3xl">✔</span>
-          </div>
+        {/* Checkmark */}
+        <div className="w-14 h-14 rounded-full bg-green-100 mx-auto flex items-center justify-center mb-4 shadow-sm">
+          <img src={tickmark} alt="Success" className="w-6 h-6" />
+        </div>
 
-          {/* Info Message */}
-          <p className="text-sm text-gray-600 leading-relaxed mb-6 transition-colors duration-300">
-            We've sent a password reset link to your email.<br />
-            Please check your inbox and follow the instructions.
-          </p>
+        {/* Message */}
+        <p className="text-sm text-gray-600 mb-2">
+          We've sent a password reset link to your email.
+        </p>
+        <p className="text-xs text-gray-500 mb-6">
+          Please check your inbox and follow the instructions to reset your password.
+        </p>
 
-          {/* Resend Email */}
-          <div className="text-sm mb-6">
-            Didn't receive the email?
-            <br />
-            <span className="font-bold text-blue-500 cursor-pointer hover:text-blue-700 underline transition-colors duration-300">
-              Resend email
-            </span>
-          </div>
+        {/* Resend */}
+        <p className="text-sm text-gray-700 mb-6">
+          Didn’t receive the email?
+          <br />
+          <span className="font-bold  hover:text-blue-800 cursor-pointer ">
+            Resend email
+          </span>
+        </p>
 
-          {/* Back to Login Button */}
-          <Link to="/index/login">
-            <button className="w-full py-2 bg-blue-500 text-white text-sm font-bold rounded-md transition duration-300 hover:bg-blue-700 hover:scale-105 shadow-md">
-              ← Back to login
-            </button>
-          </Link>
+        {/* Back to login */}
+        <Link to="/index/login">
+          <button className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-md shadow transition duration-200">
+            ← Back to login
+          </button>
+        </Link>
 
-          {/* Security Notice */}
-          <div className="bg-blue-100 p-4 text-xs text-gray-700 rounded-md mt-6 shadow-inner transition duration-300">
-            🔒 The password reset link will expire in 30 minutes for security reasons.
-          </div>
+        {/* Info box */}
+        <div className="flex items-start gap-2 bg-blue-50 text-xs text-blue-800 mt-6 px-4 py-3 rounded-md shadow-inner">
+          <img src={info} alt="Info" className="w-4 h-4 mt-0.5" />
+          <span>The password reset link will expire in 30 minutes for security reasons.</span>
         </div>
       </div>
-    </>
+    </div>
   );
 }

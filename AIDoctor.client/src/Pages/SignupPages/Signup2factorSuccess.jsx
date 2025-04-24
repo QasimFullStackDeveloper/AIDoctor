@@ -7,11 +7,11 @@ import Logo from '../../Components/Logo';
 export default function Signup2factorSuccess() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full sm:w-[400px] md:w-[450px] lg:w-[450px] xl:w-[500px] xl:h-[550px] border-t-4 border-blue-500 flex flex-col justify-between custom_form">
+      <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-[360px]  border-t-4 border-blue-500 flex flex-col justify-between min-h-[520px] xl:min-h-[500px] 2xl:min-h-[480px]">
 
         {/* Logo */}
         <div className="mb-4 flex justify-center">
-        <Logo/>
+          <Logo />
         </div>
 
         {/* Title */}
@@ -25,17 +25,20 @@ export default function Signup2factorSuccess() {
         </div>
 
         {/* Description */}
-        <p className="text-sm text-gray-700 mb-2">
+        <p className="text-sm text-gray-500 opacity-100 mb-1 font-semibold">
           Your account is now protected with two-factor authentication.
         </p>
         <p className="text-sm text-gray-700 mb-4">
           You will need to enter a verification code when signing in from a new device.
         </p>
 
-        {/* Setup Instructions Link */}
+        {/* Setup Message + Instructions Link */}
+        <p className="text-sm text-gray-500 opacity-100 mb-1 font-semibold">
+          Need to set up your authenticator app?
+        </p>
         <Link
-          href="#"
-          className="text-black font-semibold mt-3 block hover:underline mb-4"
+          to="#"
+          className="text-sm font-semibold -700 hover:underline mb-7"
         >
           View setup instructions
         </Link>
@@ -43,26 +46,17 @@ export default function Signup2factorSuccess() {
         {/* Return to Login Button */}
         <Link
           to="/index/login"
-          className="bg-blue-600 text-white py-2 px-5 rounded-md inline-block mt-3 font-medium hover:bg-blue-700 transition-transform transform hover:scale-105 mb-4"
+          className="bg-blue-600 text-white py-2 px-5 rounded-md inline-block font-medium hover:bg-blue-700 transition-transform transform hover:scale-105 mb-4"
         >
           ← Return to login
         </Link>
 
         {/* Information Note */}
-        <div className="flex items-center bg-blue-100 p-3 rounded-md text-sm text-blue-600">
+        <div className="flex items-center bg-blue-100 p-3 rounded-md text-sm text-blue-600 mt-2">
           <img src={infoIcon} alt="Info Icon" className="w-[18px] mr-2" />
           Save your backup codes in a secure location in case you lose access to your authentication device.
         </div>
       </div>
-      <style jsx>{`
-      @media (min-width: 1400px) and (min-height: 1079px) {
-    .custom_form {
-      width: 600px;  
-      height: 60vh;  
-      padding: 40px;  
-    }
-  }
-`}</style>
     </div>
   );
 }

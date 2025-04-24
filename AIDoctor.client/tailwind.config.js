@@ -31,6 +31,10 @@ export default {
           'raw': '(max-width: 1536px) and (min-width: 1360x) and (min-height: 768px) and (max-height:982px)'
         }
       },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'], 
+      },
+
     },
   },
   plugins: [],

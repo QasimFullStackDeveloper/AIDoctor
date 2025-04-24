@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import tick from "../../assets/anotherTick.svg";
+import authIcon from "../../assets/authenticateIcon.png";
+import documentIcon from "../../assets/document.svg";
+import questionMark from "../../assets/questionMark.svg";
 import { Link } from "react-router-dom";
 import Logo from "../../Components/Logo";
 
@@ -35,20 +39,22 @@ const SignupTwoFactorAuth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-blue-100 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[450px] xl:h-[600px] text-center flex flex-col justify-between custom_form">
+    <div className="flex justify-center items-center w-full h-screen bg-white p-4">
+      <div className="bg-white p-6 rounded-lg w-full max-w-[440px] min-h-[600px] text-center flex flex-col justify-between  ">
+
         {/* Logo */}
         <div className="mb-4 flex justify-center">
           <Logo />
         </div>
 
         {/* Title */}
-        <h2 className="text-lg font-semibold text-gray-700 mb-4">
+        <h2 className="text-2xl font-bold mb-2">Two-Factor Authentication</h2>
+        <p className="text-sm font-medium text-gray-700 mb-4">
           Choose your preferred method to receive the code
-        </h2>
+        </p>
 
         {/* Authentication Methods */}
-        <div className="bg-gray-100 p-3 rounded-lg mb-3">
+        <div className="bg-gray-100 p-3 rounded-lg mb-3 flex items-center justify-between">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -58,11 +64,12 @@ const SignupTwoFactorAuth = () => {
               onChange={() => setSelectedMethod("email")}
               className="accent-blue-600"
             />
-            📧 <p className="font-medium">Email Authentication</p>
+            <p className="font-medium text-sm">Email Authentication</p>
           </label>
+          <img src={documentIcon} alt="Email Icon" className="w-5 h-5" />
         </div>
 
-        <div className="bg-gray-100 p-3 rounded-lg mb-3">
+        <div className="bg-gray-100 p-3 rounded-lg mb-3 flex items-center justify-between">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -72,24 +79,32 @@ const SignupTwoFactorAuth = () => {
               onChange={() => setSelectedMethod("authenticator")}
               className="accent-blue-600"
             />
-            🔑 <p className="font-medium">Authenticator App</p>
+            <p className="font-medium text-sm">Authenticator App</p>
           </label>
+          <img src={authIcon} alt="Auth Icon" className="w-5 h-5" />
         </div>
 
         {/* Email Input */}
         {selectedMethod === "email" && (
-          <div className="flex items-center border border-gray-300 rounded-md p-2 mt-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 outline-none text-sm bg-transparent"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+          <>
+            <div className="flex items-center border border-gray-300 rounded-md p-2 mt-2">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 outline-none text-sm bg-transparent"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            {/* Verification Code Title */}
+            <h3 className="text-sm  font-semibold text-gray-700 mt-4 mb-2 text-left w-full">
+              Verification Code
+            </h3>
+          </>
         )}
 
-        {/* OTP Input Fields */}
+        {/* OTP Inputs */}
         <div className="flex justify-between space-x-2 my-3">
           {code.map((digit, index) => (
             <input
@@ -104,11 +119,15 @@ const SignupTwoFactorAuth = () => {
           ))}
         </div>
 
-        {/* Resend Code Section */}
-        <div className="flex justify-between text-sm text-gray-600 mt-2">
+        {/* Resend Section */}
+        <div className="flex justify-between text-sm text-gray-600 mt-1">
           <span>Resend code in 00:{countdown < 10 ? `0${countdown}` : countdown}</span>
           <button
-            className={`font-semibold ${resendDisabled ? "text-gray-400 cursor-not-allowed" : "text-blue-600 hover:underline"}`}
+            className={`font-semibold ${
+              resendDisabled
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-blue-600 hover:underline"
+            }`}
             onClick={handleResendCode}
             disabled={resendDisabled}
           >
@@ -118,30 +137,23 @@ const SignupTwoFactorAuth = () => {
 
         {/* Verify Button */}
         <Link to="/index/signup/2fa-success">
-          <button className="min-w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105">
+          <button className="w-full mt-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition transform hover:scale-105 flex items-center justify-center gap-2">
+            <img src={tick} alt="Verify" className="w-4 h-4" />
             Verify
           </button>
         </Link>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between mt-3 text-xs">
-          <Link to="/index/signup/step-2">
-            <button className="text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
+        {/* Navigation */}
+        <div className="flex flex-col items-center mt-4 space-y-2">
+          <Link to="/index/signup/step-2" className="text-blue-500 hover:underline font-semibold  hover:text-blue-700 text-[14px] transition-all duration-300 mb-2">
+             Back to Login
           </Link>
-          <Link to="">
-            <button className="text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
+          <Link to="#" className="text-blue-500 hover:underline hover:text-blue-700 flex font-semibold items-center text-[14px] gap-1 transition-all duration-300 mt-2">
+            <img src={questionMark} alt="Help" className="w-4 h-4" />
+            Need help?
           </Link>
         </div>
       </div>
-      <style jsx>{`
-      @media (min-width: 1400px) and (min-height: 1079px) {
-    .custom_form {
-      width: 550px;  
-      height: 65vh;  
-      padding: 40px;  
-    }
-  }
-`}</style>
     </div>
   );
 };

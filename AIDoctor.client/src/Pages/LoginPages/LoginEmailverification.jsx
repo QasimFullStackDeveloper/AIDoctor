@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../Components/Logo";
-import { MdMarkEmailRead } from "react-icons/md";
-
+import info from "../../assets/info.svg";
+import documentIcon from "../../assets/document.svg"
 export default function EmailVerification() {
   const inputRefs = useRef([]);
 
@@ -31,8 +31,8 @@ export default function EmailVerification() {
 
           <h2 className="text-xl font-semibold mb-1">Email Verification</h2>
 
-          <div className="flex justify-center mt-3 mb-2 text-blue-600 text-4xl">
-            <MdMarkEmailRead />
+          <div className="flex justify-center mt-3 mb-2 bg-[#DBEAFE] text-blue-600 text-4xl">
+            <img src={documentIcon} alt="" />
           </div>
 
           <p className="text-gray-600 text-sm mb-5 px-2">
@@ -64,7 +64,7 @@ export default function EmailVerification() {
           </Link>
 
           <div className="text-sm text-center bg-gray-100 p-2 rounded-lg text-gray-600">
-            <span className="text-blue-500">ℹ</span> Code expires in 10 minutes.
+            <span className="text-blue-500"><img src={info} alt="" /></span> Code expires in 10 minutes.
           </div>
         </div>
       </div>

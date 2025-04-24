@@ -16,7 +16,6 @@ import SignupTwoFactorAuth from "./Pages/SignupPages/SignuptwofactorAuth";
 import PremiumPlans from "./Pages/HomePages/PremiumPlans";
 import HomePage from "./Pages/HomePages/HomePage";
 import EmailVerification from "./Pages/LoginPages/LoginEmailverification";
-import LoadingSpinner from "./Components/Loading";
 import Loading from "./Components/Loading";
 
 
