@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export default function EmailSuccess() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#f9fafb] px-4">
       <div className=" w-[330px] sm:max-w-[400px] lg:max-w-[446px] xl:max-w-[500px] bg-white py-8 px-6 rounded-lg shadow-lg text-center border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between">
 
         {/* Logo */}

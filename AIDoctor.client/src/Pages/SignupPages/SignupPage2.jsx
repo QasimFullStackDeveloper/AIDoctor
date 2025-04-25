@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import backArrow from "../../assets/leftArrow.svg"
+import forwardArrow from "../../assets/whiteRightArrow.svg"
+
 import image from "../../assets/DIV.svg"
 export default function SignupPage2() {
   return (
@@ -67,12 +70,12 @@ export default function SignupPage2() {
           <div className="buttons_11 flex justify-between mt-6">
             <Link to="/index/signup/step-1"> 
               <button className="back_11 px-5 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition-transform transform hover:scale-105">
-                ← Back
+                <img src={backArrow} alt="" /> Back
               </button>
             </Link>
             <Link to="/index/signup/step-3"> 
               <button className="continue_11 px-5 py-2 bg-blue-500 text-white rounded-lg font-bold hover:bg-blue-600 transition-transform transform hover:scale-105">
-                Continue → 
+                Continue <img src={forwardArrow} alt="" />
               </button>
             </Link>
           </div>

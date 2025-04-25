@@ -44,9 +44,10 @@ const SignupTwoFactorAuth = () => {
 
         {/* Logo */}
         <div className="mb-4 flex justify-center">
-          <Logo />
+        <div className=" h-10 w-10">
+          <Logo/>
         </div>
-
+        </div>
         {/* Title */}
         <h2 className="text-2xl font-bold mb-2">Two-Factor Authentication</h2>
         <p className="text-sm font-medium text-gray-700 mb-4">
@@ -145,7 +146,7 @@ const SignupTwoFactorAuth = () => {
 
         {/* Navigation */}
         <div className="flex flex-col items-center mt-4 space-y-2">
-          <Link to="/index/signup/step-2" className="text-blue-500 hover:underline font-semibold  hover:text-blue-700 text-[14px] transition-all duration-300 mb-2">
+          <Link to="/index/login" className="text-blue-500 hover:underline font-semibold  hover:text-blue-700 text-[14px] transition-all duration-300 mb-2">
              Back to Login
           </Link>
           <Link to="#" className="text-blue-500 hover:underline hover:text-blue-700 flex font-semibold items-center text-[14px] gap-1 transition-all duration-300 mt-2">

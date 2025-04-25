@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function LoginEmailSent() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#f9fafb] px-4">
-      <div className="w-full max-w-md bg-white rounded-xl border-t-4 border-blue-600 shadow-lg p-8 sm:p-10 text-center">
+      <div className="w-[350px] bg-white rounded-xl border-t-4 border-blue-600 shadow-lg p-8 sm:p-10 text-center">
         
         {/* Logo */}
         <div className="mb-4 flex justify-center">

@@ -35,7 +35,7 @@ export default function SetNewPassword() {
 
         {/* Logo */}
         <div className="flex justify-center ">
-        <div className="mb-2 h-12 w-12">
+        <div className="mb-2 h-10 w-10">
           <Logo />
         </div>
         </div>

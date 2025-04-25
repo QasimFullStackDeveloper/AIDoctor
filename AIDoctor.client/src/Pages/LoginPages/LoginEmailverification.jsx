@@ -1,71 +1,53 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../Components/Logo";
-import info from "../../assets/info.svg";
-import documentIcon from "../../assets/document.svg"
+import emailIcon from "../../assets/document.svg";
+import DocIcon from "../../assets/whiteDoc.svg"; 
+import infoIcon from "../../assets/info.svg"; 
+
 export default function EmailVerification() {
-  const inputRefs = useRef([]);
-
-  const handleInputChange = (e, index) => {
-    const { value } = e.target;
-    if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !e.target.value && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    }
-  };
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-blue-100 px-4">
-      <div className="max-w-[330px] sm:max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] min-h-[550px] w-full bg-white rounded-lg border-t-4 border-blue-600 px-6 py-6 text-center shadow-xl transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between">
+    <div className="flex justify-center items-center min-h-screen bg-[#F9FAFB] px-4">
+      <div className="w-full max-w-[400px] bg-white rounded-lg border-t-4 border-blue-600 shadow-md px-8 py-10 text-center">
         
-        {/* Top - Logo & Title */}
-        <div>
-          <div className="flex justify-center mb-5">
+        {/* Logo */}
+        <div className="flex justify-center mb-3">
+          <div className="h-11 w-11"> 
             <Logo />
           </div>
-
-          <h2 className="text-xl font-semibold mb-1">Email Verification</h2>
-
-          <div className="flex justify-center mt-3 mb-2 bg-[#DBEAFE] text-blue-600 text-4xl">
-            <img src={documentIcon} alt="" />
-          </div>
-
-          <p className="text-gray-600 text-sm mb-5 px-2">
-            Enter the verification code sent to your email address
-          </p>
         </div>
 
-        {/* Middle - Code Inputs */}
-        <div className="flex justify-center gap-2 mb-5">
-          {Array(6).fill(0).map((_, index) => (
-            <input
-              key={index}
-              type="text"
-              maxLength="1"
-              ref={(el) => (inputRefs.current[index] = el)}
-              onChange={(e) => handleInputChange(e, index)}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-10 h-10 sm:w-12 sm:h-12 border border-gray-300 text-center text-lg rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-200 hover:scale-105"
-            />
-          ))}
+        {/* Title */}
+        <h2 className="text-2xl font-semibold mb-4">Check Your Email</h2>
+
+        {/* Email Icon */}
+        <div className="flex justify-center mb-6">
+          <div className="bg-[#DBEAFE] rounded-full p-4">
+            <img src={emailIcon} alt="Email Icon" className="w-10 h-10" />
+          </div>
         </div>
 
-        {/* Bottom - Button & Info */}
-        <div className="space-y-3">
-          <Link to="/index/login/success" className="block">
-            <button className="w-full bg-blue-500 text-white mb-[30px] py-2 rounded-lg font-medium hover:bg-blue-600 transition-transform duration-200 hover:scale-105">
-              Verify Email
-            </button>
-          </Link>
+        {/* Text */}
+        <p className="text-gray-600 text-sm mb-6">
+          We've sent a verification link to your email <br />
+          Please check your inbox and click on the verification link to verify your email address
+        </p>
 
-          <div className="text-sm text-center bg-gray-100 p-2 rounded-lg text-gray-600">
-            <span className="text-blue-500"><img src={info} alt="" /></span> Code expires in 10 minutes.
-          </div>
+        {/* Button */}
+        <Link to="/open-email" className="block mb-6">
+          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition flex items-center justify-center">
+            {/* DocIcon aligned with the text */}
+            <img src={DocIcon} alt="Open Email App" className="w-5 h-5 mr-2" />
+            Open Email App
+          </button>
+        </Link>
+
+        {/* Info Box */}
+        <div className="bg-gray-100 p-3 rounded-lg flex items-start text-gray-600 text-sm">
+          <img src={infoIcon} alt="Info" className="w-5 h-5 mr-2 mt-0.5" />
+          <span>
+            The verification link will expire in 24 hours for security reasons. If you don’t see the email, please check your spam folder.
+          </span>
         </div>
       </div>
     </div>
