@@ -17,14 +17,16 @@ import PremiumPlans from "./Pages/HomePages/PremiumPlans";
 import HomePage from "./Pages/HomePages/HomePage";
 import EmailVerification from "./Pages/LoginPages/LoginEmailverification";
 import Loading from "./Components/Loading";
+import DoctorAI from "./Pages/ChatBot/CharbotPage";
 
 
 const App = () => {
   return (
-    
+
     <Router>
       <Routes>
         <Route path="/index" element={<HomePage />} />
+        <Route path="/index/Chatbot" element={<DoctorAI />} />         
         <Route path="/index/premium-plans" element={<PremiumPlans />} />
         <Route path="/index/signup" element={<Signup />} />
         <Route path="/index/signup/two-factor" element={<SignupTwoFactorAuth />} />
@@ -36,10 +38,10 @@ const App = () => {
         <Route path="/index/login/success" element={<EmailSuccess />} />
         <Route path="/index/login/forgot-password" element={<LoginForgetpassword />} />
         <Route path="/index/login/two-factor" element={<LogintwoFactor />} />
-        <Route path="/index/login/email-success" element={<EmailVerification />}/>
+        <Route path="/index/login/email-success" element={<EmailVerification />} />
         <Route path="/index/login/email-sent" element={<LoginEmailSent />} />
         <Route path="/index/password-reset" element={<PasswordReset />} />
-        <Route path="/index/load" element={<Loading/>}/>
+        <Route path="/index/load" element={<Loading />} />
       </Routes>
     </Router>
   );

@@ -50,7 +50,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright aligned to bottom */}
-        <div className="w-[100vw] border-t border-gray-700 relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] mt-10 pt-2">
+        <div className="w-[100vw] border-t Zenbook:mb-[-123px] border-gray-700 relative left-[50%] right-[50%] ml-[-50vw] mr-[-50vw] mt-10 pt-2">
           <p className="text-center text-sm text-gray-500">
             &copy; 2025 Doctor AI. All rights reserved.
           </p>
