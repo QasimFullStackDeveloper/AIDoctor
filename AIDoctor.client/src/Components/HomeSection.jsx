@@ -57,9 +57,9 @@ const HomeSection = () => {
 
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 md:gap-6 w-full sm:w-auto ml-3 sm:ml-0">
-          <button className="w-full sm:w-auto h-12 md:h-14 bg-[#2563EB] border-2 border-[#2563EB] hover:bg-[#0044CC] text-white px-6 md:px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 text-sm sm:text-base md:text-lg truncate">
+       <Link to ="/index/Chatbot">   <button className="w-full sm:w-auto h-12 md:h-14 bg-[#2563EB] border-2 border-[#2563EB] hover:bg-[#0044CC] text-white px-6 md:px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 text-sm sm:text-base md:text-lg truncate">
             <img src={explore} alt="explore" className="mr-2 w-5 h-5" /> Chat Now
-          </button>
+          </button></Link>
           <Link to="/index/premium-plans" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto h-12 md:h-14 bg-white border border-[#2D5EFF] hover:bg-[#2D5EFF] text-[#2D5EFF] hover:text-white px-6 md:px-8 rounded-lg shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 text-sm sm:text-base md:text-lg truncate">
               <img src={search} alt="search" className="mr-2 w-5 h-5" /> Explore Features
