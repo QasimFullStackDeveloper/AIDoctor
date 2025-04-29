@@ -1,4 +1,4 @@
-name: Deploy AI Doctor to RDP
+name: Deploying AI Doctor to RDP (VPS Own Server/Machine)
 
 on:
   push:
@@ -35,8 +35,8 @@ jobs:
 
       - name: Deploy to RDP
         run: |
-          $RdpHost = "0.tcp.ngrok.io"  # Ngrok hostname
-          $RdpPort = 17678  # Ngrok port
+          $RdpHost = "6.tcp.ngrok.io"  # Ngrok hostname
+          $RdpPort = 17963  # Ngrok port
           $RdpUser = "Aaban"
           $RdpPass = "${{ secrets.RDP_PASSWORD }}"
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
