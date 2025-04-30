@@ -66,15 +66,48 @@ jobs:
           Write-Output "Establishing WinRM session..."
           $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
 
-          # Stop the running application before copying files
+          # Stop the running application and ensure files are released
           Write-Output "Stopping the running app..."
           Invoke-Command -Session $Session -ScriptBlock {
-            $process = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "*AIDoctor*" }
-            if ($process) {
-              Stop-Process -Id $process.Id -Force
-              Write-Output "App stopped successfully."
+            $processes = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "*AIDoctor*" }
+            if ($processes) {
+              foreach ($process in $processes) {
+                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+                Write-Output "Stopped process ID $($process.Id)"
+              }
             } else {
               Write-Output "No running app found."
+            }
+            # Wait for file handles to be released
+            Start-Sleep -Seconds 5
+          }
+
+          # Attempt to delete the publish folder with retries
+          Write-Output "Deleting existing publish folder..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $retries = 3
+            $retryCount = 0
+            $success = $false
+            while ($retryCount -lt $retries -and -not $success) {
+              try {
+                Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction Stop
+                Write-Output "Publish folder deleted successfully."
+                $success = $true
+              } catch {
+                Write-Output "Attempt $($retryCount + 1): Failed to delete publish folder - $($_.Exception.Message)"
+                Start-Sleep -Seconds 5
+                # Try to identify and stop any process using the folder
+                $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
+                if ($lockedFiles) {
+                  # Use handle.exe to find processes (if available) or fallback to taskkill
+                  taskkill /IM dotnet.exe /F /T 2>$null
+                }
+              }
+              $retryCount++
+            }
+            if (-not $success) {
+              Write-Error "Failed to delete publish folder after $retries attempts."
+              exit 1
             }
           }
 
@@ -85,7 +118,6 @@ jobs:
           # Unzip the files on the RDP machine
           Write-Output "Unzipping files on RDP..."
           Invoke-Command -Session $Session -ScriptBlock {
-            Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction SilentlyContinue
             Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
             Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
           }
@@ -117,14 +149,14 @@ jobs:
       - name: Verify Deployment
         run: |
           $url = "http://139.185.55.205:8080"
-          $retries = 5  # Increased retries
+          $retries = 5
           $retryCount = 0
           $success = $false
 
           # Wait for the app to start, with retries
           Write-Output "Waiting for the app to start at $url..."
           while ($retryCount -lt $retries -and -not $success) {
-            Start-Sleep -Seconds 30  # Increased to 30 seconds per retry
+            Start-Sleep -Seconds 30
             try {
               $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
               if ($response.StatusCode -eq 200) {
