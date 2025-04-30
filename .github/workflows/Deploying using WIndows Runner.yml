@@ -1,4 +1,4 @@
-name: Deploy AI Doctor to RDP
+name: Deploying AI Doctor to RDP (VPS Own Server/Machine)
 
 on:
   push:
@@ -34,15 +34,17 @@ jobs:
           xcopy dist ..\publish\wwwroot /E /H /C /I /Y
 
       - name: Deploy to RDP
+        timeout-minutes: 10
         run: |
-          $RdpHost = "0.tcp.ngrok.io"  # Ngrok hostname
-          $RdpPort = 17678  # Ngrok port
+          $RdpHost = "139.185.55.205"
+          $RdpPort = 5986
           $RdpUser = "Aaban"
           $RdpPass = "${{ secrets.RDP_PASSWORD }}"
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
           $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
 
           # Add the RDP host to TrustedHosts on the runner
+          Write-Output "Configuring TrustedHosts..."
           $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
           if ($CurrentTrustedHosts -notlike "*$RdpHost*") {
             if ($CurrentTrustedHosts) {
@@ -53,28 +55,124 @@ jobs:
           }
 
           # Allow unencrypted traffic on the client (GitHub Actions runner)
+          Write-Output "Allowing unencrypted WinRM traffic..."
           Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
 
-          # Create a new PowerShell session to the RDP machine using Basic authentication
-          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
+          # Zip the publish folder to reduce transfer size
+          Write-Output "Zipping the publish folder..."
+          Compress-Archive -Path "publish/*" -DestinationPath "publish.zip" -Force
 
-          # Stop the running application before copying files
+          # Create a new PowerShell session to the RDP machine using Basic authentication
+          Write-Output "Establishing WinRM session..."
+          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
+
+          # Stop the running application and ensure files are released
+          Write-Output "Stopping the running app..."
           Invoke-Command -Session $Session -ScriptBlock {
-            try {
-              taskkill /IM dotnet.exe /F 2>$null
-            } catch {
-              # Ignore errors
+            $processes = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "*AIDoctor*" }
+            if ($processes) {
+              foreach ($process in $processes) {
+                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+                Write-Output "Stopped process ID $($process.Id)"
+              }
+            } else {
+              Write-Output "No running app found."
+            }
+            # Wait for file handles to be released
+            Start-Sleep -Seconds 5
+          }
+
+          # Attempt to delete the publish folder with retries
+          Write-Output "Deleting existing publish folder..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $retries = 3
+            $retryCount = 0
+            $success = $false
+            while ($retryCount -lt $retries -and -not $success) {
+              try {
+                Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction Stop
+                Write-Output "Publish folder deleted successfully."
+                $success = $true
+              } catch {
+                Write-Output "Attempt $($retryCount + 1): Failed to delete publish folder - $($_.Exception.Message)"
+                Start-Sleep -Seconds 5
+                # Try to identify and stop any process using the folder
+                $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
+                if ($lockedFiles) {
+                  # Use handle.exe to find processes (if available) or fallback to taskkill
+                  taskkill /IM dotnet.exe /F /T 2>$null
+                }
+              }
+              $retryCount++
+            }
+            if (-not $success) {
+              Write-Error "Failed to delete publish folder after $retries attempts."
+              exit 1
             }
           }
 
-          # Copy files to RDP
-          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
+          # Copy the zip file to RDP
+          Write-Output "Copying the zip file to RDP..."
+          Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
 
-          # Start the app
+          # Unzip the files on the RDP machine
+          Write-Output "Unzipping files on RDP..."
           Invoke-Command -Session $Session -ScriptBlock {
-            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
+            Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
+            Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
+          }
+
+          # Restart frpc to ensure the tunnel is active
+          Write-Output "Restarting frpc on RDP..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
+            if ($frpcProcess) {
+              Stop-Process -Id $frpcProcess.Id -Force
+              Write-Output "frpc stopped successfully."
+            }
+            Start-Process -FilePath "C:\frp\start-frpc.bat" -NoNewWindow
+            Write-Output "frpc restarted."
+          }
+
+          # Start the app on port 5001 (to match frp tunnel)
+          Write-Output "Starting the app on port 5001..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow
           }
 
           # Close the session
+          Write-Output "Closing WinRM session..."
           Remove-PSSession $Session
+          Write-Output "Deployment complete."
+        shell: powershell
+
+      - name: Verify Deployment
+        run: |
+          $url = "http://139.185.55.205:8080"
+          $retries = 5
+          $retryCount = 0
+          $success = $false
+
+          # Wait for the app to start, with retries
+          Write-Output "Waiting for the app to start at $url..."
+          while ($retryCount -lt $retries -and -not $success) {
+            Start-Sleep -Seconds 30
+            try {
+              $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+              if ($response.StatusCode -eq 200) {
+                Write-Output "Deployment successful: App is running at $url"
+                $success = $true
+              } else {
+                Write-Output "Attempt $($retryCount + 1): App returned status code $($response.StatusCode)"
+              }
+            } catch {
+              Write-Output "Attempt $($retryCount + 1): Failed to connect to $url - $($_.Exception.Message)"
+            }
+            $retryCount++
+          }
+
+          if (-not $success) {
+            Write-Error "Deployment failed: App not responding at $url after $retries attempts"
+            exit 1
+          }
         shell: powershell
