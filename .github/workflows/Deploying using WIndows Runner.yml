@@ -34,7 +34,7 @@ jobs:
           xcopy dist ..\publish\wwwroot /E /H /C /I /Y
 
       - name: Deploy to RDP
-        timeout-minutes: 10  # Fail after 10 minutes if stuck
+        timeout-minutes: 10
         run: |
           $RdpHost = "139.185.55.205"
           $RdpPort = 5986
@@ -104,15 +104,31 @@ jobs:
 
       - name: Verify Deployment
         run: |
-          # Wait for the app to start
-          Start-Sleep -Seconds 10
-          # Test the app endpoint
           $url = "http://139.185.55.205:8080"
-          $response = Invoke-WebRequest -Uri $url -UseBasicParsing
-          if ($response.StatusCode -eq 200) {
-            Write-Output "Deployment successful: App is running at $url"
-          } else {
-            Write-Error "Deployment failed: App not responding at $url"
+          $retries = 3
+          $retryCount = 0
+          $success = $false
+
+          # Wait for the app to start, with retries
+          Write-Output "Waiting for the app to start at $url..."
+          while ($retryCount -lt $retries -and -not $success) {
+            Start-Sleep -Seconds 20  # Increased to 20 seconds per retry
+            try {
+              $response = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30
+              if ($response.StatusCode -eq 200) {
+                Write-Output "Deployment successful: App is running at $url"
+                $success = $true
+              } else {
+                Write-Output "Attempt $($retryCount + 1): App returned status code $($response.StatusCode)"
+              }
+            } catch {
+              Write-Output "Attempt $($retryCount + 1): Failed to connect to $url - $($_.Exception.Message)"
+            }
+            $retryCount++
+          }
+
+          if (-not $success) {
+            Write-Error "Deployment failed: App not responding at $url after $retries attempts"
             exit 1
           }
         shell: powershell
