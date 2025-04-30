@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
-import autoprefixer from 'autoprefixer';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -53,8 +52,9 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // Vite Configuration
 export default defineConfig({
-    base:"/index",
-    plugins: [plugin()],
+    base:"/",
+
+    plugins: [plugin(),],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))

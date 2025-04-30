@@ -42,7 +42,6 @@ export default function SignupPage1() {
           className="flex items-center justify-between w-full overflow-x-auto mb-6"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          WebKit scrollbar hide
           <style>{`div::-webkit-scrollbar { display: none; }`}</style>
 
           {/* Step 1 */}

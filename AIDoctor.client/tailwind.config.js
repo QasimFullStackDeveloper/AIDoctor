@@ -2,7 +2,7 @@
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -12,6 +12,9 @@ export default {
         'Zenbook': { 'raw': '(width: 853px) and (height: 1280px)' },
         'IpadPro': { 'raw': '(width: 1024px) and (height: 1366px)' },
         'thousand': { 'raw': '(max-width: 1000px) ' },
+        'thousandh': { 'raw': '(min-height: 1000px) ' },
+        'tall-md': { raw: '(min-height: 760px) and (max-height: 999px)' },
+        'tall': { raw: '(min-height: 1000px)' },
         'surfacePro': { 'raw': '(width: 912px) and (height: 1368px)' },
         'IpadAir': { 'raw': '(width: 820px) and (height: 1180px)' },
         'IpadmINI': { 'raw': '(width: 768px) and (height: 1024px)' },

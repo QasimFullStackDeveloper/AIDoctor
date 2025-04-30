@@ -23,13 +23,23 @@ const DoctorAI = () => {
     {
       sender: 'bot',
       text: "Welcome Back! What would you like to chat about? Can you Ask any Question?",
-      
     },
   ]);
   const [input, setInput] = useState("");
   const [showHistory, setShowHistory] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [oldChats, setOldChats] = useState([]);
+  
 
+
+  const handleNewChat = () => {
+    const currentChatHistory = messages.slice(1); 
+    setOldChats((prev) => [...prev, ...currentChatHistory]);
+  
+   setMessages([{ sender: 'bot', text: "Welcome Back! What would you like to chat about? Can you Ask any Question?" }]);
+console.log(oldChats);
+  };
   const handleSend = () => {
     if (input.trim() !== "") {
       setMessages((prev) => [...prev, { sender: 'user', text: input }]);
@@ -39,6 +49,10 @@ const DoctorAI = () => {
 
   const handleHistoryClick = () => {
     setShowHistory(true);
+  };
+
+  const handleMode = () => {
+    setIsDarkMode(prev => !prev);
   };
 
   const chatHistory = [
@@ -51,10 +65,14 @@ const DoctorAI = () => {
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const mainBg = isDarkMode ? 'bg-black text-white' : 'bg-[#08254C] text-white opacity-100';
+  const contentBg = isDarkMode ? 'bg-[#3C434D] text-white' : 'bg-white text-black';
+  const sidebarBg = isDarkMode ? 'bg-black text-white' : 'bg-[#08254C] text-white';
+
   return (
-    <div className="flex h-screen bg-[#08254C]">
+    <div className={`flex h-screen ${mainBg}`}>
       {/* Sidebar */}
-      <div className="w-[300px] flex mt-[1rem] flex-col bg-[#08254C] text-white p-4">
+      <div className={`w-[300px] flex mt-[1rem] flex-col ${sidebarBg} p-4`}>
         <div>
           <div className="flex items-center space-x-2 mb-6">
             <div className='w-9 h-9 mr-4 mb-1'>
@@ -90,20 +108,17 @@ const DoctorAI = () => {
 
         {/* Bottom Content - Oval + Profile */}
         <div className="flex flex-col justify-end mt-auto">
-          {/* Oval-shaped image bubble - lifted slightly above profile section */}
-          <div className="flex  items-center mb-[10px]">
+          <div className="flex items-center mb-[10px]">
             <div className="bg-[#455EA5] mb-3 px-3 py-2 rounded-full flex items-center gap-2">
-              <div className="bg-yellow-400 p-1 h-8 w-8 flex justify-center items-center rounded-full">
+              <div className="bg-yellow-400 p-1 h-8 w-8 flex justify-center items-center cursor-pointer rounded-full" onClick={handleMode}>
                 <img src={sun} alt="sun" className="w-4 h-4 object-contain" />
               </div>
-              <div className=" p-1 rounded-full">
-                <img src={moon} alt="moon" className="w-6 h-6 object-contain" />
+              <div className="p-1 rounded-full">
+                <img src={moon} alt="moon" className="w-6 h-6 object-contain cursor-pointer" onClick={handleMode} />
               </div>
             </div>
-
           </div>
 
-          {/* Bottom Profile Section */}
           <div className="bg-[#455EA5] p-4 rounded-lg shadow-inner">
             <div className="flex items-center gap-3 mb-4">
               <img src={user1} alt="User" className="w-10 h-10 rounded-full object-cover" />
@@ -114,7 +129,7 @@ const DoctorAI = () => {
               <span className="bg-blue-800 mb-4 text-white text-[10px] px-3 py-1 rounded-full">Basic mode</span>
             </div>
 
-            <button  className="w-full flex items-center justify-center bg-white text-black text-sm font-semibold p-2 rounded-lg hover:bg-yellow-300 transition duration-200">
+            <button className="w-full flex items-center justify-center bg-white cursor-not-allowed text-black text-sm font-semibold p-2 rounded-lg transition duration-200">
               <img src={crown} alt="Crown" className="w-4 h-4 mr-2" />
               Upgrade to Pro
             </button>
@@ -125,8 +140,8 @@ const DoctorAI = () => {
       {/* Main Section */}
       <div className="flex-1 flex p-6 overflow-hidden">
         {showHistory && (
-          <div className="w-[350px] bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-y-auto border border-gray-200">
-            <div className="mb-4 pb-2 border-b w-[100%]">
+          <div className={`w-[350px] ${contentBg} rounded-2xl shadow-lg p-6 flex flex-col overflow-y-auto border border-gray-200`}>
+            <div className="mb-4 pb-2 border-b w-full">
               <h2 className="text-lg font-semibold">Chat History</h2>
             </div>
 
@@ -136,62 +151,71 @@ const DoctorAI = () => {
                 placeholder="Search chats..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 text-black"
               />
             </div>
 
             {filteredChatHistory.map((item, index) => (
               <div key={index} className="pb-4 mb-4 border-b border-gray-200 cursor-pointer hover:bg-green-100">
                 <h3 className="text-md font-semibold capitalize">{item.title}</h3>
-                <p className="text-sm text-gray-500">{item.description}</p>
+                <p className="text-sm text-gray-700">{item.description}</p>
               </div>
             ))}
           </div>
         )}
 
-        <div className="flex-1 flex flex-col bg-white rounded-2xl shadow-lg p-6 h-full ml-6">
+        <div className={`flex-1 flex flex-col ${contentBg} rounded-2xl shadow-lg p-6 h-full ml-6`}>
           <div className="border-b pb-4 mb-4">
             <h2 className="text-lg font-semibold">New Chat</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto pr-2 space-y-16">
-            {messages.map((msg, index) => (
-              <div key={index} className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
-                <div className="relative min-w-[30%] max-w-[50%]">
-                  <div
-                    className={`flex items-start gap-2 ${msg.sender === 'user' ? 'bg-[#D8D8D8]' : 'bg-[#F0BABE]'} rounded-xl p-3`}
-                  >
-                    <img
-                      src={msg.sender === 'user' ? user1 : robot}
-                      alt={msg.sender}
-                      className="w-7 h-7 rounded-full object-cover mt-0.5"
-                    />
-                    <p className="text-sm">{msg.text}</p>
-                  </div>
+          {messages.map((msg, index) => {
+  const isUser = msg.sender === 'user';
+  const messageBg = isDarkMode
+    ? (isUser ? 'bg-[#334155] opacity-100' : 'bg-[#1E293B]')
+    : (isUser ? 'bg-[#D8D8D8]' : 'bg-[#F0BABE]');
+  return (
+    <div key={index} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+      <div className="relative Laptop:min-w-[50%] min-h-[30%] max-w-[50%]">
+        <div className={`flex ${messageBg} rounded-xl p-3`}>
+          <div className="relative">
+            <img
+              src={isUser ? user1 : robot}
+              alt={msg.sender}
+              className="w-7 h-7 rounded-full object-cover -mt-1"
+            />
+          </div>
+          <div className="pl-3 flex items-end">
+            <p className="text-sm">{msg.text}</p>
+          </div>
+        </div>
 
-                  <div className="absolute ml-5 top-full left-4 mt-[-9px] flex gap-4 z-10 overflow-visible cursor-pointer">
-                    <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-xs flex items-center gap-1">
-                      <img src={savesIcon} alt="Save" className="w-4 h-4" />
-                      Save
-                    </div>
-                    <div className="bg-[#F9FAFB] border border-gray-300 shadow-md px-3 py-1 rounded-md text-xs flex items-center gap-1">
-                      <img src={copy} alt="Copy" className="w-4 h-4" />
-                      Copy
-                    </div>
-                    <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-xs flex items-center gap-1">
-                      <img src={edit} alt="Edit" className="w-4 h-4" />
-                      Edit
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="absolute ml-5 top-full left-4 mt-[-9px] flex gap-4 z-10 overflow-visible cursor-pointer">
+          <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-xs flex items-center gap-1">
+            <img src={savesIcon} alt="Save" className="w-4 h-4" />
+            Save
+          </div>
+          <div className="bg-[#F9FAFB] border border-gray-300 shadow-md px-3 py-1 rounded-md text-xs flex items-center gap-1">
+            <img src={copy} alt="Copy" className="w-4 h-4" />
+            Copy
+          </div>
+          <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-xs flex items-center gap-1">
+            <img src={edit} alt="Edit" className="w-4 h-4" />
+            Edit
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
+
           </div>
 
           {/* Input Area */}
           <div className="bg-[#455EA5] rounded-2xl overflow-hidden mt-4">
             <div className="flex items-center gap-3 px-4 py-3 cursor-pointer">
-              <div className="w-5 h-5 bg-gray-200 flex items-center justify-center rounded">
+              <div className="w-5 h-5 bg-gray-200 flex items-center justify-center rounded " onClick={handleNewChat}>
                 <img src={newChat} alt="New Chat" className="w-4 h-4" />
               </div>
               <div className="w-5 h-5 bg-gray-200 flex items-center justify-center rounded" onClick={handleHistoryClick}>
@@ -209,7 +233,7 @@ const DoctorAI = () => {
               <input
                 type="text"
                 placeholder="Ask me anything ..."
-                className="flex-1 bg-transparent focus:outline-none text-sm"
+                className="flex-1 bg-transparent focus:outline-none text-sm text-black"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
