@@ -62,9 +62,26 @@ jobs:
           Write-Output "Zipping the publish folder..."
           Compress-Archive -Path "publish/*" -DestinationPath "publish.zip" -Force
 
-          # Create a new PowerShell session to the RDP machine using Basic authentication
+          # Create a new PowerShell session to the RDP machine with retries
           Write-Output "Establishing WinRM session..."
-          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
+          $retries = 3
+          $retryCount = 0
+          $sessionSuccess = $false
+          while ($retryCount -lt $retries -and -not $sessionSuccess) {
+            try {
+              $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000) -ErrorAction Stop
+              Write-Output "WinRM session established successfully."
+              $sessionSuccess = $true
+            } catch {
+              Write-Output "Attempt $($retryCount + 1): Failed to establish WinRM session - $($_.Exception.Message)"
+              Start-Sleep -Seconds 10
+              $retryCount++
+            }
+          }
+          if (-not $sessionSuccess) {
+            Write-Error "Failed to establish WinRM session after $retries attempts."
+            exit 1
+          }
 
           # Stop the running application and ensure files are released
           Write-Output "Stopping the running app..."
@@ -99,7 +116,6 @@ jobs:
                 # Try to identify and stop any process using the folder
                 $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
                 if ($lockedFiles) {
-                  # Use handle.exe to find processes (if available) or fallback to taskkill
                   taskkill /IM dotnet.exe /F /T 2>$null
                 }
               }
@@ -122,27 +138,16 @@ jobs:
             Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
           }
 
-          # Restart frpc to ensure the tunnel is active
-          Write-Output "Restarting frpc on RDP..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
-            if ($frpcProcess) {
-              Stop-Process -Id $frpcProcess.Id -Force
-              Write-Output "frpc stopped successfully."
-            }
-            Start-Process -FilePath "C:\frp\start-frpc.bat" -NoNewWindow
-            Write-Output "frpc restarted."
-          }
-
           # Start the app on port 5001 (to match frp tunnel)
           Write-Output "Starting the app on port 5001..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow
           }
 
-          # Close the session
+          # Close the WinRM session
           Write-Output "Closing WinRM session..."
           Remove-PSSession $Session
+
           Write-Output "Deployment complete."
         shell: powershell
 
