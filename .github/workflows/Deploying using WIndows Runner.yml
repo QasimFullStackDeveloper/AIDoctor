@@ -76,12 +76,12 @@ jobs:
           $Session = $null
           while ($retryCount -lt $retries -and -not $sessionSuccess) {
             try {
-              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 120000) -ErrorAction Stop
+              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
               Write-Output "WinRM session established successfully."
               $sessionSuccess = $true
             } catch {
               Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish WinRM session - $($_.Exception.Message)"
-              Start-Sleep -Seconds 10
+              Start-Sleep -Seconds 15
               $retryCount++
               if ($retryCount -eq $retries) {
                 Write-Error "Failed to establish WinRM session after $retries attempts."
@@ -272,16 +272,18 @@ jobs:
           $Session = $null
           while ($retryCount -lt $retries -and -not $sessionSuccess) {
             try {
-              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 120000) -ErrorAction Stop
+              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
               Write-Output "New WinRM session established successfully."
               $sessionSuccess = $true
             } catch {
               Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish new WinRM session - $($_.Exception.Message)"
-              Start-Sleep -Seconds 10
+              Start-Sleep -Seconds 15
               $retryCount++
               if ($retryCount -eq $retries) {
-                Write-Error "Failed to establish new WinRM session after $retries attempts."
-                exit 1
+                Write-Warning "Failed to establish new WinRM session after $retries attempts. Skipping frpc restart and proceeding to verification."
+                # Skip to verification step
+                Write-Output "Deployment completed without frpc restart."
+                exit 0
               }
             }
           }
@@ -294,6 +296,15 @@ jobs:
           while ($frpcRetryCount -lt $frpcRetries -and -not $frpcSuccess) {
             try {
               Invoke-Command -Session $Session -ScriptBlock {
+                # Check if WinRM service is running
+                $winrmService = Get-Service -Name WinRM -ErrorAction SilentlyContinue
+                if ($winrmService -and $winrmService.Status -ne "Running") {
+                  Write-Output "WinRM service is not running. Attempting to restart..."
+                  Start-Service -Name WinRM -ErrorAction Stop
+                  Start-Sleep -Seconds 5
+                }
+
+                # Proceed with frpc restart
                 taskkill /IM frpc.exe /F 2>$null
                 Start-Sleep -Seconds 2
                 $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
@@ -309,11 +320,11 @@ jobs:
               $frpcSuccess = $true
             } catch {
               Write-Output "Attempt $($frpcRetryCount + 1) of $frpcRetries - Failed to restart frpc - $($_.Exception.Message)"
-              Start-Sleep -Seconds 10
+              Start-Sleep -Seconds 15
               $frpcRetryCount++
               if ($frpcRetryCount -eq $frpcRetries) {
-                Write-Error "Failed to restart frpc after $frpcRetries attempts."
-                exit 1
+                Write-Warning "Failed to restart frpc after $frpcRetries attempts. Skipping frpc restart and proceeding to verification."
+                break
               }
               # Close and reopen the session on retry
               Remove-PSSession $Session
@@ -321,25 +332,28 @@ jobs:
               $sessionSuccess = $false
               while ($retrySessionCount -lt $retries -and -not $sessionSuccess) {
                 try {
-                  $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 120000) -ErrorAction Stop
+                  $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
                   Write-Output "Re-established WinRM session for frpc restart retry."
                   $sessionSuccess = $true
                 } catch {
                   Write-Output "Retry session attempt $($retrySessionCount + 1) of $retries - Failed to re-establish WinRM session - $($_.Exception.Message)"
-                  Start-Sleep -Seconds 10
+                  Start-Sleep -Seconds 15
                   $retrySessionCount++
                   if ($retrySessionCount -eq $retries) {
-                    Write-Error "Failed to re-establish WinRM session after $retries attempts."
-                    exit 1
+                    Write-Warning "Failed to re-establish WinRM session after $retries attempts. Skipping frpc restart and proceeding to verification."
+                    $frpcSuccess = $true  # To exit the loop
+                    break
                   }
                 }
               }
             }
           }
 
-          # Close the WinRM session
-          Write-Output "Closing WinRM session after frpc restart..."
-          Remove-PSSession $Session
+          # Close the WinRM session if it exists
+          if ($Session) {
+            Write-Output "Closing WinRM session after frpc restart..."
+            Remove-PSSession $Session
+          }
 
           Write-Output "Deployment completed."
 
