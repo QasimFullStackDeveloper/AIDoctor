@@ -148,7 +148,7 @@ jobs:
           # Check if port 5001 is in use and free it
           Write-Output "Checking if port 5001 is in use..."
           Invoke-Command -Session $Session -ScriptBlock {
-            $portInUse = netstat -aon | Select-String ":5001\s+.*LISTENING"
+            bash $portInUse = netstat -aon | Select-String ":5001\s+.*LISTENING"
             if ($portInUse) {
               Write-Output "Port 5001 is in use. Attempting to free it..."
               $processId = ($portInUse -split "\s+")[5]
@@ -273,13 +273,13 @@ jobs:
               exit 1
             }
 
-            # Create a script to kill and restart frpc
+            # Create a script to kill and restart frpc (ensure no whitespace before closing @)
             $restartScriptPath = "C:\AI-Doctor\restart-frpc.ps1"
             $restartScriptContent = @"
-            taskkill /IM frpc.exe /F 2>$null
-            Start-Sleep -Seconds 2
-            & '$frpcStartScript'
-            "@
+taskkill /IM frpc.exe /F 2>`$null
+Start-Sleep -Seconds 2
+& '$frpcStartScript'
+"@
             Set-Content -Path $restartScriptPath -Value $restartScriptContent -Force
 
             # Check if the scheduled task already exists and delete it
