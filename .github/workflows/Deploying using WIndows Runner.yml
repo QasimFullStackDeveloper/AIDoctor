@@ -1,26 +1,24 @@
-name: Deploy AI Doctor to RDP Server
+name: Deploying AI Doctor to RDP (VPS Own Server/Machine)
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '20'
 
       - name: Build Backend
         run: |
@@ -30,153 +28,53 @@ jobs:
       - name: Build Frontend
         run: |
           cd AIDoctor.Client
-          npm ci
+          npm install
+          npm audit fix
           npm run build
-          Copy-Item -Path "dist/*" -Destination "../publish/wwwroot" -Recurse -Force
+          xcopy dist ..\publish\wwwroot /E /H /C /I /Y
 
       - name: Deploy to RDP
-        timeout-minutes: 15
-        shell: powershell
-        env:
-          RDP_HOST: "139.185.55.205"
-          RDP_PORT: "5986"
-          RDP_USER: "Aaban"
-          RDP_PASS: "${{ secrets.RDP_PASSWORD }}"
         run: |
-          Write-Output "=== Starting RDP Deployment ==="
+          $RdpHost = "139.185.55.205"
+          $RdpPort = 5986
+          $RdpUser = "Aaban"
+          $RdpPass = "${{ secrets.RDP_PASSWORD }}"
+          $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
+          $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
 
-          # Credential setup
-          $SecurePass = ConvertTo-SecureString $env:RDP_PASS -AsPlainText -Force
-          $Credential = New-Object System.Management.Automation.PSCredential($env:RDP_USER, $SecurePass)
-
-          # Configure TrustedHosts (fixed logic)
-          Write-Output "Configuring WinRM TrustedHosts..."
-          $currentTrusted = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
-          $newTrusted = if ($currentTrusted) { "$currentTrusted,$env:RDP_HOST" } else { $env:RDP_HOST }
-          try {
-              Set-Item WSMan:\localhost\Client\TrustedHosts -Value $newTrusted -Force -ErrorAction Stop
-          } catch {
-              Write-Error "Failed to configure TrustedHosts: $_"
-              exit 1
+          # Add the RDP host to TrustedHosts on the runner
+          $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
+          if ($CurrentTrustedHosts -notlike "*$RdpHost*") {
+            if ($CurrentTrustedHosts) {
+              Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$CurrentTrustedHosts,$RdpHost" -Force
+            } else {
+              Set-Item WSMan:\localhost\Client\TrustedHosts -Value $RdpHost -Force
+            }
           }
 
-          # Create deployment package
-          Write-Output "Creating deployment package..."
-          Compress-Archive -Path "publish" -DestinationPath "publish.zip" -Force
+          # Allow unencrypted traffic on the client (GitHub Actions runner)
+          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
 
-          # Session creation with retries
-          $sessionParams = @{
-              ComputerName  = $env:RDP_HOST
-              Port          = $env:RDP_PORT
-              Credential    = $Credential
-              Authentication = 'Basic'
-              SessionOption = New-PSSessionOption -OperationTimeout (180 * 1000)
+          # Create a new PowerShell session to the RDP machine using Basic authentication
+          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
+
+          # Stop the running application before copying files
+          Invoke-Command -Session $Session -ScriptBlock {
+            try {
+              taskkill /IM dotnet.exe /F 2>$null
+            } catch {
+              # Ignore errors
+            }
           }
 
-          $Session = $null
-          $maxRetries = 3
-          $retryCount = 0
-          do {
-              try {
-                  $Session = New-PSSession @sessionParams -ErrorAction Stop
-                  break
-              } catch {
-                  $retryCount++
-                  if ($retryCount -ge $maxRetries) {
-                      Write-Error "Failed to establish WinRM session after $maxRetries attempts: $_"
-                      exit 1
-                  }
-                  Write-Warning "WinRM connection attempt $retryCount failed. Retrying in 10 seconds..."
-                  Start-Sleep -Seconds 10
-              }
-          } while ($true)
+          # Copy files to RDP
+          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
 
-          # Deployment operations
-          try {
-              # Stop existing processes
-              Invoke-Command -Session $Session -ScriptBlock {
-                  Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | 
-                      Where-Object { $_.Path -like "*AIDoctor*" } | 
-                      Stop-Process -Force -ErrorAction SilentlyContinue
-              }
-
-              # Clean deployment directory
-              Invoke-Command -Session $Session -ScriptBlock {
-                  $deployPath = "C:\AI-Doctor\publish"
-                  if (Test-Path $deployPath) {
-                      Remove-Item $deployPath -Recurse -Force -ErrorAction Stop
-                  }
-              }
-
-              # Transfer and extract files
-              Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
-              Invoke-Command -Session $Session -ScriptBlock {
-                  Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
-                  Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
-              }
-
-              # Start application
-              Invoke-Command -Session $Session -ScriptBlock {
-                  $logDir = "C:\AI-Doctor\logs"
-                  New-Item -Path $logDir -ItemType Directory -Force | Out-Null
-                  
-                  Start-Process dotnet -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" `
-                      -WorkingDirectory "C:\AI-Doctor\publish" `
-                      -RedirectStandardOutput "$logDir\output.log" `
-                      -RedirectStandardError "$logDir\error.log"
-              }
-
-              # Health check
-              $healthCheck = Invoke-Command -Session $Session -ScriptBlock {
-                  $maxAttempts = 10
-                  $attempt = 1
-                  while ($attempt -le $maxAttempts) {
-                      try {
-                          $response = Invoke-WebRequest "http://localhost:5001/health" -UseBasicParsing -TimeoutSec 5
-                          if ($response.StatusCode -eq 200) {
-                              return "OK"
-                          }
-                      } catch {
-                          Write-Warning "Health check attempt $attempt failed: $_"
-                      }
-                      Start-Sleep -Seconds 5
-                      $attempt++
-                  }
-                  return "FAIL"
-              }
-
-              if ($healthCheck -ne "OK") {
-                  throw "Application health check failed after deployment"
-              }
-
-          } finally {
-              if ($Session) {
-                  Remove-PSSession $Session -ErrorAction SilentlyContinue
-              }
+          # Start the app
+          Invoke-Command -Session $Session -ScriptBlock {
+            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
 
-          Write-Output "=== Deployment completed successfully ==="
-
-      - name: Verify Public Access
-        timeout-minutes: 5
+          # Close the session
+          Remove-PSSession $Session
         shell: powershell
-        run: |
-          $publicUrl = "http://139.185.55.205:8080"
-          $maxAttempts = 10
-          $attempt = 1
-
-          while ($attempt -le $maxAttempts) {
-              try {
-                  $response = Invoke-WebRequest -Uri $publicUrl -UseBasicParsing -TimeoutSec 10
-                  Write-Output "Success: Received response from $publicUrl (Status: $($response.StatusCode))"
-                  exit 0
-              } catch {
-                  Write-Output "Attempt $attempt failed: $($_.Exception.Message)"
-                  if ($attempt -eq $maxAttempts) {
-                      Write-Error "All verification attempts failed"
-                      exit 1
-                  }
-                  Start-Sleep -Seconds 10
-                  $attempt++
-              }
-          }
