@@ -62,9 +62,26 @@ jobs:
           Write-Output "Zipping the publish folder..."
           Compress-Archive -Path "publish/*" -DestinationPath "publish.zip" -Force
 
-          # Create a new PowerShell session to the RDP machine using Basic authentication
+          # Create a new PowerShell session to the RDP machine with retries
           Write-Output "Establishing WinRM session..."
-          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
+          $retries = 3
+          $retryCount = 0
+          $sessionSuccess = $false
+          while ($retryCount -lt $retries -and -not $sessionSuccess) {
+            try {
+              $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000) -ErrorAction Stop
+              Write-Output "WinRM session established successfully."
+              $sessionSuccess = $true
+            } catch {
+              Write-Output "Attempt $($retryCount + 1): Failed to establish WinRM session - $($_.Exception.Message)"
+              Start-Sleep -Seconds 10
+              $retryCount++
+            }
+          }
+          if (-not $sessionSuccess) {
+            Write-Error "Failed to establish WinRM session after $retries attempts."
+            exit 1
+          }
 
           # Stop the running application and ensure files are released
           Write-Output "Stopping the running app..."
@@ -127,25 +144,8 @@ jobs:
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow
           }
 
-          # Close the WinRM session before restarting frpc
+          # Close the WinRM session
           Write-Output "Closing WinRM session..."
-          Remove-PSSession $Session
-
-          # Restart frpc in a new session to avoid breaking the tunnel during the command
-          Write-Output "Restarting frpc on RDP..."
-          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
-          Invoke-Command -Session $Session -ScriptBlock {
-            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
-            if ($frpcProcess) {
-              Stop-Process -Id $frpcProcess.Id -Force
-              Write-Output "frpc stopped successfully."
-              # Wait for the tunnel to fully close
-              Start-Sleep -Seconds 5
-            }
-            # Start frpc in a detached process to avoid WinRM dependency
-            Start-Process -FilePath "powershell.exe" -ArgumentList "-Command `"& 'C:\frp\start-frpc.bat'`"" -NoNewWindow
-            Write-Output "frpc restart initiated."
-          }
           Remove-PSSession $Session
 
           Write-Output "Deployment complete."
