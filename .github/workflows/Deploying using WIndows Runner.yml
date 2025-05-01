@@ -99,7 +99,6 @@ jobs:
                 # Try to identify and stop any process using the folder
                 $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
                 if ($lockedFiles) {
-                  # Use handle.exe to find processes (if available) or fallback to taskkill
                   taskkill /IM dotnet.exe /F /T 2>$null
                 }
               }
@@ -122,27 +121,33 @@ jobs:
             Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
           }
 
-          # Restart frpc to ensure the tunnel is active
-          Write-Output "Restarting frpc on RDP..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
-            if ($frpcProcess) {
-              Stop-Process -Id $frpcProcess.Id -Force
-              Write-Output "frpc stopped successfully."
-            }
-            Start-Process -FilePath "C:\frp\start-frpc.bat" -NoNewWindow
-            Write-Output "frpc restarted."
-          }
-
           # Start the app on port 5001 (to match frp tunnel)
           Write-Output "Starting the app on port 5001..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow
           }
 
-          # Close the session
+          # Close the WinRM session before restarting frpc
           Write-Output "Closing WinRM session..."
           Remove-PSSession $Session
+
+          # Restart frpc in a new session to avoid breaking the tunnel during the command
+          Write-Output "Restarting frpc on RDP..."
+          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 60000)
+          Invoke-Command -Session $Session -ScriptBlock {
+            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
+            if ($frpcProcess) {
+              Stop-Process -Id $frpcProcess.Id -Force
+              Write-Output "frpc stopped successfully."
+              # Wait for the tunnel to fully close
+              Start-Sleep -Seconds 5
+            }
+            # Start frpc in a detached process to avoid WinRM dependency
+            Start-Process -FilePath "powershell.exe" -ArgumentList "-Command `"& 'C:\frp\start-frpc.bat'`"" -NoNewWindow
+            Write-Output "frpc restart initiated."
+          }
+          Remove-PSSession $Session
+
           Write-Output "Deployment complete."
         shell: powershell
 
