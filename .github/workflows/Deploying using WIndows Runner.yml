@@ -260,100 +260,57 @@ jobs:
             Write-Output "Network connectivity to VPS is good."
           }
 
-          # Close the current WinRM session
+          # Create a scheduled task to restart frpc
+          Write-Output "Creating scheduled task to restart frpc..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $taskName = "RestartFrpc"
+            $taskPath = "\AI-Doctor\"
+            $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
+            
+            # Check if the start script exists
+            if (-not (Test-Path $frpcStartScript)) {
+              Write-Error "FRP start script not found at $frpcStartScript. Please verify the path."
+              exit 1
+            }
+
+            # Create a script to kill and restart frpc
+            $restartScriptPath = "C:\AI-Doctor\restart-frpc.ps1"
+            $restartScriptContent = @"
+            taskkill /IM frpc.exe /F 2>$null
+            Start-Sleep -Seconds 2
+            & '$frpcStartScript'
+            "@
+            Set-Content -Path $restartScriptPath -Value $restartScriptContent -Force
+
+            # Check if the scheduled task already exists and delete it
+            $existingTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+            if ($existingTask) {
+              Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false
+            }
+
+            # Create the scheduled task to run once immediately
+            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -ExecutionPolicy Bypass -File $restartScriptPath"
+            $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(10)
+            $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable
+            Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Action $action -Trigger $trigger -Settings $settings -User "SYSTEM" -Force
+            Write-Output "Scheduled task '$taskName' created to restart frpc."
+          }
+
+          # Wait for the scheduled task to run and verify frpc is running
+          Write-Output "Waiting for frpc to restart via scheduled task..."
+          Start-Sleep -Seconds 30  # Give the scheduled task time to execute
+          Invoke-Command -Session $Session -ScriptBlock {
+            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
+            if ($frpcProcess) {
+              Write-Output "frpc is running with PID $($frpcProcess.Id)."
+            } else {
+              Write-Warning "frpc is not running after scheduled task execution. Check the scheduled task logs or frpc configuration."
+            }
+          }
+
+          # Close the WinRM session
           Write-Output "Closing WinRM session after deployment..."
           Remove-PSSession $Session
-
-          # Create a new WinRM session for frpc restart with retries
-          Write-Output "Establishing new WinRM session for frpc restart..."
-          $retries = 3
-          $retryCount = 0
-          $sessionSuccess = $false
-          $Session = $null
-          while ($retryCount -lt $retries -and -not $sessionSuccess) {
-            try {
-              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
-              Write-Output "New WinRM session established successfully."
-              $sessionSuccess = $true
-            } catch {
-              Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish new WinRM session - $($_.Exception.Message)"
-              Start-Sleep -Seconds 15
-              $retryCount++
-              if ($retryCount -eq $retries) {
-                Write-Warning "Failed to establish new WinRM session after $retries attempts. Skipping frpc restart and proceeding to verification."
-                # Skip to verification step
-                Write-Output "Deployment completed without frpc restart."
-                exit 0
-              }
-            }
-          }
-
-          # Restart frpc to ensure the tunnel is active with retries
-          Write-Output "Restarting frpc to ensure tunnel is active..."
-          $frpcRetries = 3
-          $frpcRetryCount = 0
-          $frpcSuccess = $false
-          while ($frpcRetryCount -lt $frpcRetries -and -not $frpcSuccess) {
-            try {
-              Invoke-Command -Session $Session -ScriptBlock {
-                # Check if WinRM service is running
-                $winrmService = Get-Service -Name WinRM -ErrorAction SilentlyContinue
-                if ($winrmService -and $winrmService.Status -ne "Running") {
-                  Write-Output "WinRM service is not running. Attempting to restart..."
-                  Start-Service -Name WinRM -ErrorAction Stop
-                  Start-Sleep -Seconds 5
-                }
-
-                # Proceed with frpc restart
-                taskkill /IM frpc.exe /F 2>$null
-                Start-Sleep -Seconds 2
-                $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
-                if (-not (Test-Path $frpcStartScript)) {
-                  Write-Error "FRP start script not found at $frpcStartScript. Please verify the path."
-                  exit 1
-                }
-                Start-Process -FilePath $frpcStartScript -NoNewWindow
-                Write-Output "frpc restarted."
-                Start-Sleep -Seconds 5  # Give frpc time to reconnect to frps
-              }
-              Write-Output "frpc restart completed successfully."
-              $frpcSuccess = $true
-            } catch {
-              Write-Output "Attempt $($frpcRetryCount + 1) of $frpcRetries - Failed to restart frpc - $($_.Exception.Message)"
-              Start-Sleep -Seconds 15
-              $frpcRetryCount++
-              if ($frpcRetryCount -eq $frpcRetries) {
-                Write-Warning "Failed to restart frpc after $frpcRetries attempts. Skipping frpc restart and proceeding to verification."
-                break
-              }
-              # Close and reopen the session on retry
-              Remove-PSSession $Session
-              $retrySessionCount = 0
-              $sessionSuccess = $false
-              while ($retrySessionCount -lt $retries -and -not $sessionSuccess) {
-                try {
-                  $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
-                  Write-Output "Re-established WinRM session for frpc restart retry."
-                  $sessionSuccess = $true
-                } catch {
-                  Write-Output "Retry session attempt $($retrySessionCount + 1) of $retries - Failed to re-establish WinRM session - $($_.Exception.Message)"
-                  Start-Sleep -Seconds 15
-                  $retrySessionCount++
-                  if ($retrySessionCount -eq $retries) {
-                    Write-Warning "Failed to re-establish WinRM session after $retries attempts. Skipping frpc restart and proceeding to verification."
-                    $frpcSuccess = $true  # To exit the loop
-                    break
-                  }
-                }
-              }
-            }
-          }
-
-          # Close the WinRM session if it exists
-          if ($Session) {
-            Write-Output "Closing WinRM session after frpc restart..."
-            Remove-PSSession $Session
-          }
 
           Write-Output "Deployment completed."
 
@@ -363,14 +320,14 @@ jobs:
           $url = "http://139.185.55.205:8080"
           Write-Output "Waiting for the app to start at $url..."
 
-          $maxAttempts = 10
+          $maxAttempts = 15
           $attempt = 1
-          $delaySeconds = 10
+          $delaySeconds = 15
 
           while ($attempt -le $maxAttempts) {
             try {
               Write-Output "Attempt ${attempt} of ${maxAttempts} - Checking $url..."
-              $response = Invoke-WebRequest -Uri $url -TimeoutSec 5 -ErrorAction Stop -UseBasicParsing
+              $response = Invoke-WebRequest -Uri $url -TimeoutSec 10 -ErrorAction Stop -UseBasicParsing
               Write-Output "Success: App is responding at $url with status code $($response.StatusCode)"
               exit 0
             } catch {
