@@ -34,6 +34,7 @@ jobs:
           xcopy dist ..\publish\wwwroot /E /H /C /I /Y
 
       - name: Deploy to RDP
+        timeout-minutes: 15
         run: |
           $RdpHost = "139.185.55.205"
           $RdpPort = 5986
@@ -42,7 +43,7 @@ jobs:
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
           $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
 
-          # Add the RDP host to TrustedHosts on the runner
+          # Add the RDP host to TrustedHosts
           $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
           if ($CurrentTrustedHosts -notlike "*$RdpHost*") {
             if ($CurrentTrustedHosts) {
@@ -51,14 +52,14 @@ jobs:
               Set-Item WSMan:\localhost\Client\TrustedHosts -Value $RdpHost -Force
             }
           }
-
-          # Allow unencrypted traffic on the client (GitHub Actions runner)
           Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
 
-          # Create a new PowerShell session to the RDP machine using Basic authentication
+          # Create PowerShell session
+          Write-Host "Creating PowerShell session..."
           $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
 
-          # Stop the running application before copying files
+          # Stop the running application
+          Write-Host "Stopping dotnet.exe..."
           Invoke-Command -Session $Session -ScriptBlock {
             try {
               taskkill /IM dotnet.exe /F 2>$null
@@ -67,14 +68,28 @@ jobs:
             }
           }
 
-          # Copy files to RDP
-          Copy-Item -Path "publish/*" -Destination "C:\AI-Doctor\publish" -ToSession $Session -Recurse -Force
+          # Zip the publish folder
+          Write-Host "Zipping publish folder..."
+          Compress-Archive -Path "publish\*" -DestinationPath "publish.zip" -Force
 
-          # Start the app
+          # Copy the zip file to RDP server
+          Write-Host "Copying zip file to RDP server..."
+          Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
+
+          # Unzip on the RDP server and remove the zip file
+          Write-Host "Unzipping on RDP server..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
+            Remove-Item "C:\AI-Doctor\publish.zip"
+          }
+
+          # Start the application
+          Write-Host "Starting the application..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
 
           # Close the session
+          Write-Host "Closing session..."
           Remove-PSSession $Session
         shell: powershell
