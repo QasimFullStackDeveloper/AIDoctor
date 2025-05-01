@@ -9,334 +9,330 @@ jobs:
   build-and-deploy:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
 
-      - name: Build Backend
-        run: |
-          cd AIDoctor.Server
-          dotnet publish -c Release -o ../publish
+    - name: Build Backend
+      run: |
+        cd AIDoctor.Server
+        dotnet publish -c Release -o ../publish
 
-      - name: Build Frontend
-        run: |
-          cd AIDoctor.Client
-          npm install
-          npm audit fix
-          npm run build
-          xcopy dist ..\publish\wwwroot /E /H /C /I /Y
+    - name: Build Frontend
+      run: |
+        cd AIDoctor.Client
+        npm install
+        npm audit fix
+        npm run build
+        xcopy dist ..\publish\wwwroot /E /H /C /I /Y
 
-      - name: Deploy to RDP
-        timeout-minutes: 10
-        shell: powershell
-        env:
-          RDP_HOST: "139.185.55.205"
-          RDP_PORT: "5986"
-          RDP_USER: "Aaban"
-          RDP_PASS: "${{ secrets.RDP_PASSWORD }}"
-        run: |
-          Write-Output "Starting deployment to RDP machine at $env:RDP_HOST..."
+    - name: Deploy to RDP
+      timeout-minutes: 10
+      shell: powershell
+      env:
+        RDP_HOST: "139.185.55.205"
+        RDP_PORT: "5986"
+        RDP_USER: "Aaban"
+        RDP_PASS: "${{ secrets.RDP_PASSWORD }}"
+      run: |
+        Write-Output "Starting deployment to RDP machine at $env:RDP_HOST..."
 
-          # Set up credentials for WinRM
-          $SecurePass = ConvertTo-SecureString $env:RDP_PASS -AsPlainText -Force
-          $Credential = New-Object System.Management.Automation.PSCredential($env:RDP_USER, $SecurePass)
+        # Set up credentials for WinRM
+        $SecurePass = ConvertTo-SecureString $env:RDP_PASS -AsPlainText -Force
+        $Credential = New-Object System.Management.Automation.PSCredential($env:RDP_USER, $SecurePass)
 
-          # Add the RDP host to TrustedHosts on the runner
-          Write-Output "Configuring TrustedHosts..."
-          $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
-          if ($CurrentTrustedHosts -notlike "*$env:RDP_HOST*") {
-            if ($CurrentTrustedHosts) {
-              Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$CurrentTrustedHosts,$env:RDP_HOST" -Force
-            } else {
-              Set-Item WSMan:\localhost\Client\TrustedHosts -Value $env:RDP_HOST -Force
+        # Add the RDP host to TrustedHosts on the runner
+        Write-Output "Configuring TrustedHosts..."
+        $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
+        if ($CurrentTrustedHosts -notlike "*$env:RDP_HOST*") {
+          if ($CurrentTrustedHosts) {
+            Set-Item WSMan:\localhost\Client\TrustedHosts -Value "$CurrentTrustedHosts,$env:RDP_HOST" -Force
+          } else {
+            Set-Item WSMan:\localhost\Client\TrustedHosts -Value $env:RDP_HOST -Force
+          }
+        }
+
+        # Allow unencrypted traffic on the client (GitHub Actions runner)
+        Write-Output "Allowing unencrypted WinRM traffic..."
+        Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
+
+        # Zip the publish folder to reduce transfer size
+        Write-Output "Zipping the publish folder..."
+        Compress-Archive -Path "publish/*" -DestinationPath "publish.zip" -Force
+
+        # Create a new PowerShell session to the RDP machine with retries
+        Write-Output "Establishing WinRM session for deployment..."
+        $retries = 3
+        $retryCount = 0
+        $sessionSuccess = $false
+        $Session = $null
+        while ($retryCount -lt $retries -and -not $sessionSuccess) {
+          try {
+            $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
+            Write-Output "WinRM session established successfully."
+            $sessionSuccess = $true
+          } catch {
+            Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish WinRM session - $($_.Exception.Message)"
+            Start-Sleep -Seconds 15
+            $retryCount++
+            if ($retryCount -eq $retries) {
+              Write-Error "Failed to establish WinRM session after $retries attempts."
+              exit 1
             }
           }
+        }
 
-          # Allow unencrypted traffic on the client (GitHub Actions runner)
-          Write-Output "Allowing unencrypted WinRM traffic..."
-          Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
+        # Stop the running application and ensure files are released
+        Write-Output "Stopping the running app..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          $processes = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "*AIDoctor*" }
+          if ($processes) {
+            foreach ($process in $processes) {
+              Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
+              Write-Output "Stopped process ID $($process.Id)"
+            }
+          } else {
+            Write-Output "No running AIDoctor app found."
+          }
+          # Wait for file handles to be released
+          Start-Sleep -Seconds 5
+        }
 
-          # Zip the publish folder to reduce transfer size
-          Write-Output "Zipping the publish folder..."
-          Compress-Archive -Path "publish/*" -DestinationPath "publish.zip" -Force
-
-          # Create a new PowerShell session to the RDP machine with retries
-          Write-Output "Establishing WinRM session for deployment..."
+        # Attempt to delete the publish folder with retries
+        Write-Output "Deleting existing publish folder..."
+        Invoke-Command -Session $Session -ScriptBlock {
           $retries = 3
           $retryCount = 0
-          $sessionSuccess = $false
-          $Session = $null
-          while ($retryCount -lt $retries -and -not $sessionSuccess) {
+          $success = $false
+          while ($retryCount -lt $retries -and -not $success) {
             try {
-              $Session = New-PSSession -ComputerName $env:RDP_HOST -Port $env:RDP_PORT -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 180000) -ErrorAction Stop
-              Write-Output "WinRM session established successfully."
-              $sessionSuccess = $true
+              Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction Stop
+              Write-Output "Publish folder deleted successfully."
+              $success = $true
             } catch {
-              Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish WinRM session - $($_.Exception.Message)"
-              Start-Sleep -Seconds 15
-              $retryCount++
-              if ($retryCount -eq $retries) {
-                Write-Error "Failed to establish WinRM session after $retries attempts."
-                exit 1
-              }
-            }
-          }
-
-          # Stop the running application and ensure files are released
-          Write-Output "Stopping the running app..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $processes = Get-Process -Name "dotnet" -ErrorAction SilentlyContinue | Where-Object { $_.Path -like "*AIDoctor*" }
-            if ($processes) {
-              foreach ($process in $processes) {
-                Stop-Process -Id $process.Id -Force -ErrorAction SilentlyContinue
-                Write-Output "Stopped process ID $($process.Id)"
-              }
-            } else {
-              Write-Output "No running AIDoctor app found."
-            }
-            # Wait for file handles to be released
-            Start-Sleep -Seconds 5
-          }
-
-          # Attempt to delete the publish folder with retries
-          Write-Output "Deleting existing publish folder..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $retries = 3
-            $retryCount = 0
-            $success = $false
-            while ($retryCount -lt $retries -and -not $success) {
-              try {
-                Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction Stop
-                Write-Output "Publish folder deleted successfully."
-                $success = $true
-              } catch {
-                Write-Output "Attempt $($retryCount + 1) of $retries - Failed to delete publish folder - $($_.Exception.Message)"
-                Start-Sleep -Seconds 5
-                # Try to identify and stop any process using the folder
-                $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
-                if ($lockedFiles) {
-                  taskkill /IM dotnet.exe /F /T 2>$null
-                }
-                $retryCount++
-                if ($retryCount -eq $retries -and -not $success) {
-                  Write-Error "Failed to delete publish folder after $retries attempts."
-                  exit 1
-                }
-              }
-            }
-          }
-
-          # Copy the zip file to RDP
-          Write-Output "Copying the zip file to RDP..."
-          Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
-
-          # Unzip the files on the RDP machine
-          Write-Output "Unzipping files on RDP..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
-            Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
-          }
-
-          # Check if port 5001 is in use and free it
-          Write-Output "Checking if port 5001 is in use..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $portInUse = netstat -aon | Select-String ":5001\s+.*LISTENING"
-            if ($portInUse) {
-              Write-Output "Port 5001 is in use. Attempting to free it..."
-              $processId = ($portInUse -split "\s+")[5]
-              if ($processId) {
-                taskkill /PID $processId /F 2>$null
-                Write-Output "Killed process ID $processId using port 5001."
-                Start-Sleep -Seconds 2
-              }
-            } else {
-              Write-Output "Port 5001 is free."
-            }
-          }
-
-          # Verify dotnet is available and start the app with logging
-          Write-Output "Starting the app on port 5001..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            # Verify dotnet is available
-            $dotnetPath = (Get-Command dotnet -ErrorAction SilentlyContinue).Source
-            if (-not $dotnetPath) {
-              Write-Error "dotnet command not found on the RDP machine. Please ensure .NET is installed."
-              exit 1
-            }
-            Write-Output "dotnet found at $dotnetPath"
-
-            # Ensure the app DLL exists
-            $appDll = "C:\AI-Doctor\publish\AIDoctor.Server.dll"
-            if (-not (Test-Path $appDll)) {
-              Write-Error "Application DLL not found at $appDll. Deployment may have failed."
-              exit 1
-            }
-
-            # Ensure the log directory exists
-            $logDir = "C:\AI-Doctor\logs"
-            if (-not (Test-Path $logDir)) {
-              New-Item -Path $logDir -ItemType Directory -Force | Out-Null
-            }
-            $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-            $logFileOut = "C:\AI-Doctor\logs\app-$timestamp-out.log"
-            $logFileErr = "C:\AI-Doctor\logs\app-$timestamp-err.log"
-
-            # Start the app using Start-Process with separate log files
-            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow -RedirectStandardOutput $logFileOut -RedirectStandardError $logFileErr
-            Start-Sleep -Seconds 5  # Give the app a moment to start
-
-            # Output the logs for debugging
-            if (Test-Path $logFileOut) {
-              Write-Output "App startup log (stdout, first 10 lines):"
-              Get-Content -Path $logFileOut -Head 10
-            } else {
-              Write-Output "No stdout log file generated yet."
-            }
-            if (Test-Path $logFileErr) {
-              Write-Output "App startup log (stderr, first 10 lines):"
-              Get-Content -Path $logFileErr -Head 10
-            } else {
-              Write-Output "No stderr log file generated yet."
-            }
-          }
-
-          # Verify the app is running on localhost:5001 with more retries
-          Write-Output "Verifying app is running on localhost:5001..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $appUrl = "http://localhost:5001"
-            $maxAttempts = 20
-            $attempt = 1
-            while ($attempt -le $maxAttempts) {
-              try {
-                $response = Invoke-WebRequest -Uri $appUrl -TimeoutSec 5 -ErrorAction Stop
-                Write-Output "App is running on $appUrl with status code $($response.StatusCode)"
-                break
-              } catch {
-                Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $appUrl - $($_.Exception.Message)"
-                if ($attempt -eq $maxAttempts) {
-                  Write-Error "App failed to start on $appUrl after $maxAttempts attempts"
-                  $logFileOut = Get-ChildItem -Path "C:\AI-Doctor\logs" -Filter "app-*-out.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-                  $logFileErr = Get-ChildItem -Path "C:\AI-Doctor\logs" -Filter "app-*-err.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-                  if ($logFileOut) {
-                    Write-Output "App stdout log (last 20 lines):"
-                    Get-Content -Path $logFileOut.FullName -Tail 20
-                  }
-                  if ($logFileErr) {
-                    Write-Output "App stderr log (last 20 lines):"
-                    Get-Content -Path $logFileErr.FullName -Tail 20
-                  }
-                  exit 1
-                }
-                Start-Sleep -Seconds 6
-                $attempt++
-              }
-            }
-          }
-
-          # Check network connectivity to VPS
-          Write-Output "Checking network connectivity to VPS..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $result = Test-NetConnection -ComputerName "139.185.55.205" -Port 7000
-            if (-not $result.TcpTestSucceeded) {
-              Write-Output "Cannot reach VPS on port 7000. Attempting to restart network services..."
-              net stop dnscache
-              net start dnscache
-              ipconfig /flushdns
+              Write-Output "Attempt $($retryCount + 1) of $retries - Failed to delete publish folder - $($_.Exception.Message)"
               Start-Sleep -Seconds 5
-              $result = Test-NetConnection -ComputerName "139.185.55.205" -Port 7000
-              if (-not $result.TcpTestSucceeded) {
-                Write-Error "Still cannot reach VPS on port 7000. FRP tunnel may be broken."
+              # Try to identify and stop any process using the folder
+              $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
+              if ($lockedFiles) {
+                taskkill /IM dotnet.exe /F /T 2>$null
+              }
+              $retryCount++
+              if ($retryCount -eq $retries -and -not $success) {
+                Write-Error "Failed to delete publish folder after $retries attempts."
                 exit 1
               }
             }
-            Write-Output "Network connectivity to VPS is good."
+          }
+        }
+
+        # Copy the zip file to RDP
+        Write-Output "Copying the zip file to RDP..."
+        Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
+
+        # Unzip the files on the RDP machine
+        Write-Output "Unzipping files on RDP..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
+          Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
+        }
+
+        # Check if port 5001 is in use and free it
+        Write-Output "Checking if port 5001 is in use..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          $portInUse = netstat -aon | Select-String ":5001\s+.*LISTENING"
+          if ($portInUse) {
+            Write-Output "Port 5001 is in use. Attempting to free it..."
+            $processId = ($portInUse -split "\s+")[5]
+            if ($processId) {
+              taskkill /PID $processId /F 2>$null
+              Write-Output "Killed process ID $processId using port 5001."
+              Start-Sleep -Seconds 2
+            }
+          } else {
+            Write-Output "Port 5001 is free."
+          }
+        }
+
+        # Verify dotnet is available and start the app with logging
+        Write-Output "Starting the app on port 5001..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          # Verify dotnet is available
+          $dotnetPath = (Get-Command dotnet -ErrorAction SilentlyContinue).Source
+          if (-not $dotnetPath) {
+            Write-Error "dotnet command not found on the RDP machine. Please ensure .NET is installed."
+            exit 1
+          }
+          Write-Output "dotnet found at $dotnetPath"
+
+          # Ensure the app DLL exists
+          $appDll = "C:\AI-Doctor\publish\AIDoctor.Server.dll"
+          if (-not (Test-Path $appDll)) {
+            Write-Error "Application DLL not found at $appDll. Deployment may have failed."
+            exit 1
           }
 
-          # Create a scheduled task to restart frpc
-          Write-Output "Creating scheduled task to restart frpc..."
-          Invoke-Command -Session $Session -ScriptBlock {
-            $taskName = "RestartFrpc"
-            $taskPath = "\AI-Doctor\"
-            $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
-            
-            # Check if the start script exists
-            if (-not (Test-Path $frpcStartScript)) {
-              Write-Error "FRP start script not found at $frpcStartScript. Please verify the path."
-              exit 1
-            }
-
-            # Create a script to kill and restart frpc
-            $restartScriptPath = "C:\AI-Doctor\restart-frpc.ps1"
-            $restartScriptContent = @"
-taskkill /IM frpc.exe /F 2>`$null
-Start-Sleep -Seconds 2
-& '$frpcStartScript'
-"@
-            Set-Content -Path $restartScriptPath -Value $restartScriptContent -Force
-
-            # Check if the scheduled task already exists and delete it
-            $existingTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
-            if ($existingTask) {
-              Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false
-            }
-
-            # Create the scheduled task to run once immediately
-            $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -ExecutionPolicy Bypass -File $restartScriptPath"
-            $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(10)
-            $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable
-            Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Action $action -Trigger $trigger -Settings $settings -User "SYSTEM" -Force
-            Write-Output "Scheduled task '$taskName' created to restart frpc."
+          # Ensure the log directory exists
+          $logDir = "C:\AI-Doctor\logs"
+          if (-not (Test-Path $logDir)) {
+            New-Item -Path $logDir -ItemType Directory -Force | Out-Null
           }
+          $timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+          $logFileOut = "C:\AI-Doctor\logs\app-$timestamp-out.log"
+          $logFileErr = "C:\AI-Doctor\logs\app-$timestamp-err.log"
 
-          # Wait for the scheduled task to run and verify frpc is running
-          Write-Output "Waiting for frpc to restart via scheduled task..."
-          Start-Sleep -Seconds 30  # Give the scheduled task time to execute
-          Invoke-Command -Session $Session -ScriptBlock {
-            $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
-            if ($frpcProcess) {
-              Write-Output "frpc is running with PID $($frpcProcess.Id)."
-            } else {
-              Write-Warning "frpc is not running after scheduled task execution. Check the scheduled task logs or frpc configuration."
-            }
+          # Start the app using Start-Process with separate log files
+          Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow -RedirectStandardOutput $logFileOut -RedirectStandardError $logFileErr
+          Start-Sleep -Seconds 5  # Give the app a moment to start
+
+          # Output the logs for debugging
+          if (Test-Path $logFileOut) {
+            Write-Output "App startup log (stdout, first 10 lines):"
+            Get-Content -Path $logFileOut -Head 10
+          } else {
+            Write-Output "No stdout log file generated yet."
           }
+          if (Test-Path $logFileErr) {
+            Write-Output "App startup log (stderr, first 10 lines):"
+            Get-Content -Path $logFileErr -Head 10
+          } else {
+            Write-Output "No stderr log file generated yet."
+          }
+        }
 
-          # Close the WinRM session
-          Write-Output "Closing WinRM session after deployment..."
-          Remove-PSSession $Session
-
-          Write-Output "Deployment completed."
-
-      - name: Verify Deployment
-        shell: powershell
-        run: |
-          $url = "http://139.185.55.205:8080"
-          Write-Output "Waiting for the app to start at $url..."
-
-          $maxAttempts = 15
+        # Verify the app is running on localhost:5001 with more retries
+        Write-Output "Verifying app is running on localhost:5001..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          $appUrl = "http://localhost:5001"
+          $maxAttempts = 20
           $attempt = 1
-          $delaySeconds = 15
-
           while ($attempt -le $maxAttempts) {
             try {
-              Write-Output "Attempt ${attempt} of ${maxAttempts} - Checking $url..."
-              $response = Invoke-WebRequest -Uri $url -TimeoutSec 10 -ErrorAction Stop -UseBasicParsing
-              Write-Output "Success: App is responding at $url with status code $($response.StatusCode)"
-              exit 0
+              $response = Invoke-WebRequest -Uri $appUrl -TimeoutSec 5 -ErrorAction Stop
+              Write-Output "App is running on $appUrl with status code $($response.StatusCode)"
+              break
             } catch {
-              Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $url - $($_.Exception.Message)"
+              Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $appUrl - $($_.Exception.Message)"
               if ($attempt -eq $maxAttempts) {
-                Write-Error "Deployment failed: App not responding at $url after $maxAttempts attempts"
+                Write-Error "App failed to start on $appUrl after $maxAttempts attempts"
+                $logFileOut = Get-ChildItem -Path "C:\AI-Doctor\logs" -Filter "app-*-out.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                $logFileErr = Get-ChildItem -Path "C:\AI-Doctor\logs" -Filter "app-*-err.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                if ($logFileOut) {
+                  Write-Output "App stdout log (last 20 lines):"
+                  Get-Content -Path $logFileOut.FullName -Tail 20
+                }
+                if ($logFileErr) {
+                  Write-Output "App stderr log (last 20 lines):"
+                  Get-Content -Path $logFileErr.FullName -Tail 20
+                }
                 exit 1
               }
-              Start-Sleep -Seconds $delaySeconds
+              Start-Sleep -Seconds 6
               $attempt++
             }
           }
+        }
+
+        # Check network connectivity to VPS
+        Write-Output "Checking network connectivity to VPS..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          $result = Test-NetConnection -ComputerName "139.185.55.205" -Port 7000
+          if (-not $result.TcpTestSucceeded) {
+            Write-Output "Cannot reach VPS on port 7000. Attempting to restart network services..."
+            net stop dnscache
+            net start dnscache
+            ipconfig /flushdns
+            Start-Sleep -Seconds 5
+            $result = Test-NetConnection -ComputerName "139.185.55.205" -Port 7000
+            if (-not $result.TcpTestSucceeded) {
+              Write-Error "Still cannot reach VPS on port 7000. FRP tunnel may be broken."
+              exit 1
+            }
+          }
+          Write-Output "Network connectivity to VPS is good."
+        }
+
+        # Create a scheduled task to restart frpc
+        Write-Output "Creating scheduled task to restart frpc..."
+        Invoke-Command -Session $Session -ScriptBlock {
+          $taskName = "RestartFrpc"
+          $taskPath = "\AI-Doctor\"
+          $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
+          
+          # Check if the start script exists
+          if (-not (Test-Path $frpcStartScript)) {
+            Write-Error "FRP start script not found at $frpcStartScript. Please verify the path."
+            exit 1
+          }
+
+          # Create a script to kill and restart frpc
+          $restartScriptPath = "C:\AI-Doctor\restart-frpc.ps1"
+          $restartScriptContent = "taskkill /IM frpc.exe /F 2>`$null`nStart-Sleep -Seconds 2`n& `"`$frpcStartScript`""
+          Set-Content -Path $restartScriptPath -Value $restartScriptContent -Force
+
+          # Check if the scheduled task already exists and delete it
+          $existingTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -ErrorAction SilentlyContinue
+          if ($existingTask) {
+            Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false
+          }
+
+          # Create the scheduled task to run once immediately
+          $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -ExecutionPolicy Bypass -File $restartScriptPath"
+          $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddSeconds(10)
+          $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable
+          Register-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Action $action -Trigger $trigger -Settings $settings -User "SYSTEM" -Force
+          Write-Output "Scheduled task '$taskName' created to restart frpc."
+        }
+
+        # Wait for the scheduled task to run and verify frpc is running
+        Write-Output "Waiting for frpc to restart via scheduled task..."
+        Start-Sleep -Seconds 30  # Give the scheduled task time to execute
+        Invoke-Command -Session $Session -ScriptBlock {
+          $frpcProcess = Get-Process -Name "frpc" -ErrorAction SilentlyContinue
+          if ($frpcProcess) {
+            Write-Output "frpc is running with PID $($frpcProcess.Id)."
+          } else {
+            Write-Warning "frpc is not running after scheduled task execution. Check the scheduled task logs or frpc configuration."
+          }
+        }
+
+        # Close the WinRM session
+        Write-Output "Closing WinRM session after deployment..."
+        Remove-PSSession $Session
+
+        Write-Output "Deployment completed."
+
+    - name: Verify Deployment
+      shell: powershell
+      run: |
+        $url = "http://139.185.55.205:8080"
+        Write-Output "Waiting for the app to start at $url..."
+
+        $maxAttempts = 15
+        $attempt = 1
+        $delaySeconds = 15
+
+        while ($attempt -le $maxAttempts) {
+          try {
+            Write-Output "Attempt ${attempt} of ${maxAttempts} - Checking $url..."
+            $response = Invoke-WebRequest -Uri $url -TimeoutSec 10 -ErrorAction Stop -UseBasicParsing
+            Write-Output "Success: App is responding at $url with status code $($response.StatusCode)"
+            exit 0
+          } catch {
+            Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $url - $($_.Exception.Message)"
+            if ($attempt -eq $maxAttempts) {
+              Write-Error "Deployment failed: App not responding at $url after $maxAttempts attempts"
+              exit 1
+            }
+            Start-Sleep -Seconds $delaySeconds
+            $attempt++
+          }
+        }
