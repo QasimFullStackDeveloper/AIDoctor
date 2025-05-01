@@ -75,9 +75,10 @@ const DoctorAI = () => {
     setIsDarkMode(prev => !prev);
   };
 
-  const mainBg = isDarkMode ? 'bg-black text-white' : 'bg-[#08254C] text-white opacity-100';
+
+  const mainBg = isDarkMode ? 'bg-gray-900 text-white ' : 'bg-[#08254C] text-white opacity-100';
   const contentBg = isDarkMode ? 'bg-[#1E293B] opacity-100 text-white' : 'bg-white text-black';
-  const sidebarBg = isDarkMode ? 'bg-black text-white' : 'bg-[#08254C] text-white';
+  const sidebarBg = isDarkMode ? 'bg-gray-900 text-white border-none' : 'bg-[#08254C] text-white';
 
   return (
     <div className={`flex h-screen ${mainBg}`}>
@@ -154,13 +155,13 @@ const DoctorAI = () => {
               <h2 className="text-lg font-semibold">Chat History</h2>
             </div>
 
-            <div className="mb-4">
+            <div className={`mb-4 }`}>
               <input
                 type="text"
                 placeholder="Search chats..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 text-black"
+                className={`${isDarkMode ? "bg-gray-900":""}  w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 text-black`}
               />
             </div>
 
@@ -213,15 +214,15 @@ const DoctorAI = () => {
                     </div>
 
                     <div className="absolute ml-5 top-full left-4 mt-[-9px] flex gap-4 z-10 overflow-visible cursor-pointer">
-                      <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-sm flex items-center gap-1">
+                      <div className={`bg-[#F9FAFB] ${isDarkMode ? "bg-gray-700":""}  border  border-gray-300 shadow-md rounded-md px-3 py-1 text-sm flex items-center gap-1`}>
                         <img src={savesIcon} alt="Save" className="w-4 h-4" />
                         Save
                       </div>
-                      <div className="bg-[#F9FAFB] border border-gray-300 shadow-md px-3 py-1 rounded-md text-sm flex items-center gap-1">
+                      <div className={`bg-[#F9FAFB] ${isDarkMode ? "bg-gray-700":""}  border  border-gray-300 shadow-md rounded-md px-3 py-1 text-sm flex items-center gap-1`}>
                         <img src={copy} alt="Copy" className="w-4 h-4" />
                         Copy
                       </div>
-                      <div className="bg-[#F9FAFB] border border-gray-300 shadow-md rounded-md px-3 py-1 text-sm flex items-center gap-1">
+                      <div className={`bg-[#F9FAFB] ${isDarkMode ? "bg-gray-700":""}  border  border-gray-300 shadow-md rounded-md px-3 py-1 text-sm flex items-center gap-1`}>
                         <img src={edit} alt="Edit" className="w-4 h-4" />
                         Edit
                       </div>
@@ -233,7 +234,7 @@ const DoctorAI = () => {
           </div>
 
           {/* Input Area */}
-          <div className="bg-[#455EA5] rounded-2xl overflow-visible mt-4 relative z-0">
+          <div className={`bg-[#455EA5] ${isDarkMode ? "bg-gray-700":""} rounded-2xl overflow-visible mt-4 relative z-0`}>
             <div className="flex items-center gap-3 px-4 py-3 cursor-pointer">
               {/* New Chat Button */}
               <div className="relative group">
@@ -283,7 +284,7 @@ const DoctorAI = () => {
 
             <div className="h-px bg-blue-300 opacity-30 mx-4" />
 
-            <div className="flex items-center bg-gray-100 px-4 py-3">
+            <div className={`flex items-center ${isDarkMode ? "bg-gray-900":""}  bg-gray-100 px-4 py-3 rounded-b-2xl`}>
               <img src={microphoneIcon} alt="Mic" className="w-5 h-5 mr-3" />
               <input
                 type="text"
@@ -295,7 +296,7 @@ const DoctorAI = () => {
               />
               <button
                 onClick={handleSend}
-                className="bg-gray-200 p-2 ml-2 rounded-full hover:bg-gray-300 transition-colors duration-200"
+                className="bg-gray-200 p-2 ml-2  rounded-full hover:bg-gray-300 transition-colors duration-200"
               >
                 <img src={planeIcon} alt="Send" className="w-5 h-5" />
               </button>
