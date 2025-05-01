@@ -3,21 +3,21 @@ name: Deploying AI Doctor to RDP (VPS Own Server/Machine)
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4  # Updated to the latest version
+      - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4  # Updated to the latest version
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4  # Updated to the latest version
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -79,7 +79,7 @@ jobs:
               Write-Output "WinRM session established successfully."
               $sessionSuccess = $true
             } catch {
-              Write-Output "Attempt $($retryCount + 1): Failed to establish WinRM session - $($_.Exception.Message)"
+              Write-Output "Attempt $($retryCount + 1) of $retries - Failed to establish WinRM session - $($_.Exception.Message)"
               Start-Sleep -Seconds 10
               $retryCount++
               if ($retryCount -eq $retries) {
@@ -117,7 +117,7 @@ jobs:
                 Write-Output "Publish folder deleted successfully."
                 $success = $true
               } catch {
-                Write-Output "Attempt $($retryCount + 1): Failed to delete publish folder - $($_.Exception.Message)"
+                Write-Output "Attempt $($retryCount + 1) of $retries - Failed to delete publish folder - $($_.Exception.Message)"
                 Start-Sleep -Seconds 5
                 # Try to identify and stop any process using the folder
                 $lockedFiles = Get-ChildItem -Path "C:\AI-Doctor\publish" -Recurse -ErrorAction SilentlyContinue
@@ -144,18 +144,48 @@ jobs:
             Remove-Item -Path "C:\AI-Doctor\publish.zip" -Force
           }
 
-          # Start the app on port 5001 (to match FRP tunnel)
-          Write-Output "Starting the app on port 5001..."
+          # Check if port 5001 is in use and free it
+          Write-Output "Checking if port 5001 is in use..."
           Invoke-Command -Session $Session -ScriptBlock {
-            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow
-            Start-Sleep -Seconds 5  # Give the app a moment to start
+            $portInUse = netstat -aon | Select-String ":5001\s+.*LISTENING"
+            if ($portInUse) {
+              Write-Output "Port 5001 is in use. Attempting to free it..."
+              $processId = ($portInUse -split "\s+")[5]
+              if ($processId) {
+                taskkill /PID $processId /F 2>$null
+                Write-Output "Killed process ID $processId using port 5001."
+                Start-Sleep -Seconds 2
+              }
+            } else {
+              Write-Output "Port 5001 is free."
+            }
           }
 
-          # Verify the app is running on localhost:5001
+          # Start the app on port 5001 with logging
+          Write-Output "Starting the app on port 5001..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            # Ensure the log directory exists
+            $logDir = "C:\AI-Doctor\logs"
+            if (-not (Test-Path $logDir)) {
+              New-Item -Path $logDir -ItemType Directory -Force | Out-Null
+            }
+            $logFile = "C:\AI-Doctor\logs\app-$(Get-Date -Format 'yyyyMMdd-HHmmss').log"
+            Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://0.0.0.0:5001" -WorkingDirectory "C:\AI-Doctor\publish" -NoNewWindow -RedirectStandardOutput $logFile -RedirectStandardError $logFile
+            Start-Sleep -Seconds 5  # Give the app a moment to start
+            # Output the first few lines of the log for debugging
+            if (Test-Path $logFile) {
+              Write-Output "App startup log (first 10 lines):"
+              Get-Content -Path $logFile -Head 10
+            } else {
+              Write-Output "No log file generated yet."
+            }
+          }
+
+          # Verify the app is running on localhost:5001 with more retries
           Write-Output "Verifying app is running on localhost:5001..."
           Invoke-Command -Session $Session -ScriptBlock {
             $appUrl = "http://localhost:5001"
-            $maxAttempts = 10
+            $maxAttempts = 20  # Increased to 20 attempts (2 minutes total)
             $attempt = 1
             while ($attempt -le $maxAttempts) {
               try {
@@ -163,12 +193,18 @@ jobs:
                 Write-Output "App is running on $appUrl with status code $($response.StatusCode)"
                 break
               } catch {
-                Write-Output "Attempt $attempt of $maxAttempts: Failed to connect to $appUrl - $($_.Exception.Message)"
+                Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $appUrl - $($_.Exception.Message)"
                 if ($attempt -eq $maxAttempts) {
                   Write-Error "App failed to start on $appUrl after $maxAttempts attempts"
+                  # Output the latest log file for debugging
+                  $logFile = Get-ChildItem -Path "C:\AI-Doctor\logs" -Filter "app-*.log" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+                  if ($logFile) {
+                    Write-Output "App log (last 20 lines):"
+                    Get-Content -Path $logFile.FullName -Tail 20
+                  }
                   exit 1
                 }
-                Start-Sleep -Seconds 5
+                Start-Sleep -Seconds 6  # Increased delay to 6 seconds
                 $attempt++
               }
             }
@@ -198,7 +234,13 @@ jobs:
           Invoke-Command -Session $Session -ScriptBlock {
             taskkill /IM frpc.exe /F 2>$null
             Start-Sleep -Seconds 2
-            Start-Process -FilePath "C:\AI-Doctor-App\start-frpc.bat" -NoNewWindow
+            # Use the correct path for start-frpc.bat
+            $frpcStartScript = "C:\AI-Doctor-App\start-frpc.bat"
+            if (-not (Test-Path $frpcStartScript)) {
+              Write-Error "FRP start script not found at $frpcStartScript. Please verify the path."
+              exit 1
+            }
+            Start-Process -FilePath $frpcStartScript -NoNewWindow
             Write-Output "frpc restarted."
             Start-Sleep -Seconds 5  # Give frpc time to reconnect to frps
           }
@@ -221,12 +263,12 @@ jobs:
 
           while ($attempt -le $maxAttempts) {
             try {
-              Write-Output "Attempt $attempt of $maxAttempts: Checking $url..."
+              Write-Output "Attempt ${attempt} of ${maxAttempts} - Checking $url..."
               $response = Invoke-WebRequest -Uri $url -TimeoutSec 5 -ErrorAction Stop -UseBasicParsing
               Write-Output "Success: App is responding at $url with status code $($response.StatusCode)"
               exit 0
             } catch {
-              Write-Output "Attempt $attempt of $maxAttempts: Failed to connect to $url - $($_.Exception.Message)"
+              Write-Output "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $url - $($_.Exception.Message)"
               if ($attempt -eq $maxAttempts) {
                 Write-Error "Deployment failed: App not responding at $url after $maxAttempts attempts"
                 exit 1
