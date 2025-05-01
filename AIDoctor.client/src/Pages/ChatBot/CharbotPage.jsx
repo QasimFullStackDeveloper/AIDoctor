@@ -119,7 +119,7 @@ const DoctorAI = () => {
 
         <div className="flex flex-col justify-end mt-auto">
           <div className="flex items-center mb-[0rem]">
-            <div className="bg-[#455EA5] mb-3 px-3 py-2 h-11 w-13 rounded-full flex items-center ">
+            <div className={`bg-[#455EA5] ${isDarkMode ? "bg-gray-700":""} mb-3 px-3 py-2 h-11 w-13 rounded-full flex items-center `}>
               <div className="bg-yellow-400 p-1 h-8 w-8 flex justify-center items-center cursor-pointer rounded-full" onClick={handleMode}>
                 <img src={sun} alt="sun" className="w-4 h-4 object-contain" />
               </div>
@@ -129,7 +129,7 @@ const DoctorAI = () => {
             </div>
           </div>
 
-          <div className="bg-[#455EA5] p-4 rounded-lg shadow-inner mb-[0.5rem]">
+          <div className={`bg-[#455EA5]  ${isDarkMode ? "bg-gray-700":""} p-4 rounded-lg shadow-inner mb-[0.5rem]`}>
             <div className="flex items-center gap-3 mb-4">
               <img src={user1} alt="User" className="w-10 h-10 rounded-full object-cover" />
               <div className="flex-1">
@@ -139,7 +139,7 @@ const DoctorAI = () => {
               <span className="bg-blue-800 mb-4 text-white text-[10px] px-3 py-1 rounded-full">Basic mode</span>
             </div>
 
-            <button className="w-full flex items-center justify-center bg-white cursor-not-allowed text-black text-sm font-semibold p-2 rounded-lg transition duration-200">
+            <button className={`w-full flex items-center justify-center bg-white  cursor-not-allowed text-black text-sm font-semibold p-2 rounded-lg transition duration-200`}>
               <img src={crown} alt="Crown" className="w-4 h-4 mr-2" />
               Upgrade to Pro
             </button>
@@ -150,7 +150,7 @@ const DoctorAI = () => {
       {/* Main Section */}
       <div className="flex-1 flex p-6 overflow-hidden">
         {showHistory && (
-          <div className={`w-[350px] ${contentBg} rounded-2xl shadow-lg p-6 flex flex-col overflow-y-auto border border-gray-200`}>
+          <div className={`w-[350px] ${contentBg}  rounded-2xl shadow-lg p-6 flex flex-col overflow-y-auto border border-gray-200`}>
             <div className="mb-4 pb-2 border-b w-full">
               <h2 className="text-lg font-semibold">Chat History</h2>
             </div>
@@ -175,7 +175,7 @@ const DoctorAI = () => {
                     onClick={() => handleSessionClick(chat)}
                   >
                     <h3 className="text-md font-semibold capitalize">{chat.title}</h3>
-                    <p className="text-sm text-gray-700">
+                    <p className={`text-sm text-gray-700 ${isDarkMode ? "text-red-100":""}`}>
                       {chat.messages.find(m => m.sender === 'user')?.text || "No user input"}
                     </p>
                   </div>
