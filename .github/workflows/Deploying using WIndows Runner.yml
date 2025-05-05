@@ -37,7 +37,7 @@ jobs:
         timeout-minutes: 15
         run: |
           $RdpHost = "139.185.55.205"
-          $RdpPort = 5986
+          $RdpPort = 5985
           $RdpUser = "Aaban"
           $RdpPass = "${{ secrets.RDP_PASSWORD }}"
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
