@@ -89,7 +89,15 @@ jobs:
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
 
-          # Close the session
+          # Reboot the RDP machine
+          Write-Host "Initiating reboot of RDP machine..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            shutdown /r /t 30 /c "Rebooting for deployment stability" /f
+          }
+          Start-Sleep -Seconds 60  # Wait for reboot to start
+
+          # Close the session (will fail after reboot, which is expected)
           Write-Host "Closing session..."
-          Remove-PSSession $Session
+          Remove-PSSession $Session -ErrorAction SilentlyContinue
+
         shell: powershell
