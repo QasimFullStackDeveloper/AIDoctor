@@ -54,14 +54,14 @@ jobs:
           }
           Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
 
-          # Create PowerShell session with retry logic
+          # Create PowerShell session with retry logic and explicit authentication
           Write-Host "Creating PowerShell session..."
           $maxRetries = 3
           $retryCount = 0
           $Session = $null
           while ($retryCount -lt $maxRetries -and $null -eq $Session) {
             try {
-              $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 300000) -ErrorAction Stop
+              $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -UseSSL:$false -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck -OperationTimeout 300000) -ErrorAction Stop
               Write-Host "PowerShell session created successfully."
             } catch {
               Write-Host "Attempt $($retryCount + 1) of $maxRetries failed: $($_.Exception.Message)"
@@ -99,10 +99,17 @@ jobs:
             Remove-Item "C:\AI-Doctor\publish.zip"
           }
 
-          # Start the application
+          # Start the application with verification
           Write-Host "Starting the application..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
+            Start-Sleep -Seconds 10
+            if (Test-NetConnection -ComputerName localhost -Port 5001) {
+              Write-Host "Application started on port 5001"
+            } else {
+              Write-Error "Application failed to start on port 5001"
+              exit 1
+            }
           }
 
           # Close the session
