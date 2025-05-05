@@ -37,7 +37,7 @@ jobs:
         timeout-minutes: 15
         run: |
           $RdpHost = "139.185.55.205"
-          $RdpPort = 5986
+          $RdpPort = 5985  # Changed from 5986 to match WinRM listener
           $RdpUser = "Aaban"
           $RdpPass = "${{ secrets.RDP_PASSWORD }}"
           $SecurePass = ConvertTo-SecureString $RdpPass -AsPlainText -Force
@@ -55,11 +55,32 @@ jobs:
           }
           Set-Item -Path WSMan:\localhost\Client\AllowUnencrypted -Value $true -Force
 
-          # Create PowerShell session
+          # Create PowerShell session with retry logic
           Write-Host "Creating PowerShell session..."
-          $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
+          $maxRetries = 3
+          $retryCount = 0
+          $Session = $null
+          while ($retryCount -lt $maxRetries -and $null -eq $Session) {
+            try {
+              $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic -SessionOption (New-PSSessionOption -OperationTimeout 300000) -ErrorAction Stop
+              Write-Host "PowerShell session created successfully."
+            } catch {
+              Write-Host "Attempt $($retryCount + 1) of $maxRetries failed: $($_.Exception.Message)"
+              $retryCount++
+              if ($retryCount -eq $maxRetries) {
+                Write-Error "Failed to create PowerShell session after $maxRetries attempts."
+                exit 1
+              }
+              Start-Sleep -Seconds 5
+            }
+          }
 
-          # Pre-deployment cleanup of publish folder
+          # Validate session before proceeding
+          Write-Host "Validating session..."
+          Invoke-Command -Session $Session -ScriptBlock { $env:COMPUTERNAME } -ErrorAction Stop | Out-Null
+          Write-Host "Session validated."
+
+          # Cleaning up publish folder before deployment
           Write-Host "Cleaning up publish folder before deployment..."
           Invoke-Command -Session $Session -ScriptBlock {
             if (Test-Path "C:\AI-Doctor\publish") {
@@ -69,7 +90,7 @@ jobs:
             }
           }
 
-          # Stop all running app and frpc processes
+          # Stopping dotnet.exe and frpc.exe processes
           Write-Host "Stopping dotnet.exe and frpc.exe processes..."
           Invoke-Command -Session $Session -ScriptBlock {
             Get-Process -Name "dotnet", "frpc" -ErrorAction SilentlyContinue | ForEach-Object {
@@ -79,7 +100,7 @@ jobs:
             Start-Sleep -Seconds 5
           }
 
-          # Check and free ports 5001 and 7000
+          # Checking and freeing ports 5001 and 7000
           Write-Host "Checking and freeing ports 5001 and 7000..."
           Invoke-Command -Session $Session -ScriptBlock {
             $ports = 5001, 7000
@@ -99,42 +120,42 @@ jobs:
             }
           }
 
-          # Restart FRP client
+          # Restarting FRP client
           Write-Host "Restarting FRP client..."
           Invoke-Command -Session $Session -ScriptBlock {
             $frpcPath = "C:\AI-Doctor-App\frpc.exe"
             if (Test-Path $frpcPath) {
               taskkill /IM frpc.exe /F 2>$null
               Start-Sleep -Seconds 2
-              Start-Process -FilePath $frpcPath -ArgumentList "-c C:\frp\frpc.ini" -NoNewWindow
+              Start-Process -FilePath $frpcPath -ArgumentList "-c C:\AI-Doctor-App\frpc.ini" -NoNewWindow
               Write-Host "FRP client restarted."
             } else {
               Write-Host "FRP client not found at $frpcPath. Skipping restart."
             }
           }
 
-          # Zip the publish folder
+          # Zipping publish folder
           Write-Host "Zipping publish folder..."
           Compress-Archive -Path "publish\*" -DestinationPath "publish.zip" -Force
 
-          # Copy the zip file to RDP server
+          # Copying zip file to RDP server
           Write-Host "Copying zip file to RDP server..."
           Copy-Item -Path "publish.zip" -Destination "C:\AI-Doctor\publish.zip" -ToSession $Session -Force
 
-          # Unzip on the RDP server and remove the zip file
+          # Unzipping on RDP server and removing the zip file
           Write-Host "Unzipping on RDP server..."
           Invoke-Command -Session $Session -ScriptBlock {
             Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
             Remove-Item "C:\AI-Doctor\publish.zip"
           }
 
-          # Start the application
+          # Starting the application
           Write-Host "Starting the application..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
           }
 
-          # Verify the app is running on localhost:5001
+          # Verifying app is running on localhost:5001
           Write-Host "Verifying app is running on localhost:5001..."
           Invoke-Command -Session $Session -ScriptBlock {
             $appUrl = "http://localhost:5001"
@@ -157,7 +178,7 @@ jobs:
             }
           }
 
-          # Close the session
+          # Closing session
           Write-Host "Closing session..."
           Remove-PSSession $Session
         shell: powershell
