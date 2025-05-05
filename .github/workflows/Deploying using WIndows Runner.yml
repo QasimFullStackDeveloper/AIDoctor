@@ -112,7 +112,14 @@ jobs:
             }
           }
 
-          # Close the session
+          # Schedule a restart of the RDP machine with a delay
+          Write-Host "Scheduling RDP machine restart..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            shutdown /r /t 30 /c "Restarting RDP machine after deployment to ensure services start correctly."
+            Write-Host "RDP machine will restart in 30 seconds."
+          }
+
+          # Close the session before the restart
           Write-Host "Closing session..."
           Remove-PSSession $Session
         shell: powershell
