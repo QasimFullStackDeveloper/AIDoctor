@@ -44,6 +44,7 @@ jobs:
           $Credential = New-Object System.Management.Automation.PSCredential($RdpUser, $SecurePass)
 
           # Add the RDP host to TrustedHosts
+          Write-Host "Configuring TrustedHosts..."
           $CurrentTrustedHosts = (Get-Item WSMan:\localhost\Client\TrustedHosts).Value
           if ($CurrentTrustedHosts -notlike "*$RdpHost*") {
             if ($CurrentTrustedHosts) {
@@ -58,13 +59,57 @@ jobs:
           Write-Host "Creating PowerShell session..."
           $Session = New-PSSession -ComputerName $RdpHost -Port $RdpPort -Credential $Credential -Authentication Basic
 
-          # Stop the running application
-          Write-Host "Stopping dotnet.exe..."
+          # Pre-deployment cleanup of publish folder
+          Write-Host "Cleaning up publish folder before deployment..."
           Invoke-Command -Session $Session -ScriptBlock {
-            try {
-              taskkill /IM dotnet.exe /F 2>$null
-            } catch {
-              # Ignore errors
+            if (Test-Path "C:\AI-Doctor\publish") {
+              Get-Process | Where-Object { $_.Path -like "*C:\AI-Doctor\publish*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+              Remove-Item -Path "C:\AI-Doctor\publish" -Recurse -Force -ErrorAction SilentlyContinue
+              Start-Sleep -Seconds 2
+            }
+          }
+
+          # Stop all running app and frpc processes
+          Write-Host "Stopping dotnet.exe and frpc.exe processes..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            Get-Process -Name "dotnet", "frpc" -ErrorAction SilentlyContinue | ForEach-Object {
+              Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+              Write-Host "Stopped process ID $($_.Id) - $($_.Name)"
+            }
+            Start-Sleep -Seconds 5
+          }
+
+          # Check and free ports 5001 and 7000
+          Write-Host "Checking and freeing ports 5001 and 7000..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $ports = 5001, 7000
+            foreach ($port in $ports) {
+              $portInUse = netstat -aon | Select-String ":$port\s+.*LISTENING"
+              if ($portInUse) {
+                Write-Host "Port $port is in use. Attempting to free it..."
+                $processId = ($portInUse -split "\s+")[5]
+                if ($processId) {
+                  taskkill /PID $processId /F 2>$null
+                  Write-Host "Killed process ID $processId using port $port."
+                  Start-Sleep -Seconds 2
+                }
+              } else {
+                Write-Host "Port $port is free."
+              }
+            }
+          }
+
+          # Restart FRP client
+          Write-Host "Restarting FRP client..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $frpcPath = "C:\AI-Doctor-App\frpc.exe"
+            if (Test-Path $frpcPath) {
+              taskkill /IM frpc.exe /F 2>$null
+              Start-Sleep -Seconds 2
+              Start-Process -FilePath $frpcPath -ArgumentList "-c C:\frp\frpc.ini" -NoNewWindow
+              Write-Host "FRP client restarted."
+            } else {
+              Write-Host "FRP client not found at $frpcPath. Skipping restart."
             }
           }
 
@@ -87,6 +132,29 @@ jobs:
           Write-Host "Starting the application..."
           Invoke-Command -Session $Session -ScriptBlock {
             Start-Process -FilePath "dotnet" -ArgumentList "C:\AI-Doctor\publish\AIDoctor.Server.dll --urls http://[::]:5001" -NoNewWindow
+          }
+
+          # Verify the app is running on localhost:5001
+          Write-Host "Verifying app is running on localhost:5001..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            $appUrl = "http://localhost:5001"
+            $maxAttempts = 10
+            $attempt = 1
+            while ($attempt -le $maxAttempts) {
+              try {
+                $response = Invoke-WebRequest -Uri $appUrl -TimeoutSec 5 -ErrorAction Stop
+                Write-Host "App is running on $appUrl with status code $($response.StatusCode)"
+                break
+              } catch {
+                Write-Host "Attempt ${attempt} of ${maxAttempts} - Failed to connect to $appUrl - $($_.Exception.Message)"
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "App failed to start on $appUrl after $maxAttempts attempts"
+                  exit 1
+                }
+                Start-Sleep -Seconds 3
+                $attempt++
+              }
+            }
           }
 
           # Close the session
