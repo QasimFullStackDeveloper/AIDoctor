@@ -1,0 +1,270 @@
+2025-04-11 11:43:55 [Fatal] Host terminated unexpectedly
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 93
+2025-04-11 11:50:02 [Fatal] Host terminated unexpectedly
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 93
+2025-04-11 11:52:55 [Fatal] Host terminated unexpectedly
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 93
+2025-04-11 11:54:44 [Fatal] Host terminated unexpectedly
+Microsoft.Extensions.Hosting.HostAbortedException: The host was aborted.
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.ThrowHostAborted()
+   at Microsoft.Extensions.Hosting.HostFactoryResolver.HostingListener.OnNext(KeyValuePair`2 value)
+   at System.Diagnostics.DiagnosticListener.Write(String name, Object value)
+   at Microsoft.Extensions.Hosting.HostBuilder.ResolveHost(IServiceProvider serviceProvider, DiagnosticListener diagnosticListener)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 93
+2025-04-11 14:05:44 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:05:54 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:06:17 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:06:35 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:16:40 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:20:22 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:20:46 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:21:30 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:30:00 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:30:27 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:37:56 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:57:58 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
+2025-04-11 14:59:12 [Fatal] Host terminated unexpectedly
+System.AggregateException: Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.)
+ ---> System.InvalidOperationException: Error while validating the service descriptor 'ServiceType: AIDoctor.Application.Services.Interfaces.IMessageService Lifetime: Transient ImplementationType: AIDoctor.Application.Services.Implementations.MessageService': Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+ ---> System.InvalidOperationException: Unable to resolve service for type 'AIDoctor.Application.Services.ChatBot.ChatBotService' while attempting to activate 'AIDoctor.Application.Services.Implementations.MessageService'.
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   --- End of inner exception stack trace ---
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+   at Microsoft.Extensions.Hosting.HostApplicationBuilder.Build()
+   at Microsoft.AspNetCore.Builder.WebApplicationBuilder.Build()
+   at Program.<Main>$(String[] args) in E:\University\Semester 6\SCD\Semester Project\AiDoctor\AIDoctor\AIDoctor.Server\Program.cs:line 94
