@@ -99,6 +99,20 @@ jobs:
             Remove-Item "C:\AI-Doctor\publish.zip"
           }
 
+          # Set the connection string as an environment variable on the RDP machine
+          Write-Host "Setting connection string environment variable on RDP..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            param($connString)
+            [System.Environment]::SetEnvironmentVariable("ConnectionStrings__DefaultConnection", $connString, "Machine")
+          } -ArgumentList $env:ConnectionStrings__DefaultConnection
+
+          # Run database migrations
+          Write-Host "Running database migrations..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            Set-Location -Path "C:\AI-Doctor\publish"
+            & dotnet ef database update --project AIDoctor.Infrastructure --startup-project .
+          }
+
           # Start the application with verification
           Write-Host "Starting the application..."
           Invoke-Command -Session $Session -ScriptBlock {
