@@ -106,6 +106,13 @@ jobs:
             [System.Environment]::SetEnvironmentVariable("ConnectionStrings__DefaultConnection", $connString, "Machine")
           } -ArgumentList $env:ConnectionStrings__DefaultConnection
 
+          # Install EF Core tools on the RDP machine
+          Write-Host "Installing EF Core tools on RDP..."
+          Invoke-Command -Session $Session -ScriptBlock {
+          & dotnet tool install --global dotnet-ef --version 9.0.4
+          $env:PATH += ";C:\Users\$env:USERNAME\.dotnet\tools"
+          }
+
           # Run database migrations
           Write-Host "Running database migrations..."
           Invoke-Command -Session $Session -ScriptBlock {
