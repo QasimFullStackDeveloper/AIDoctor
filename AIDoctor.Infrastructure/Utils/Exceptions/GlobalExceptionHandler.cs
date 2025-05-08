@@ -1,6 +1,7 @@
 ﻿using AIDoctor.Domain.Utils.CustomExceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json.Serialization;
@@ -11,10 +12,12 @@ namespace AIDoctor.Infrastructure.Utils.Exceptions
     public class GlobalExceptionHandler
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<GlobalExceptionHandler> _logger;
 
-        public GlobalExceptionHandler(RequestDelegate next)
+        public GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptionHandler> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -27,6 +30,30 @@ namespace AIDoctor.Infrastructure.Utils.Exceptions
             {
                 await HandleExceptionAsync(context, ex);
             }
+        }
+
+        private void LogException(HttpContext context, Exception exception)
+        {
+            var logDetails = new
+            {
+                Timestamp = DateTime.UtcNow,
+                RequestPath = context.Request.Path,
+                RequestMethod = context.Request.Method,
+                StatusCode = context.Response.StatusCode,
+                ExceptionType = exception.GetType().FullName,
+                ExceptionMessage = exception.Message,
+                StackTrace = exception.StackTrace,
+                InnerException = exception.InnerException?.Message,
+                ClientIp = context.Connection.RemoteIpAddress?.ToString(),
+                UserAgent = context.Request.Headers["User-Agent"].ToString()
+            };
+
+            _logger.LogError(exception,
+                "Exception occurred: {ExceptionType} | Path: {RequestPath} | Method: {RequestMethod} | Details: {@LogDetails}",
+                logDetails.ExceptionType,
+                logDetails.RequestPath,
+                logDetails.RequestMethod,
+                logDetails);
         }
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)

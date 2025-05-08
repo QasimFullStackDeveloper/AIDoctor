@@ -45,11 +45,12 @@ namespace AIDoctor.Application.Services.Implementations
             var user = new User()
             {
                 Email = dto.Email,
-                UserName = dto.FullName,
+                UserName = dto.Email,
                 Role = UserRoles.Default
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
-            if (!result.Succeeded) throw new InvalidOperationException("Something went wrong when creating User");
+            if (!result.Succeeded) throw new InvalidOperationException("Something went wrong");
+            await SendConfirmationEmailAsync(user);
         }
 
 
@@ -106,7 +107,6 @@ namespace AIDoctor.Application.Services.Implementations
             ArgumentException.ThrowIfNullOrWhiteSpace(oTP);
 
             var user = await GetUserAsync(userEmail);
-            ArgumentNullException.ThrowIfNull(user);
 
             var result = await _userManager.VerifyTwoFactorTokenAsync(user, tokenProvider, oTP);
             if (!result) throw new InvalidOperationException("Invalid OTP");
@@ -202,7 +202,13 @@ namespace AIDoctor.Application.Services.Implementations
 
 
         // Confimation Email
-
+        /// <summary>
+        /// Sends a confirmation email to the specified user by their email address.
+        /// </summary>
+        /// <param name="user">The user whos's email will be used</param>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        /// <exception cref="KeyNotFoundException">Thrown when the user with the specified email is not found.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the user or their email is null.</exception>
         private async Task SendConfirmationEmailAsync(User user)
         {
             if (user is null || string.IsNullOrWhiteSpace(user.Email)) throw new ArgumentNullException(nameof(user));
@@ -212,6 +218,8 @@ namespace AIDoctor.Application.Services.Implementations
             var confirmationLink = $"{_configuration["ClientSettings:Url"]}/Account/confirmemail?email={user.Email}&token={token}";
             await _emailService.SendConfirmationEmailLinkAsync(user.Email, confirmationLink);
         }
+
+
 
 
         /// <summary>
@@ -225,6 +233,17 @@ namespace AIDoctor.Application.Services.Implementations
         {
             var user = await GetUserAsync(userEmail);
             await SendConfirmationEmailAsync(user);
+            
         }
+
+
+        public async Task ConfirmUserAsync(EmailConfirmationDTO dTO)
+        {
+            var user = await GetUserAsync(dTO.Email);
+            var result = await _userManager.ConfirmEmailAsync(user, dTO.ConfirmationToken);
+            if (!result.Succeeded) throw new InvalidOperationException("Invalid Token");
+        }
+
+
     }
 }

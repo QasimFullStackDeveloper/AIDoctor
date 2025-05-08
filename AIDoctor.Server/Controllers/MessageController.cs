@@ -13,7 +13,7 @@ namespace AIDoctor.Server.Controllers
     {
         private readonly IMessageService _messageService;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, HttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             _messageService = messageService;
         }

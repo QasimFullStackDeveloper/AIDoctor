@@ -40,7 +40,7 @@ namespace AIDoctor.Application.Services.Interfaces
         /// <returns>A task that returns a collection of the user's favorite messages.</returns>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="userId"/> is null or empty.</exception>
         /// <exception cref="KeyNotFoundException">Thrown when no favorite messages are found for the specified user.</exception>
-        Task<IEnumerable<FavouriteMessages>> GetAllFavouriteMessagesByUserId(string userId);
+        Task<IEnumerable<FavouriteMessage>> GetAllFavouriteMessagesByUserId(string userId);
 
         /// <summary>
         /// Retrieves all messages associated with a specific chat.

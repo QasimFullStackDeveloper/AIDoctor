@@ -15,9 +15,9 @@ namespace AIDoctor.Application.Services.Implementations
     {
         private readonly IMessgaeRepository _messgaeRepository;
         private readonly IFavouriteMessageRepository _favouriteMessageRepository;
-        private readonly ChatBotService _botService;
+        private readonly IChatBotService _botService;
 
-        public MessageService(IMessgaeRepository messgaeRepository, IFavouriteMessageRepository favouriteMessageRepository, ChatBotService botService)
+        public MessageService(IMessgaeRepository messgaeRepository, IFavouriteMessageRepository favouriteMessageRepository, IChatBotService botService)
         {
             _messgaeRepository = messgaeRepository;
             _favouriteMessageRepository = favouriteMessageRepository;
@@ -29,7 +29,7 @@ namespace AIDoctor.Application.Services.Implementations
             return await _messgaeRepository.GetMessgaesByChatIdAsync(chatId);
         }
 
-        public async Task<IEnumerable<FavouriteMessages>> GetAllFavouriteMessagesByUserId(string userId)
+        public async Task<IEnumerable<FavouriteMessage>> GetAllFavouriteMessagesByUserId(string userId)
         {
             return await _favouriteMessageRepository.GetAllByUserId(userId);
         }
@@ -47,7 +47,7 @@ namespace AIDoctor.Application.Services.Implementations
             {
                 throw new Exception("This message is already in your favourites.");
             }
-            var favouriteMessage = new FavouriteMessages
+            var favouriteMessage = new FavouriteMessage
             {
                 UserID = userId,
                 CreatedDate = DateTime.UtcNow,
@@ -67,8 +67,7 @@ namespace AIDoctor.Application.Services.Implementations
             //await _messgaeRepository.AddAsync(newMessage);
             //await _messgaeRepository.SaveChangesAsync();
 
-            //return newMessage.Response;
-            return "";
+            return newMessage.Response;
         }
     }
 }

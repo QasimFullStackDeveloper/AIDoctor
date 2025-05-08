@@ -37,51 +37,54 @@ namespace AIDoctor.Application.Services.SMTP
         public async Task TFAEmailAsync(string reciverEmail, string token)
         {
             var subject = "Enable Two-Factor Authentication (2FA) – Your One-Time Password (OTP)";
-            var body = $"<strong>Dear User,</strong>  \r\n\r\nTo enhance the security of your account, " +
-                $"we require verification through Two-Factor Authentication (2FA). " +
-                $"Please use the following One-Time Password (OTP) to enable 2FA on your account:  \r\n\r\n" +
-                $"<strong>Your OTP Code: {token}</strong>  \r\n\r\n Do not share this code with anyone. " +
-                $"If you did not request this, please ignore this email or contact our support team immediately.  \r\n\r\n" +
-                $"<strong>Next Steps:</strong>  \r\n" +
-                $"1. Enter the OTP code in the verification field.  \r\n2. Complete the setup process to enable 2FA for added security." +
-                $"  \r\n\r\nFor any assistance, feel free to reach out to our support team at **[Support Email]**.  " +
-                $"\r\n\r\n <strong>Best regards,</strong>  \r\n AIDoctor  \r\n[Your Company Website]  " +
-                $"\r\n[Support Contact Information]";
+            var body = $"<strong>Hello Dear User</strong>,<br>" +
+                $"Thank you for taking steps to secure your AiDoctor account! To enable Two-Factor Authentication (2FA), please use the following One-Time Password (OTP):<br>" +
+                $"<strong>Your OTP Code: {token}</strong><br>" +
+                $"This code will expire in 15 minutes for your security. Do not share it with anyone.<br>" +
+                $"<strong>Next Steps:</strong><br>" +
+                $"1. Enter the OTP in the verification field on our site.<br>" +
+                $"2. Complete the setup to activate 2FA and keep your account safe.<br>" +
+                $"If you didn’t request this, no action is needed—feel free to ignore this email or contact us at <a href=\"mailto:[Support Email]\">[Support Email]</a>.<br>" +
+                $"Best regards,<br>" +
+                $"The AiDoctor Team<br>" +
+                $"<a href=\"[Your Company Website]\">[Your Company Website]</a>";
 
             await SendEmailAsync(reciverEmail, subject, body);
         }
 
         public async Task SendResetLinkAsync(string recieverEmail, string resetLink)
         {
-            var subject = "Reset Password";
-            var body = $"<strong>Dear User</strong>,\r\n" +
-                $"Click the link below to reset your password:\r\n" +
-                $"<a href=\"{resetLink}\">Reset Link</a>\r\n" +
-                $"If you didn’t request this, please ignore this email.\r\n" +
-                $"Thanks,\r\n" +
-                $"AiDoctor";
+            var subject = "Reset Your Password";
+            var body = $"<strong>Hello Dear User</strong>,<br>" +
+                $"We received a request to reset your password for your AiDoctor account. Click the link below to set a new password:<br>" +
+                $"<a href=\"{resetLink}\">Reset Your Password</a><br>" +
+                $"This link will expire in 24 hours for security. If you didn’t request a password reset, feel free to ignore this email—no action is needed.<br>" +
+                $"Best regards,<br>" +
+                $"The AiDoctor Team";
+
             await SendEmailAsync(recieverEmail, subject, body);
         }
 
         public async Task SendResetPasswordConfirmationAsync(string recieverEmail)
         {
             var subject = "Password Reset Confirmation";
-            var body = $"<strong>Dear User</strong>,\r\n" +
-                $"Your password has been successfully reset.\r\n" +
-                $"If you didn’t request this, please contact our support team.\r\n" +
-                $"Thanks,\r\n" +
-                $"AiDoctor";
+            var body = $"<strong>Hello Dear User</strong>,<br>" +
+                $"Great news! Your AiDoctor account password has been successfully reset.<br>" +
+                $"If you didn’t make this change, please contact our support team immediately at <a href=\"mailto:[Support Email]\">[Support Email]</a>.<br>" +
+                $"Best regards,<br>" +
+                $"The AiDoctor Team";
+
             await SendEmailAsync(recieverEmail, subject, body);
         }
 
         public async Task SendConfirmationEmailLinkAsync(string recieverEmail, string confirmationLink)
         {
             var subject = "Confirm Your Email";
-            var body = $"<strong>Hello Dear User</strong>,\r\n" +
-                $"Thank you for joining AiDoctor! Please click the link below to confirm your email address and get started:\r\n" +
-                $"<a href=\"{confirmationLink}\">Confirm Your Email</a>\r\n" +
-                $"This link will expire in 24 hours. If you didn’t sign up, feel free to ignore this email—no action is needed.\r\n" +
-                $"Best regards,\r\n" +
+            var body = $"<strong>Hello Dear User</strong>,<br>" +
+                $"Thank you for joining AiDoctor! Please click the link below to confirm your email address and get started:<br>" +
+                $"<a href=\"{confirmationLink}\">Confirm Your Email</a><br>" +
+                $"This link will expire in 24 hours. If you didn’t sign up, feel free to ignore this email—no action is needed.<br>" +
+                $"Best regards,<br>" +
                 $"The AiDoctor Team";
             await SendEmailAsync(recieverEmail, subject, body);
         }

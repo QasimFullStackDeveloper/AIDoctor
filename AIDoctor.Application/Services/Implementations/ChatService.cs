@@ -1,5 +1,5 @@
 ﻿using AIDoctor.Application.DTOs;
-using AIDoctor.Application.Services.Interfaces_BaseClasses;
+using AIDoctor.Application.Services.Interfaces;
 using AIDoctor.Domain.Entities;
 using AIDoctor.Domain.Interfaces;
 

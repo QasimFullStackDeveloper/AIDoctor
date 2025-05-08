@@ -10,14 +10,14 @@ namespace AIDoctor.Domain.Interfaces
     /// <summary>
     /// Defines the contract for repository operations related to favorite messages.
     /// </summary>
-    public interface IFavouriteMessageRepository : IGenericRepository<FavouriteMessages, Guid>
+    public interface IFavouriteMessageRepository : IGenericRepository<FavouriteMessage, Guid>
     {
         /// <summary>
         /// Retrieves all favorite messages for a specific user.
         /// </summary>
         /// <param name="userId">The unique identifier of the user.</param>
         /// <returns>A task representing the asynchronous operation, containing a collection of favorite messages.</returns>
-        Task<IEnumerable<FavouriteMessages>> GetAllByUserId(string userId);
+        Task<IEnumerable<FavouriteMessage>> GetAllByUserId(string userId);
 
         /// <summary>
         /// Checks if a specific message is marked as favorite by a user.

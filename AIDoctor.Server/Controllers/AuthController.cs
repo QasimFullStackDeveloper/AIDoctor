@@ -100,6 +100,7 @@ namespace AIDoctor.Server.Controllers
             return Ok(token);
         }
 
+
         //                                  Forget/Reset Password
         /// <summary>
         /// Initiates the password reset process by generating a password reset token and sending a reset link to the user's email.
@@ -138,11 +139,22 @@ namespace AIDoctor.Server.Controllers
         /// <param name="dTO">The UserEmailDto containing the user's email address.</param>
         /// <returns>A Task representing the asynchronous operation.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
-        [HttpPost("account/confirm-email")]
+        
+        [HttpPost("/account/resend-confirmation-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] UserEmailDto dTO)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
             await _authService.SendConfirmationEmailAsync(dTO.Email);
+            
+            return Ok();
+        }
+
+
+        [HttpPost("account/confirm-email")]
+        public async Task<IActionResult> ConfirmUserAsync([FromBody] EmailConfirmationDTO dto)
+        {
+            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            await _authService.ConfirmUserAsync(dto);
             return Ok();
         }
     }

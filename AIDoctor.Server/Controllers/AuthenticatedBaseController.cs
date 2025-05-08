@@ -9,26 +9,26 @@ namespace AIDoctor.Server.Controllers
     [ApiController]
     public class AuthenticatedBaseController : ControllerBase
     {
-        protected string UserId => (string)HttpContext.Items["UserId"];
-        protected string UserEmail => (string)HttpContext.Items["UserEmail"];
+        protected string UserId => HttpContext.Items["UserId"] as string ?? throw new UnauthorizedAccessException("UserId is not available.");
+        protected string UserEmail => HttpContext.Items["UserEmail"] as string ?? throw new UnauthorizedAccessException("UserEmail is not available.");
 
         public AuthenticatedBaseController()
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext?.User?.Identity?.IsAuthenticated != true)
             {
                 throw new UnauthorizedAccessException("Authentication required.");
             }
 
             var userIdClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-            var UserEmailClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var userEmailClaim = HttpContext.User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
 
-            if (string.IsNullOrEmpty(userIdClaim) || string.IsNullOrEmpty(UserEmailClaim))
+            if (string.IsNullOrEmpty(userIdClaim) || string.IsNullOrEmpty(userEmailClaim))
             {
                 throw new UnauthorizedAccessException("Missing required claims (sub or UserEmail).");
             }
 
             HttpContext.Items["UserId"] = userIdClaim;
-            HttpContext.Items["UserEmail"] = UserEmailClaim;
+            HttpContext.Items["UserEmail"] = userEmailClaim;
         }
     }
 }

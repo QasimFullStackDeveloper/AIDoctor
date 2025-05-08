@@ -1,6 +1,5 @@
 ﻿using AIDoctor.Application.Services.Implementations;
 using AIDoctor.Application.Services.Interfaces;
-using AIDoctor.Application.Services.Interfaces_BaseClasses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +13,7 @@ namespace AIDoctor.Server.Controllers
         private readonly IChatService _chatService;
         private readonly IMessageService _messageService;
 
-        public ChatController(IChatService chatService, IMessageService messageService)
+        public ChatController(IChatService chatService, IMessageService messageService, HttpContextAccessor httpContextAccessor) : base(httpContextAccessor) 
         {
             _chatService = chatService;
             _messageService = messageService;

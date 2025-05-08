@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AIDoctor.Domain.Entities
 {
-    class Feedback
+    public class Feedback
     {
         public Guid FeedbackID { get; init; }
         public required string UserID { get; init; }

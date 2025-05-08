@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace AIDoctor.Infrastructure.Implementations
 {
-    public class FavouriteMessageRepository(AIDoctorDBContext context) : GenericRepository<FavouriteMessages, Guid>(context), IFavouriteMessageRepository
+    public class FavouriteMessageRepository(AIDoctorDBContext context) : GenericRepository<FavouriteMessage, Guid>(context), IFavouriteMessageRepository
     {
-        public async Task<IEnumerable<FavouriteMessages>> GetAllByUserId(string userId)
+        public async Task<IEnumerable<FavouriteMessage>> GetAllByUserId(string userId)
         {
             var result = await DbSet.Where(x => x.UserID == userId).ToListAsync();
             return result;

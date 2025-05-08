@@ -2,14 +2,14 @@
 
 namespace AIDoctor.Domain.Entities
 {
-    class SubscriptionPlans
+    class SubscriptionPlan
     {
         public Guid PlanID { get; init; }
         public int PlanType { get; init; }
         public decimal PlanPrice { get; init; }
         public int MaxPromptsPerDay { get; init; }
 
-        public SubscriptionPlans()
+        public SubscriptionPlan()
         {
             PlanID = Guid.NewGuid();
             PlanType = (int)PlanTypes.Free;

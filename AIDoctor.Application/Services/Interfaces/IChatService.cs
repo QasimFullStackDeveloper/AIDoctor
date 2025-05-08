@@ -1,6 +1,6 @@
 ﻿using AIDoctor.Application.DTOs;
 
-namespace AIDoctor.Application.Services.Interfaces_BaseClasses
+namespace AIDoctor.Application.Services.Interfaces
 {
     public interface IChatService
     {

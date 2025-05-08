@@ -1,5 +1,7 @@
 ﻿using AIDoctor.Domain.Entities;
+using AIDoctor.Domain.Interfaces;
 using AIDoctor.Infrastructure.Data;
+using AIDoctor.Infrastructure.Implementations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +16,9 @@ namespace AIDoctor.Infrastructure
             // Add DBContext with SQL Server
             services.AddDbContext<AIDoctorDBContext>(options =>
                 options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection")));
+                    configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure()));
+
 
             services.AddIdentity<User, IdentityRole>(Options =>
             {
@@ -30,6 +34,11 @@ namespace AIDoctor.Infrastructure
             })
                 .AddEntityFrameworkStores<AIDoctorDBContext>()
                 .AddDefaultTokenProviders();
+
+
+            services.AddTransient<IChatRepository, ChatRepository>();
+            services.AddTransient<IMessgaeRepository, MessageRepository>();
+            services.AddTransient<IFavouriteMessageRepository, FavouriteMessageRepository>();
 
             return services;
         }

@@ -1,7 +1,9 @@
-﻿namespace AIDoctor.Application.Services.ChatBot
+﻿using AIDoctor.Application.Services.Interfaces;
+
+namespace AIDoctor.Application.Services.ChatBot
 {
 
-    public class ChatBotService
+    public class ChatBotService : IChatBotService
     {
 
     }
