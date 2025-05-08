@@ -36,7 +36,7 @@ namespace AIDoctor.Application.Services.Interfaces
         /// <param name="oTP">The one-time password to verify.</param>
         /// <returns>A Task representing the asynchronous operation, containing a JWT token upon successful verification.</returns>
         /// <exception cref="InvalidOperationException">Thrown when OTP verification fails.</exception>
-        Task<string> EnableTwoFactorAuthentication(string userEmail, string tokenProvider, string oTP);
+        Task EnableTwoFactorAuthentication(string userEmail, string tokenProvider, string oTP);
 
         /// <summary>
         /// Logs in a user with the provided LoginDTO data transfer object.

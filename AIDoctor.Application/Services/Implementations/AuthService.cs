@@ -46,6 +46,7 @@ namespace AIDoctor.Application.Services.Implementations
             {
                 Email = dto.Email,
                 UserName = dto.Email,
+                FullName = dto.FullName,
                 Role = UserRoles.Default
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
@@ -100,7 +101,7 @@ namespace AIDoctor.Application.Services.Implementations
 
         //              Verify (T)OTP to Enable Two Factor Authentication
 
-        public async Task<string> EnableTwoFactorAuthentication(string userEmail, string tokenProvider, string oTP)
+        public async Task EnableTwoFactorAuthentication(string userEmail, string tokenProvider, string oTP)
         {
             ArgumentException.ThrowIfNullOrEmpty(userEmail);
             ArgumentException.ThrowIfNullOrEmpty(tokenProvider);
@@ -112,8 +113,8 @@ namespace AIDoctor.Application.Services.Implementations
             if (!result) throw new InvalidOperationException("Invalid OTP");
 
             await _userManager.SetTwoFactorEnabledAsync(user, result);
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            return TokenGenerator.GenerateJwtToken(user, _configuration);
+            //await _signInManager.SignInAsync(user, isPersistent: false);
+            //return TokenGenerator.GenerateJwtToken(user, _configuration);
         }
 
 

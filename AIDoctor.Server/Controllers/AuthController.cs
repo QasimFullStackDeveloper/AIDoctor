@@ -41,11 +41,11 @@ namespace AIDoctor.Server.Controllers
         /// <returns>A Task representing the asynchronous operation, containing an object with the manual setup key and OTP auth URL for the authenticator app.</returns>
         /// <exception cref="Exception">Thrown when model state is invalid.</exception>
         [HttpPost("two-factor/setup-app")]
-        public async Task<IActionResult> TwoFactorAuthenticationByApp([FromBody] string userEmail)
+        public async Task<IActionResult> TwoFactorAuthenticationByApp([FromBody] UserEmailDto userEmail)
         {
             if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
 
-            var dTO = await _authService.TwoFactorAuthenticationByAppAsync(userEmail);
+            var dTO = await _authService.TwoFactorAuthenticationByAppAsync(userEmail.Email);
 
             return Ok(dTO);
         }
@@ -78,9 +78,9 @@ namespace AIDoctor.Server.Controllers
             if (dTO.tokenProvider.ToLower() != "email" && dTO.tokenProvider.ToLower() != "authenticator") throw new Exception("Invalid TokenProvider, " +
                 "It must be either Email or Authentuicator");
 
-            var token = await _authService.EnableTwoFactorAuthentication(dTO.userId, dTO.tokenProvider, dTO.oTP);
+            await _authService.EnableTwoFactorAuthentication(dTO.userId, dTO.tokenProvider, dTO.oTP);
 
-            return Ok(token);
+            return Ok();
         }
 
         //                                  Login

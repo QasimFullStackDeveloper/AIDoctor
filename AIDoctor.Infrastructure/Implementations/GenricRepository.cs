@@ -6,6 +6,7 @@ namespace AIDoctor.Infrastructure.Implementations
 {
     public class GenericRepository<TClass, Tkey> : IGenericRepository<TClass, Tkey>
         where TClass : class
+        where Tkey : notnull
     {
         private readonly AIDoctorDBContext _context;
 

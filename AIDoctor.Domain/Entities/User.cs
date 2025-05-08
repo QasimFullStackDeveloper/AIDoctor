@@ -5,6 +5,7 @@ namespace AIDoctor.Domain.Entities
 {
     public class User : IdentityUser
     {
+        public string FullName { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; init; }
