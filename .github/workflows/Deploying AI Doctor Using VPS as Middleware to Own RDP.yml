@@ -24,6 +24,16 @@ jobs:
         run: |
           cd AIDoctor.Server
           dotnet publish -c Release -o ../publish
+          # Copy AIDoctor.Infrastructure assemblies to the publish folder
+          Copy-Item -Path "..\AIDoctor.Infrastructure\bin\Release\net9.0\*.dll" -Destination "..\publish" -Force
+          # Create a projects directory for migration purposes
+          New-Item -Path "..\publish\projects\AIDoctor.Server" -ItemType Directory -Force
+          New-Item -Path "..\publish\projects\AIDoctor.Infrastructure" -ItemType Directory -Force
+          # Copy project files to the projects directory
+          Copy-Item -Path "..\AIDoctor.Server\AIDoctor.Server.csproj" -Destination "..\publish\projects\AIDoctor.Server" -Force
+          Copy-Item -Path "..\AIDoctor.Infrastructure\AIDoctor.Infrastructure.csproj" -Destination "..\publish\projects\AIDoctor.Infrastructure" -Force
+          # Copy the Migrations folder
+          Copy-Item -Path "..\AIDoctor.Infrastructure\Migrations" -Destination "..\publish\projects\AIDoctor.Infrastructure" -Recurse -Force
 
       - name: Build Frontend
         run: |
@@ -115,11 +125,11 @@ jobs:
           $env:PATH += ";C:\Users\$env:USERNAME\.dotnet\tools"
           }
 
-          # Run database migrations using published assemblies
+          # Run database migrations using project files
           Write-Host "Running database migrations..."
           Invoke-Command -Session $Session -ScriptBlock {
             Set-Location -Path "C:\AI-Doctor\publish"
-            & dotnet ef database update --assembly AIDoctor.Infrastructure.dll --startup-assembly AIDoctor.Server.dll
+            & dotnet ef database update --project projects\AIDoctor.Infrastructure\AIDoctor.Infrastructure.csproj --startup-project projects\AIDoctor.Server\AIDoctor.Server.csproj
           }
 
           # Start the application with verification
