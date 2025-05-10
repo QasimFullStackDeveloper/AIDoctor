@@ -1,13 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import shieldIcon from "../../assets/Shield.svg";
 import questionMark from "../../assets/questionMark.svg";
 import docIcon from "../../assets/messageICon.svg";
 import arrow from "../../assets/leftArrow.svg";
 import rocket from "../../assets/exploreIcon.svg";
 import Logo from "../../Components/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForgetPassword() {
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const handleSendResetLink = async () => {
+    if (!email) return;
+
+    try {
+      const response = await fetch("http://localhost:7282/Api/Auth/ForgotPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const result = await response.json();
+
+      if (response.status === 404) {
+        alert("Please sign up first.");
+      } else if (response.ok) {
+        navigate("/index/login/email-sent");
+      } else {
+        alert(result.message || "Something went wrong.");
+      }
+    } catch (error) {
+      console.error("Error sending reset link:", error);
+      alert("Failed to send reset link. Please try again later.");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-gray-100 px-4">
       <div className="bg-white px-6 pt-4 pb-6 rounded-lg shadow-lg w-full max-w-[448px] min-h-[500px] border-t-4 border-blue-500 transition duration-300 hover:shadow-2xl hover:scale-[1.02] flex flex-col justify-between">
@@ -38,11 +68,12 @@ export default function LoginForgetPassword() {
             />
             <input
               type="email"
-              className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-400 text-sm "
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent focus:outline-none text-gray-700 placeholder-gray-400 text-sm"
               placeholder="Enter your email address"
             />
           </div>
-
 
           {/* Links */}
           <div className="flex justify-between items-center text-xs font-bold mt-1 mb-9">
@@ -67,7 +98,12 @@ export default function LoginForgetPassword() {
           </div>
 
           {/* Button */}
-          <button className="bg-[#2563EB] text-white py-2.5 rounded-lg w-full text-sm transition duration-300 hover:bg-blue-700 hover:scale-105 flex items-center justify-center gap-2 shadow-md mt-1.5">
+          <button
+            className={`bg-[#2563EB] text-white py-2.5 rounded-lg w-full text-sm transition duration-300 flex items-center justify-center gap-2 shadow-md mt-1.5
+            ${email ? 'hover:bg-blue-700 hover:scale-105' : 'opacity-50 cursor-not-allowed'}`}
+            onClick={handleSendResetLink}
+            disabled={!email}
+          >
             Send Reset Link
             <img src={rocket} alt="Send" className="w-4 h-4 animate-bounce" />
           </button>

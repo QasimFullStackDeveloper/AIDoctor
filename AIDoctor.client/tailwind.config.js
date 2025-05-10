@@ -32,6 +32,9 @@ export default {
         ,
         'laptopDesktop': {
           'raw': '(max-width: 1536px) and (min-width: 1360x) and (min-height: 768px) and (max-height:982px)'
+        },
+        'midMd':{
+          'raw':'(min-height: 700px) and (max-height:845px)'
         }
       },
       fontFamily: {

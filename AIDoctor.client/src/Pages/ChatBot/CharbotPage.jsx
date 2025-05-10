@@ -199,7 +199,7 @@ const DoctorAI = () => {
                 : (isUser ? 'bg-[#D8D8D8]' : 'bg-[#F0BABE]');
               return (
                 <div key={index} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
-                  <div className="relative Laptop:min-w-[50%] thousandh:min-w-[50%] tall-md:min-w-[50%] min-h-[30%] thousandh:max-w-[70%] max-w-[80%]">
+                  <div className="relative md:min-w-[60%]  min-h-[30%] thousandh:max-w-[70%] max-w-[80%]">
                     <div className={`flex ${messageBg} rounded-xl p-3`}>
                       <div className="relative">
                         <img

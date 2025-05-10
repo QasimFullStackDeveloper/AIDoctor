@@ -5,6 +5,22 @@ import { Link } from 'react-router-dom';
 import Logo from '../../Components/Logo';
 
 export default function Signup2factorSuccess() {
+  const verifyEmail = async () => {
+    try {
+      const response = await fetch("http://localhost:7282/Api/Auth/Account/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify()
+      });
+
+      const result = await response.json();
+      console.log(" successful:", result);
+    } catch (error) {
+      console.error(" failed:", error);
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-100 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-[360px]  border-t-4 border-blue-500 flex flex-col justify-between min-h-[520px] xl:min-h-[500px] 2xl:min-h-[480px]">

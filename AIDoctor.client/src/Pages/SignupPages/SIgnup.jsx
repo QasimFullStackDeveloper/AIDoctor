@@ -106,17 +106,16 @@ export default function Signup() {
       {/* Right Side Form */}
       <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
         <div
-          className="w-full sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 2xl:overflow-hidden bg-white rounded-md shadow-md md:shadow-lg IpadPro:mb-[220px] border-t-4 border-blue-500"
+          className="w-full sm:max-w-[478px] overflow-y-auto p-4 sm:p-6 md:p-6 2xl:p-8 2xl:overflow-hidden bg-white rounded-md shadow-md md:shadow-lg IpadPro:mb-[220px] border-t-4 border-blue-500"
           style={{
             background: "rgba(255, 255, 255, 0.9)",
             borderRadius: "12px",
             backdropFilter: "blur(4px)",
             boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
-            maxHeight: "85vh",
-            overflowY: "auto",
+            maxHeight: "90vh",
           }}
         >
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 Laptop:mb-2 tall-md:mb-4">
             <Logo />
           </div>
 
@@ -140,7 +139,7 @@ export default function Signup() {
                       value={formData[field]}
                       onChange={handleChange}
                       onFocus={handleFocus}
-                      className={`w-full py-2 px-3 rounded-md text-sm ${
+                      className={`w-full py-2 px-3 Laptop:py-1 Laptop:px-1 tall-md:py-1 tall-md:px-1 rounded-md text-sm ${
                         errorField[field] ? "border-red-500" : "border-gray-300"
                       } border`}
                     />
@@ -160,7 +159,7 @@ export default function Signup() {
                     value={formData.email}
                     onChange={handleChange}
                     onFocus={handleFocus}
-                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
+                    className={`w-full py-3 Laptop:py-1 Laptop:px-1 tall-md:py-1 tall-md:px-1 pl-11 pr-4 rounded-md text-sm ${
                       errorField.email ? "border-red-500" : "border-gray-300"
                     } border`}
                   />
@@ -182,7 +181,7 @@ export default function Signup() {
                       value={formData[field]}
                       onChange={handleChange}
                       onFocus={handleFocus}
-                      className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
+                      className={`w-full py-3 pl-11 pr-10 Laptop:py-1 Laptop:px-1 tall-md:py-1 tall-md:px-1 rounded-md text-sm ${
                         errorField[field] ? "border-red-500" : "border-gray-300"
                       } border`}
                     />
@@ -204,7 +203,7 @@ export default function Signup() {
               {/* Security Code */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-1 block">Security Check</label>
-                <div className="flex justify-between items-center px-3 py-2 bg-gray-100 rounded">
+                <div className="flex justify-between items-center px-3 py-2 Laptop:py-1 Laptop:px-1 tall-md:py-1 tall-md:px-1 bg-gray-100 rounded">
                   <span className="text-base font-semibold text-gray-800">{generatedCode}</span>
                   <button type="button" onClick={generateCode}>
                     <img src={refreshIcon} alt="Refresh Code" className="w-5 h-5" />
@@ -220,7 +219,7 @@ export default function Signup() {
                   value={formData.code}
                   onChange={handleChange}
                   onFocus={handleFocus}
-                  className={`w-full py-2 px-3 border rounded-md ${
+                  className={`w-full py-2 px-3 Laptop:py-1 Laptop:px-1 tall-md:py-1 tall-md:px-1 border rounded-md ${
                     errorField.code ? "border-red-500" : "border-gray-300"
                   }`}
                 />

@@ -52,7 +52,7 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // Vite Configuration
 export default defineConfig({
-    base:"/",
+    base:"/index",
 
     plugins: [plugin(),],
     resolve: {

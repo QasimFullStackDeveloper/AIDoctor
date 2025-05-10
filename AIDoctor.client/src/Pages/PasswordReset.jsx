@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../Components/Logo";
 import key from "../assets/key.svg";
 import eye from "../assets/eye.svg";
@@ -10,6 +11,13 @@ export default function SetNewPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get("email");
+  const token = queryParams.get("token");
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
@@ -29,29 +37,52 @@ export default function SetNewPassword() {
 
   const strengthInfo = evaluateStrength(password);
 
+  const handleResetPassword = async () => {
+    if (!password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:7282/Api/Auth/ResetPassword", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          token,
+          newPassword: password
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        navigate("/index/chatbot");
+      } else {
+        alert(result.message || "Password reset failed.");
+      }
+    } catch (error) {
+      console.error("Reset failed:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-100 px-4 sm:px-6 lg:px-8">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-[350px]  border-t-4 border-blue-600">
-
-        {/* Logo */}
-        <div className="flex justify-center ">
-        <div className="mb-2 h-10 w-10">
-          <Logo />
-        </div>
-        </div>
-
-
-        {/* Title */}
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-[350px] border-t-4 border-blue-600">
+        <div className="flex justify-center mb-2 h-10 w-10"><Logo /></div>
         <h2 className="text-2xl font-bold text-gray-900 text-center">Set a New Password</h2>
-
-        {/* Success Icon */}
         <div className="w-14 h-14 rounded-full bg-green-100 mx-auto flex items-center justify-center mb-4 shadow-sm mt-3">
           <img src={tickmark} alt="Success" className="w-10 h-10" />
         </div>
-
         <p className="text-gray-600 text-sm text-center">Create a secure new password for your account.</p>
 
-        {/* New Password */}
+        {/* Password Fields */}
         <div className="mt-4">
           <label className="text-xs font-bold block mb-1">New Password</label>
           <div className="relative flex items-center border border-gray-300 rounded-lg bg-gray-100 p-2 focus-within:ring-2 focus-within:ring-blue-500">
@@ -71,7 +102,6 @@ export default function SetNewPassword() {
           </div>
         </div>
 
-        {/* Confirm Password */}
         <div className="mt-3">
           <label className="text-xs font-bold block mb-1">Confirm Password</label>
           <div className="relative flex items-center border border-gray-300 rounded-lg bg-gray-100 p-2 focus-within:ring-2 focus-within:ring-blue-500">
@@ -91,7 +121,6 @@ export default function SetNewPassword() {
           </div>
         </div>
 
-        {/* Strength Indicator */}
         {password.length > 0 && (
           <div className="mt-3">
             <div className="flex items-center justify-between text-xs mb-1">
@@ -113,8 +142,11 @@ export default function SetNewPassword() {
           </div>
         )}
 
-        {/* Reset Password Button */}
-        <button className="w-full mt-4 py-3 text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-md">
+        {/* Submit Button */}
+        <button
+          onClick={handleResetPassword}
+          className="w-full mt-4 py-3 text-white bg-blue-600 font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition-all flex items-center justify-center gap-2 shadow-md"
+        >
           <img src={key} alt="Key" className="w-5 h-5" /> Reset Password
         </button>
       </div>
