@@ -28,7 +28,7 @@ export default function LoginForgetPassword() {
       if (response.status === 404) {
         alert("Please sign up first.");
       } else if (response.ok) {
-        navigate("/index/login/email-sent");
+        navigate("/login/email-sent");
       } else {
         alert(result.message || "Something went wrong.");
       }
@@ -78,7 +78,7 @@ export default function LoginForgetPassword() {
           {/* Links */}
           <div className="flex justify-between items-center text-xs font-bold mt-1 mb-9">
             <Link
-              to="/index/login"
+              to="/login"
               className="flex items-center gap-1 hover:underline hover:text-blue-900"
             >
               <img src={arrow} alt="Back" className="w-3.5 h-3.5 opacity-75" />

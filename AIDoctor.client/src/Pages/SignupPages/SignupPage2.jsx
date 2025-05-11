@@ -74,13 +74,13 @@ export default function SignupPage2() {
         </div>
         {/* === Navigation Buttons === */}
         <div className="flex justify-between items-center w-full px-2">
-          <Link to="/index/signup/step-1">
+          <Link to="/signup/step-1">
             <button className="flex items-center gap-1 text-sm text-gray-700 bg-white px-5 py-2 shadow hover:text-gray-900">
               <img src={backArrow} alt="Back" className="w-4 h-4" />
               Back
             </button>
           </Link>
-          <Link to="/index/signup/step-3">
+          <Link to="/signup/step-3">
             <button className="flex items-center gap-1 bg-blue-600 text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition">
               Continue
               <img src={forwardArrow} alt="Continue" className="w-4 h-4" />

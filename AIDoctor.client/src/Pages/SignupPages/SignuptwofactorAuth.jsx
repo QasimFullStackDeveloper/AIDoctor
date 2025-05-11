@@ -73,9 +73,9 @@ const SignupTwoFactorAuth = () => {
     if (selectedMethod === "email") {
       if (!enteredOtp) return alert("Enter the OTP.");
       if (enteredOtp !== sentOtp) return alert("Incorrect OTP.");
-      navigate("/index/signup/2fa-success");
+      navigate("/signup/2fa-success");
     } else {
-      navigate("/index/signup/step-2");
+      navigate("/signup/step-2");
     }
   };
 
@@ -193,7 +193,7 @@ const SignupTwoFactorAuth = () => {
 
         <div className="flex flex-col items-center mt-4 space-y-2">
           <Link
-            to="/index/login"
+            to="/login"
             className="text-blue-500 hover:underline font-semibold hover:text-blue-700 text-[14px] transition-all duration-300 mb-2"
           >
             Back to Login

@@ -64,11 +64,11 @@ export default function SignupPage1() {
 
     if (success) {
       if (selectedAuthMethod === "email") {
-        navigate("/index/signup/two-factor", {
+        navigate("/signup/two-factor", {
           state: { method: "email" } 
         });
       } else if (selectedAuthMethod === "auth-app") {
-        navigate("/index/signup/two-factor", {
+        navigate("/signup/two-factor", {
           state: { method: "auth" } 
         });
       }
@@ -81,7 +81,7 @@ export default function SignupPage1() {
     setLoading(false);
 
     if (success) {
-      navigate("/index/chatbot");
+      navigate("/chatbot");
     }
   };
 

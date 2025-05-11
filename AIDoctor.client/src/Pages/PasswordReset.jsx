@@ -62,7 +62,7 @@ export default function SetNewPassword() {
       const result = await response.json();
 
       if (response.ok) {
-        navigate("/index/chatbot");
+        navigate("/chatbot");
       } else {
         alert(result.message || "Password reset failed.");
       }

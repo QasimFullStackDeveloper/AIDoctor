@@ -80,7 +80,7 @@ export default function Signup() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Signup failed");
-      navigate("/index/signup/two-factor");
+      navigate("/signup/two-factor");
     } catch (error) {
       alert(error.message || "Unexpected error occurred");
     } finally {
@@ -256,7 +256,7 @@ export default function Signup() {
 
               <p className="text-sm text-center mt-3">
                 Already have an account?{" "}
-                <Link to="/index/login" className="text-blue-600 underline">
+                <Link to="/login" className="text-blue-600 underline">
                   Sign in
                 </Link>
               </p>

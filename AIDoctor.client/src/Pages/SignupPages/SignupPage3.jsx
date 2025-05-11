@@ -96,7 +96,7 @@ export default function SignupPage3() {
               />
             </div>
 
-            <Link to="/index/signup/2fa-success">
+            <Link to="/signup/2fa-success">
               <button className="w-full bg-blue-600 text-white py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition">
                 Verify Setup
               </button>
@@ -106,7 +106,7 @@ export default function SignupPage3() {
 
         {/* === Navigation Buttons === */}
         <div className="flex justify-between items-center w-full px-2">
-          <Link to="/index/signup/step-2">
+          <Link to="/signup/step-2">
             <button className="flex items-center gap-1 text-md text-gray-700 bg-white px-5 py-2 shadow hover:text-gray-900">
               <img src={backArrow} alt="" /> Back
             </button>

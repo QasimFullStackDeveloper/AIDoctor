@@ -25,23 +25,23 @@ const App = () => {
 
     <Router>
       <Routes>
-        <Route path="/index" element={<HomePage />} />
-        <Route path="/index/Chatbot" element={<DoctorAI />} />         
-        <Route path="/index/premium-plans" element={<PremiumPlans />} />
-        <Route path="/index/signup" element={<Signup />} />
-        <Route path="/index/signup/two-factor" element={<SignupTwoFactorAuth />} />
-        <Route path="/index/signup/step-1" element={<SignupPage1 />} />
-        <Route path="/index/signup/step-2" element={<SignupPage2 />} />
-        <Route path="/index/signup/step-3" element={<SignupPage3 />} />
-        <Route path="/index/signup/2fa-success" element={<Signup2factorSuccess />} />
-        <Route path="/index/login" element={<Login />} />
-        <Route path="/index/login/success" element={<EmailSuccess />} />
-        <Route path="/index/login/forgot-password" element={<LoginForgetpassword />} />
-        <Route path="/index/login/two-factor" element={<LogintwoFactor />} />
-        <Route path="/index/login/email-success" element={<EmailVerification />} />
-        <Route path="/index/login/email-sent" element={<LoginEmailSent />} />
-        <Route path="/index/password-reset" element={<PasswordReset />} />
-        <Route path="/index/load" element={<Loading />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/Chatbot" element={<DoctorAI />} />         
+        <Route path="/premium-plans" element={<PremiumPlans />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup/two-factor" element={<SignupTwoFactorAuth />} />
+        <Route path="/signup/step-1" element={<SignupPage1 />} />
+        <Route path="/signup/step-2" element={<SignupPage2 />} />
+        <Route path="/signup/step-3" element={<SignupPage3 />} />
+        <Route path="/signup/2fa-success" element={<Signup2factorSuccess />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/success" element={<EmailSuccess />} />
+        <Route path="/login/forgot-password" element={<LoginForgetpassword />} />
+        <Route path="/login/two-factor" element={<LogintwoFactor />} />
+        <Route path="/login/email-success" element={<EmailVerification />} />
+        <Route path="/login/email-sent" element={<LoginEmailSent />} />
+        <Route path="/password-reset" element={<PasswordReset />} />
+        <Route path="/load" element={<Loading />} />
       </Routes>
     </Router>
   );

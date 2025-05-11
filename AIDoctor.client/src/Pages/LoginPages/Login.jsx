@@ -12,7 +12,7 @@ import Loading from "../../Components/Loading";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = "";
+  let code = "/";
   for (let i = 0; i < 5; i++) {
     code += characters.charAt(Math.floor(Math.random() * characters.length));
   }
@@ -21,9 +21,9 @@ const generateRandomCode = () => {
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    inputCode: "",
+    email: "/",
+    password: "/",
+    inputCode: "/",
     rememberMe: false,
   });
   const [errors, setErrors] = useState({});
@@ -89,11 +89,11 @@ const Login = () => {
           const { twoFactorEnabled, method } = result;
         
           if (twoFactorEnabled) {
-            navigate("/index/login/two-factor", {
+            navigate("/login/two-factor", {
               state: { method, email: formData.email },
             });
           } else {
-            navigate("/index");
+            navigate("/");
           }
         } else {
           alert(result.message || "Login failed.");
@@ -114,7 +114,7 @@ const Login = () => {
   };
 
   const handleFocus = (e) => {
-    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "/" }));
   };
 
   return (
@@ -299,7 +299,7 @@ const Login = () => {
                   Remember me
                 </label>
                 <Link
-                  to="/index/login/forgot-password"
+                  to="/login/forgot-password"
                   className="text-blue-600 hover:underline"
                 >
                   Forgot password?
@@ -320,7 +320,7 @@ const Login = () => {
           <p className="text-sm text-center mt-6 text-gray-700">
             Don’t have an account?{" "}
             <Link
-              to="/index/signup"
+              to="/signup"
               className="text-blue-600 hover:underline font-medium"
             >
               Sign up

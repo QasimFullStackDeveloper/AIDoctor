@@ -65,7 +65,7 @@ export default function EmailSuccess() {
           <h2 className="text-xl font-bold text-red-600 mb-2">Verification Failed</h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
-            onClick={() => navigate("/index/login")}
+            onClick={() => navigate("/login")}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Go to Login
@@ -105,7 +105,7 @@ export default function EmailSuccess() {
         </p>
 
         {/* Button */}
-        <Link to="/index/signup/step-1" className="block">
+        <Link to="/signup/step-1" className="block">
           <button className="bg-blue-600 text-white text-sm font-semibold py-2.5 w-full rounded-md transition duration-300 hover:bg-blue-700 hover:scale-105 flex justify-center items-center gap-2 shadow-md">
             <img src={arrow} alt="Back" className="w-4 h-4" />
             Back to login

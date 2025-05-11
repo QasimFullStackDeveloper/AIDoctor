@@ -108,7 +108,7 @@ export default function LogintwoFactor() {
 
         {/* Back to login */}
         <Link
-          to="/index/login"
+          to="/login"
           className="block w-full text-center text-sm text-blue-600 hover:underline"
         >
           Back to Login

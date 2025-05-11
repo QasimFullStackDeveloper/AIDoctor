@@ -2,3 +2,6 @@
 /AIDoctor.client/obj/Debug/*
 /AIDoctor.client/obj/Release/*
 
+
+# Local Netlify folder
+.netlify
