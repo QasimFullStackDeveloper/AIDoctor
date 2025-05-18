@@ -86,8 +86,9 @@ export default function SignupPage1() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-[620px] bg-[rgba(255,255,255,0.8)] rounded-lg p-6 sm:p-8 md:p-10">
+    
+    <div className="min-h-screen bg-white relative flex flex-col items-center justify-center p-4">
+      <div className="w-full md:max-w-[570px] 2xl:max-w-[768px] bg-[rgba(255,255,255,0.8)] rounded-lg p-6 sm:p-8 md:p-10">
         {/* Logo */}
         <div className="mb-4 flex justify-center">
           <div className="h-10 w-10">
@@ -131,13 +132,13 @@ export default function SignupPage1() {
         </div>
 
         {/* Auth Options */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-500 animate-fadeInScale transition-transform duration-500 hover:scale-105 hover:shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-sm border-t-4 border-blue-500 animate-fadeInScale transition-transform duration-500 hover:scale-104 hover:shadow-md">
           <h3 className="text-md font-semibold text-gray-900 mb-4">
             Select Authentication Method
           </h3>
 
           <div
-            className="flex items-center p-4 border border-gray-300 rounded-lg mb-3 cursor-pointer transition hover:border-blue-500 hover:scale-105 hover:shadow-md"
+            className="flex items-center p-4 border border-gray-300 rounded-lg mb-3 cursor-pointer transition hover:border-blue-500 hover:scale-103 hover:shadow-md"
             onClick={() => setSelectedAuthMethod("email")}
           >
             <input
@@ -155,7 +156,7 @@ export default function SignupPage1() {
           </div>
 
           <div
-            className="flex items-center p-4 border border-gray-300 rounded-lg mb-3 cursor-pointer transition hover:border-blue-500 hover:scale-105 hover:shadow-md"
+            className="flex items-center p-4 border border-gray-300 rounded-lg mb-3 cursor-pointer transition hover:border-blue-500 hover:scale-103 hover:shadow-md"
             onClick={() => setSelectedAuthMethod("auth-app")}
           >
             <input
@@ -200,6 +201,13 @@ export default function SignupPage1() {
           </div>
         </div>
       </div>
+      <footer className="w-full flex justify-center py-3 absolute bottom-0 text-sm text-gray-500">
+  <div className="flex space-x-6">
+    <span className="hover:underline cursor-pointer">Help</span>
+    <span className="hover:underline cursor-pointer">Privacy Policy</span>
+    <span className="hover:underline cursor-pointer">Terms of Service</span>
+  </div>
+</footer>
     </div>
   );
 }

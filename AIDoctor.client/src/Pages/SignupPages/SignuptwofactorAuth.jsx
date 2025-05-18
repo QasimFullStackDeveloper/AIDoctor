@@ -4,14 +4,14 @@ import tick from "../../assets/anotherTick.svg";
 import authIcon from "../../assets/authenticateIcon.png";
 import documentIcon from "../../assets/document.svg";
 import questionMark from "../../assets/questionMark.svg";
-import sendIcon from "../../assets/shield.svg"; 
+import sendIcon from "../../assets/Chatbot/airplane.svg";
 import Logo from "../../Components/Logo";
 
 const SignupTwoFactorAuth = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const initialMethod = location.state?.method || "email"; 
+  const initialMethod = location.state?.method || "email";
   const [selectedMethod, setSelectedMethod] = useState(initialMethod);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState(Array(6).fill(""));
@@ -80,8 +80,8 @@ const SignupTwoFactorAuth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-white p-4">
-      <div className="bg-white p-6 rounded-lg w-full max-w-[440px] min-h-[600px] text-center flex flex-col justify-between">
+    <div className="flex justify-center items-center w-full h-screen bg-white p-4 xl:p-8">
+      <div className="bg-white p-6 xl:p-10 rounded-lg w-full max-w-[440px] xl:max-w-[520px] min-h-[600px] xl:min-h-[700px] text-center flex flex-col justify-between">
         <div className="mb-4 flex justify-center">
           <div className="h-10 w-10">
             <Logo />
@@ -93,8 +93,9 @@ const SignupTwoFactorAuth = () => {
           Choose your preferred method to receive the code
         </p>
 
-        <div className="bg-gray-100 p-3 rounded-lg mb-3 flex items-center justify-between opacity-100">
-          <label className="flex items-center gap-2 cursor-pointer">
+        {/* Email Method */}
+        <div className="bg-gray-100 p-4 rounded-lg mb-3 flex items-start justify-between opacity-100">
+          <label className="flex items-start gap-3 cursor-pointer w-full">
             <input
               type="radio"
               name="authMethod"
@@ -102,15 +103,21 @@ const SignupTwoFactorAuth = () => {
               checked={selectedMethod === "email"}
               onChange={() => {}}
               disabled
-              className="accent-blue-600"
+              className="accent-blue-600 mt-1"
             />
-            <p className="font-medium text-sm">Email Authentication</p>
+            <div className="text-left">
+              <p className="font-bold text-sm">Email Authentication</p>
+              <p className="text-xs text-gray-600">
+                Receive a code at your registered email address
+              </p>
+            </div>
           </label>
-          <img src={documentIcon} alt="Email Icon" className="w-5 h-5" />
+          <img src={documentIcon} alt="Email Icon" className="w-4 h-4 mt-2" />
         </div>
 
-        <div className="bg-gray-100 p-3 rounded-lg mb-3 flex items-center justify-between opacity-100">
-          <label className="flex items-center gap-2 cursor-pointer">
+        {/* Authenticator App */}
+        <div className="bg-gray-100 p-4 rounded-lg mb-3 flex items-start justify-between opacity-100">
+          <label className="flex items-start gap-3 cursor-pointer w-full">
             <input
               type="radio"
               name="authMethod"
@@ -118,16 +125,20 @@ const SignupTwoFactorAuth = () => {
               checked={selectedMethod === "authenticator"}
               onChange={() => {}}
               disabled
-              className="accent-blue-600"
+              className="accent-blue-600 mt-1"
             />
-            <p className="font-medium text-sm">Authenticator App</p>
+            <div className="text-left">
+              <p className="font-bold text-sm">Authenticator App</p>
+              <p className="text-xs text-gray-600">
+                Enter the code from your preferred app
+              </p>
+            </div>
           </label>
-          <img src={authIcon} alt="Auth Icon" className="w-5 h-5" />
+          <img src={authIcon} alt="Auth Icon" className="w-4 h-4 mt-2" />
         </div>
 
         {selectedMethod === "email" && (
           <>
-            {/* Email Input with Send Icon */}
             <div className="flex items-center border border-gray-300 rounded-md p-2 mt-2 relative">
               <input
                 type="email"
@@ -141,7 +152,7 @@ const SignupTwoFactorAuth = () => {
                 onClick={sendOtpToEmail}
                 title="Send OTP"
               >
-                <img src={sendIcon} alt="Send OTP" className="w-5 h-5" />
+                <img src={sendIcon} alt="Send OTP" className="w-4 h-4 mr-1 mt-1" />
               </button>
             </div>
 

@@ -12,7 +12,7 @@ import Loading from "../../Components/Loading";
 
 const generateRandomCode = () => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let code = "/";
+  let code = "";
   for (let i = 0; i < 5; i++) {
     code += characters.charAt(Math.floor(Math.random() * characters.length));
   }
@@ -21,9 +21,9 @@ const generateRandomCode = () => {
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: "/",
-    password: "/",
-    inputCode: "/",
+    email: "",
+    password: "",
+    inputCode: "",
     rememberMe: false,
   });
   const [errors, setErrors] = useState({});
@@ -87,7 +87,7 @@ const Login = () => {
 
         if (response.ok) {
           const { twoFactorEnabled, method } = result;
-        
+
           if (twoFactorEnabled) {
             navigate("/login/two-factor", {
               state: { method, email: formData.email },
@@ -98,7 +98,7 @@ const Login = () => {
         } else {
           alert(result.message || "Login failed.");
         }
-        
+
       } catch (error) {
         console.error("Login error:", error);
       } finally {
@@ -128,12 +128,13 @@ const Login = () => {
       }}
     >
       {/* Left Image */}
-      <div className="hidden lg:flex IpadPro:hidden w-[54%] min-h-full">
+
+      <div className="hidden lg:flex IpadPro:hidden w-[52%] midMd:w-[48%] h-[calc(var(--vh,1vh)*100)]">
         <LeftImage />
       </div>
 
       {/* Right Form */}
-      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
+      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-50">
         <div
           className="w-full max-h-[85vh] Laptop:max-h-[90vh] tall-md:max-h-[90vh] Laptop:overflow-y-hidden overflow-y-auto sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md shadow-md md:shadow-lg border-t-4 border-blue-500"
           style={{
@@ -177,9 +178,8 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your email"
-                    className={`w-full py-3 pl-11 pr-4 midMd:py-2 rounded-md text-sm ${
-                      errors.email ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-4 midMd:py-2 rounded-md text-sm ${errors.email ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -211,9 +211,8 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your password"
-                    className={`w-full py-3 pl-11 pr-10 midMd:py-2 rounded-md text-sm ${
-                      errors.password ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-10 midMd:py-2 rounded-md text-sm ${errors.password ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -265,9 +264,8 @@ const Login = () => {
                   onChange={handleChange}
                   onFocus={handleFocus}
                   placeholder="Enter the code shown above"
-                  className={`w-full py-3 px-4 rounded-md text-sm midMd:py-2 ${
-                    errors.inputCode ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`w-full py-3 px-4 rounded-md text-sm midMd:py-2 ${errors.inputCode ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   style={{
                     borderRadius: "8px",
                     background: "#FFFFFF",
@@ -309,7 +307,10 @@ const Login = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r bg-blue-500 hover:to-blue-600 text-white font-medium py-3 midMd:py-2 rounded-lg transition duration-150"
+                className="w-full  hover:to-blue-600 text-white font-medium py-2 midMd:py-2 rounded-lg transition duration-150"
+                            style={{
+                background: "linear-gradient(90deg, #3B82F6 0%, #4F46E5 100%)",
+              }}
               >
                 Sign in
               </button>

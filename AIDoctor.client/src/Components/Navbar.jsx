@@ -7,7 +7,7 @@ const Navbar = ({ colour }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className={`${colour} py-2 px-4 lg:px-10 2xl:px-20 2xl:py-4 w-full z-20 shadow-md overflow-x-hidden`}>
+<nav className={`fixed top-0 left-0 ${colour} bg-transparent backdrop-blur-md py-2 px-4 lg:px-10 2xl:px-20 2xl:py-4 w-full z-50 shadow-md overflow-x-hidden`}>
       <div className="max-w-[1920px] mx-auto flex justify-between items-center relative">
 
         {/* Logo and Nav Links */}
@@ -23,13 +23,13 @@ const Navbar = ({ colour }) => {
 
           {/* Desktop Menu */}
           <ul className="hidden lg:flex items-center gap-8 2xl:gap-14 text-base sm:text-sm lg:text-base 2xl:text-2xl ml-8 text-gray-700">
-            <li className="hover:text-blue-600 font-bold">
+            <li className="hover:text-blue-600 font-semibold">
               <Link to="/">Home</Link>
             </li>
-            <li className="hover:text-blue-600 font-bold cursor-pointer">Services</li>
-            <li className="hover:text-blue-600 font-bold cursor-pointer">About</li>
-            <li className="hover:text-blue-600 font-bold cursor-pointer">Contact</li>
-            <li className="hover:text-blue-600 font-bold">
+            <li className="hover:text-blue-600 font-semibold cursor-pointer">Services</li>
+            <li className="hover:text-blue-600 font-semibold cursor-pointer">About</li>
+            <li className="hover:text-blue-600 font-semibold cursor-pointer">Contact</li>
+            <li className="hover:text-blue-600 font-semibold">
               <Link to="/premium-plans">Pricing</Link>
             </li>
           </ul>

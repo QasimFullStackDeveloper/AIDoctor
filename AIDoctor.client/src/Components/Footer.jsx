@@ -7,7 +7,7 @@ import Logo from "./Logo";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 w-full overflow-x-hidden IpadPro:pb-[220px] IpadAir:pb-[40px] surfacePro:pb-[220px] Zenbook:pb-[125px]">
+    <footer className="bg-gray-900 text-gray-300 w-full overflow-x-hidden  Zenbook:pb-[125px]">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 pt-12 pb-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
           <div className="text-center sm:text-left">
