@@ -31,6 +31,6 @@ namespace AIDoctor.Server.Utils.Filters
 
             context.HttpContext.Items["UserId"] = userIdClaim;
             context.HttpContext.Items["UserEmail"] = userEmailClaim;
-        }
+        } 
     }
 }

@@ -25,7 +25,6 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> SignupUser([FromBody] SignUpDTO dTO)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
 
             await _authService.ResgisterUserAsync(dTO);
 
@@ -43,7 +42,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("two-factor/setup-app")]
         public async Task<IActionResult> TwoFactorAuthenticationByApp([FromBody] UserEmailDto userEmail)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
 
             var dTO = await _authService.TwoFactorAuthenticationByAppAsync(userEmail.Email);
 
@@ -59,7 +58,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("two-factor/setup-email")]
         public async Task<IActionResult> TwoFactorAuthenticationByEmail([FromBody] UserEmailDto userEmail)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
 
             await _authService.TwoFactorAuthenticationByEmailAsync(userEmail.Email);
             return Ok();
@@ -74,13 +73,13 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("two-factor/enable")]
         public async Task<IActionResult> EnableTwoFactorAuthention([FromBody] EnableTfaDTO dTO)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
             if (dTO.tokenProvider.ToLower() != "email" && dTO.tokenProvider.ToLower() != "authenticator") throw new Exception("Invalid TokenProvider, " +
                 "It must be either Email or Authentuicator");
 
-            await _authService.EnableTwoFactorAuthentication(dTO.userId, dTO.tokenProvider, dTO.oTP);
+           var token = await _authService.EnableTwoFactorAuthentication(dTO.UserEmail, dTO.tokenProvider, dTO.oTP);
 
-            return Ok();
+            return Ok(token);
         }
 
         //                                  Login
@@ -93,7 +92,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO dTO)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
 
             var token = await _authService.LoginUserAsync(dTO);
 
@@ -111,7 +110,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("password/forgot")]
         public async Task<IActionResult> ForgetPassword([FromBody] string email)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
 
             await _authService.ForgetPasswordAsync(email);
 
@@ -127,7 +126,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("password/reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDTO dTO)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
             await _authService.RestPasswordAsync(dTO);
             return Ok();
         }
@@ -143,7 +142,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("/account/resend-confirmation-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] UserEmailDto dTO)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
             await _authService.SendConfirmationEmailAsync(dTO.Email);
             
             return Ok();
@@ -153,7 +152,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost("account/confirm-email")]
         public async Task<IActionResult> ConfirmUserAsync([FromBody] EmailConfirmationDTO dto)
         {
-            if (!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if (!ModelState.IsValid) return BadRequest(ModelState.ToString());
             await _authService.ConfirmUserAsync(dto);
             return Ok();
         }

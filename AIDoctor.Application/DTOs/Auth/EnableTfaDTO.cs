@@ -5,7 +5,8 @@ namespace AIDoctor.Application.DTOs.Auth
     public record EnableTfaDTO
     {
         [Required]
-        public string userId { get; set; }
+        [EmailAddress( ErrorMessage = "Email is not valid")]
+        public string UserEmail { get; set; }
         [Required]
         public string tokenProvider { get; set; }
         [Required]

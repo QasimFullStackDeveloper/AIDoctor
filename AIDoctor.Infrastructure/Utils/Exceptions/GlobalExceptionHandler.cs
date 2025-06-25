@@ -64,6 +64,7 @@ namespace AIDoctor.Infrastructure.Utils.Exceptions
                 Title = "An unexpected error occurred",
                 Detail = exception.Message,
                 Instance = context.Request.Path
+                
             };
 
             // Handle specific exception types
@@ -100,6 +101,10 @@ namespace AIDoctor.Infrastructure.Utils.Exceptions
                 case UserNotConfirmedException _:
                     problemDetails.Status = (int)HttpStatusCode.Forbidden;
                     problemDetails.Title = "User Not Confirmed";
+                    break;
+                case UserAlreadyRegistered _:
+                    problemDetails.Status = (int)HttpStatusCode.Conflict;
+                    problemDetails.Title = "User Already Registered";
                     break;
                 case TwoFactorRequiredException twoFactorRequiredException:
                     problemDetails.Status = (int)HttpStatusCode.Unauthorized;

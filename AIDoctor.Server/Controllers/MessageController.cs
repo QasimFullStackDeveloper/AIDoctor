@@ -21,7 +21,7 @@ namespace AIDoctor.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMessageAsync([FromBody] MessageDTO dTO)
         {
-            if(!ModelState.IsValid) throw new Exception(ModelState.ToString());
+            if(!ModelState.IsValid) return BadRequest(ModelState.ToString());
 
             var result = await _messageService.AddMessage(UserId, dTO);
 
