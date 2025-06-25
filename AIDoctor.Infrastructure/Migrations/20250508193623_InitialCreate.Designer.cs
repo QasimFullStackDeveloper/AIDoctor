@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIDoctor.Infrastructure.Migrations
 {
     [DbContext(typeof(AIDoctorDBContext))]
-    [Migration("20250507185703_new")]
-    partial class @new
+    [Migration("20250508193623_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

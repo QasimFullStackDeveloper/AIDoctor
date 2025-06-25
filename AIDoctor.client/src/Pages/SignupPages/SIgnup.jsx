@@ -9,6 +9,7 @@ import eyeOffIcon from "../../assets/eye-off.svg";
 import refreshIcon from "../../assets/reload.svg";
 import Loading from "../../Components/Loading";
 import shield from "../../assets/shield2.svg";
+import apiEndpoints from "../../config/apiconfig";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -73,14 +74,14 @@ export default function Signup() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://localhost:7282/api/Auth/register", {
+      const response = await fetch(apiEndpoints.register, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, termsAccepted: true }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Signup failed");
-      navigate("/index/signup/two-factor");
+      navigate("/signup/two-factor");
     } catch (error) {
       alert(error.message || "Unexpected error occurred");
     } finally {
@@ -88,197 +89,215 @@ export default function Signup() {
     }
   };
 
-  return (
-    <div
-      className="flex min-h-screen bg-blue-100"
-      style={{
-        background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
-        height: "calc(var(--vh, 1vh) * 100)",
-        overflow: "hidden",
-        boxSizing: "border-box",
-      }}
-    >
-      {/* Left Image */}
-      <div className="hidden lg:flex IpadPro:hidden w-[54%] min-h-full">
-        <LeftImage />
+return (
+  <div
+    className="flex min-h-screen "
+    style={{
+      background: "linear-gradient(134deg, #EFF6FF 0%, #EEF2FF 99%)",
+      height: "calc(var(--vh, 1vh) * 100)",
+      overflow: "hidden",
+      boxSizing: "border-box",
+    }}
+  >
+    {/* Left Image */}
+    <div className="hidden lg:flex IpadPro:hidden w-[52%] midMd:w-[48%] h-[calc(var(--vh,1vh)*100)]">
+      <LeftImage />
+    </div>
+
+    {/* Right Side Form */}
+    <div className="flex flex-1 flex-col items-center justify-start px-4 py-6 overflow-y-auto min-h-screen bg-blue-50 opacity-100">
+      
+      {/* Logo and Heading OUTSIDE the form box */}
+      <div className="flex justify-center mt-6 mb-4">
+        <Logo />
       </div>
+      <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Create Your Account</h2>
+      <p className="text-sm text-center text-gray-500 mb-6">Get personalized healthcare support</p>
 
-      {/* Right Side Form */}
-      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
-        <div
-          className="w-full sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 2xl:overflow-hidden bg-white rounded-md shadow-md md:shadow-lg IpadPro:mb-[220px] border-t-4 border-blue-500"
-          style={{
-            background: "rgba(255, 255, 255, 0.9)",
-            borderRadius: "12px",
-            backdropFilter: "blur(4px)",
-            boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
-            maxHeight: "85vh",
-            overflowY: "auto",
-          }}
-        >
-          <div className="flex justify-center mb-6">
-            <Logo />
-          </div>
-
-          <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">Create Your Account</h2>
-          <p className="text-sm text-center text-gray-500 mb-6">Get personalized healthcare support</p>
-
-          {loading ? (
-            <Loading />
-          ) : (
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              {/* Name Fields */}
-              <div className="flex gap-3">
-                {["firstName", "lastName"].map((field, i) => (
-                  <div key={i} className="w-1/2">
-                    <label className="text-sm font-medium text-gray-700 mb-1 block">
-                      {field === "firstName" ? "First Name" : "Last Name"}
-                    </label>
-                    <input
-                      type="text"
-                      name={field}
-                      value={formData[field]}
-                      onChange={handleChange}
-                      onFocus={handleFocus}
-                      className={`w-full py-2 px-3 rounded-md text-sm ${
-                        errorField[field] ? "border-red-500" : "border-gray-300"
-                      } border`}
-                    />
-                    {errorField[field] && <p className="text-xs text-red-500 mt-1">{errorField[field]}</p>}
-                  </div>
-                ))}
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Email Address</label>
-                <div className="relative flex items-center">
-                  <img src={emailIcon} alt="Email" className="absolute left-4 w-5 h-5" />
+      {/* White Card */}
+      <div
+        className="w-full sm:max-w-[478px] overflow-y-auto p-4 sm:p-6 md:p-6 2xl:p-8  bg-white rounded-md shadow-md md:shadow-lg IpadPro:mb-[220px] border-t-4 border-blue-500"
+        style={{
+          background: "rgba(255, 255, 255, 0.9)",
+          borderRadius: "12px",
+          backdropFilter: "blur(4px)",
+          boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
+          maxHeight: "100vh",
+        }}
+      >
+        {loading ? (
+          <Loading />
+        ) : (
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            {/* Name Fields */}
+            <div className="flex gap-3">
+              {["firstName", "lastName"].map((field, i) => (
+                <div key={i} className="w-1/2">
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">
+                    {field === "firstName" ? "First Name" : "Last Name"}
+                  </label>
                   <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    name={field}
+                    value={formData[field]}
                     onChange={handleChange}
                     onFocus={handleFocus}
-                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
-                      errorField.email ? "border-red-500" : "border-gray-300"
+                    className={`w-full py-2 px-3 Laptop:py-1 Laptop:px-1 tall-md:py-2 tall-md:px-1 rounded-md text-sm ${
+                      errorField[field] ? "border-red-500" : "border-gray-300"
                     } border`}
                   />
-                </div>
-                {errorField.email && <p className="text-xs text-red-500 mt-1">{errorField.email}</p>}
-              </div>
-
-              {/* Passwords */}
-              {["password", "confirmPassword"].map((field, i) => (
-                <div key={i}>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">
-                    {field === "password" ? "Password" : "Confirm Password"}
-                  </label>
-                  <div className="relative flex items-center">
-                    <img src={lockIcon} alt="Lock" className="absolute left-4 w-5 h-5" />
-                    <input
-                      type={(field === "password" ? showPassword : showConfirmPassword) ? "text" : "password"}
-                      name={field}
-                      value={formData[field]}
-                      onChange={handleChange}
-                      onFocus={handleFocus}
-                      className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
-                        errorField[field] ? "border-red-500" : "border-gray-300"
-                      } border`}
-                    />
-                    <img
-                      src={(field === "password" ? showPassword : showConfirmPassword) ? eyeOffIcon : eyeIcon}
-                      alt="Toggle visibility"
-                      className="absolute right-4 w-5 h-5 cursor-pointer"
-                      onClick={() =>
-                        field === "password"
-                          ? setShowPassword(!showPassword)
-                          : setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    />
-                  </div>
                   {errorField[field] && <p className="text-xs text-red-500 mt-1">{errorField[field]}</p>}
                 </div>
               ))}
+            </div>
 
-              {/* Security Code */}
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Security Check</label>
-                <div className="flex justify-between items-center px-3 py-2 bg-gray-100 rounded">
-                  <span className="text-base font-semibold text-gray-800">{generatedCode}</span>
-                  <button type="button" onClick={generateCode}>
-                    <img src={refreshIcon} alt="Refresh Code" className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-gray-700 mb-1 block">Enter Code</label>
+            {/* Email */}
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Email Address</label>
+              <div className="relative flex items-center">
+                <img src={emailIcon} alt="Email" className="absolute left-4 w-5 h-5" />
                 <input
-                  type="text"
-                  name="code"
-                  value={formData.code}
+                  type="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   onFocus={handleFocus}
-                  className={`w-full py-2 px-3 border rounded-md ${
-                    errorField.code ? "border-red-500" : "border-gray-300"
+                  className={`w-full py-3 pl-12 pr-4 Laptop:py-1  tall-md:py-2 rounded-md text-sm border ${
+                    errorField.email ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errorField.code && <p className="text-xs text-red-500 mt-1">{errorField.code}</p>}
               </div>
-
-              {/* Terms */}
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  name="termsAccepted"
-                  checked={formData.termsAccepted}
-                  onChange={handleChange}
-                  className="mt-1"
-                />
-                <label className="text-sm text-gray-700">
-                  I agree to the{" "}
-                  <a href="#" className="text-blue-600 underline">
-                    Terms of Service and Privacy Policy
-                  </a>
-                </label>
-              </div>
-              {errorField.termsAccepted && <p className="text-xs text-red-500">{errorField.termsAccepted}</p>}
-
-              <button
-                type="submit"
-                className="w-full text-white font-semibold py-2 rounded-md"
-                style={{
-                  background: "linear-gradient(90deg, #3B82F6 0%, #4F46E5 100%)",
-                }}
-              >
-                Create Account
-              </button>
-
-              <p className="text-sm text-center mt-3">
-                Already have an account?{" "}
-                <Link to="/index/login" className="text-blue-600 underline">
-                  Sign in
-                </Link>
-              </p>
-            </form>
-          )}
-
-          {/* Footer */}
-          <div className="mt-6 text-center text-sm text-gray-500">
-            <div className="flex items-center justify-center gap-2 mb-1">
-              <img src={shield} alt="Shield" className="w-4 h-4" />
-              <span>Your data is encrypted and secure</span>
+              {errorField.email && <p className="text-xs text-red-500 mt-1">{errorField.email}</p>}
             </div>
-            <p className="text-xs">
-              Need help? Contact{" "}
-              <a href="mailto:support@doctorchatbot.com" className="text-blue-600 underline">
-                support@doctorchatbot.com
-              </a>
+
+            {/* Passwords */}
+            {["password", "confirmPassword"].map((field, i) => (
+              <div key={i}>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  {field === "password" ? "Password" : "Confirm Password"}
+                </label>
+                <div className="relative flex items-center">
+                  <img src={lockIcon} alt="Lock" className="absolute left-4 w-5 h-5" />
+                  <input
+                    type={
+                      field === "password"
+                        ? showPassword
+                          ? "text"
+                          : "password"
+                        : showConfirmPassword
+                        ? "text"
+                        : "password"
+                    }
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    className={`w-full py-3 pl-12 pr-10 Laptop:py-1  tall-md:py-2 rounded-md text-sm ${
+                      errorField[field] ? "border-red-500" : "border-gray-300"
+                    } border`}
+                  />
+                  <img
+                    src={
+                      field === "password"
+                        ? showPassword
+                          ? eyeOffIcon
+                          : eyeIcon
+                        : showConfirmPassword
+                        ? eyeOffIcon
+                        : eyeIcon
+                    }
+                    alt="Toggle visibility"
+                    className="absolute right-4 w-5 h-5 cursor-pointer"
+                    onClick={() =>
+                      field === "password"
+                        ? setShowPassword(!showPassword)
+                        : setShowConfirmPassword(!showConfirmPassword)
+                    }
+                  />
+                </div>
+                {errorField[field] && <p className="text-xs text-red-500 mt-1">{errorField[field]}</p>}
+              </div>
+            ))}
+
+            {/* Security Code */}
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Security Check</label>
+              <div className="flex justify-between items-center px-3 py-2 Laptop:py-1  tall-md:py-2 bg-gray-100 rounded">
+                <span className="text-base font-semibold text-gray-800">{generatedCode}</span>
+                <button type="button" onClick={generateCode}>
+                  <img src={refreshIcon} alt="Refresh Code" className="mr-1 w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">Enter Code</label>
+              <input
+                type="text"
+                name="code"
+                value={formData.code}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                className={`w-full py-3 px-3 Laptop:py-1  tall-md:py-1  border rounded-md ${
+                  errorField.code ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errorField.code && <p className="text-xs text-red-500 mt-1">{errorField.code}</p>}
+            </div>
+
+            {/* Terms */}
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                name="termsAccepted"
+                checked={formData.termsAccepted}
+                onChange={handleChange}
+                className="mt-1"
+              />
+              <label className="text-sm text-gray-700">
+                I agree to the{" "}
+                <a href="#" className="text-blue-600 underline">
+                  Terms of Service and Privacy Policy
+                </a>
+              </label>
+            </div>
+            {errorField.termsAccepted && <p className="text-xs text-red-500">{errorField.termsAccepted}</p>}
+
+            <button
+              type="submit"
+              className="w-full text-white font-semibold py-2 rounded-md"
+              style={{
+                background: "linear-gradient(90deg, #3B82F6 0%, #4F46E5 100%)",
+              }}
+            >
+              Create Account
+            </button>
+
+            <p className="text-sm text-center mt-3">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-600 underline">
+                Sign in
+              </Link>
             </p>
+          </form>
+        )}
+
+        {/* Footer */}
+        <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-2 mb-1">
+            <img src={shield} alt="Shield" className="w-3 h-3" />
+            <span>Your data is encrypted and secure</span>
           </div>
+          <p className="text-xs">
+            Need help? Contact{" "}
+            <a href="mailto:support@doctorchatbot.com" className="text-blue-600 underline">
+              support@doctorchatbot.com
+            </a>
+          </p>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }

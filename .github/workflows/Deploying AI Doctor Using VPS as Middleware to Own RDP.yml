@@ -15,6 +15,12 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Install EF Core Tools
+        run: |
+          dotnet tool install --global dotnet-ef --version 9.0.4
+          $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
+          dotnet ef --version
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -24,6 +30,23 @@ jobs:
         run: |
           cd AIDoctor.Server
           dotnet publish -c Release -o ../publish
+          # Copy AIDoctor.Infrastructure assemblies to the publish folder
+          Copy-Item -Path "..\AIDoctor.Infrastructure\bin\Release\net9.0\*.dll" -Destination "..\publish" -Force
+
+      - name: Run Database Migrations
+        env:
+          ConnectionStrings__DefaultConnection: ${{ secrets.SQL_CONNECTION_STRING }}
+        run: |
+          # Run migrations on the GitHub Actions runner
+          cd AIDoctor.Infrastructure
+          try {
+          Write-Host "Applying database migrations..."
+          dotnet ef database update --project AIDoctor.Infrastructure.csproj --startup-project ..\AIDoctor.Server\AIDoctor.Server.csproj
+          Write-Host "Database migrations applied successfully."
+          } catch {
+          Write-Error "Failed to apply database migrations: $_"
+          exit 1
+          }
 
       - name: Build Frontend
         run: |
@@ -35,6 +58,8 @@ jobs:
 
       - name: Deploy to RDP
         timeout-minutes: 15
+        env:
+          ConnectionStrings__DefaultConnection: ${{ secrets.SQL_CONNECTION_STRING }}
         run: |
           $RdpHost = "139.185.55.205"
           $RdpPort = 5986
@@ -98,6 +123,13 @@ jobs:
             Expand-Archive -Path "C:\AI-Doctor\publish.zip" -DestinationPath "C:\AI-Doctor\publish" -Force
             Remove-Item "C:\AI-Doctor\publish.zip"
           }
+
+          # Set the connection string as an environment variable on the RDP machine
+          Write-Host "Setting connection string environment variable on RDP..."
+          Invoke-Command -Session $Session -ScriptBlock {
+            param($connString)
+            [System.Environment]::SetEnvironmentVariable("ConnectionStrings__DefaultConnection", $connString, "Machine")
+          } -ArgumentList $env:ConnectionStrings__DefaultConnection
 
           # Start the application with verification
           Write-Host "Starting the application..."

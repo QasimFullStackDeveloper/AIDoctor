@@ -7,11 +7,12 @@ const PremiumPlans = () => {
   return (
     <>
       <Navbar colour={"bg-gray-100"} />
-      <div
-        className="bg-gray-100 px-4 py-10 md:px-12 lg:px-24 xl:px-32 flex bigScr:mb-[-50px] bigScr:mt-[-150px] items-center justify-center"
-        style={{ minHeight: "90vh" }}
-      >
-        <div className="w-full max-w-[1440px] text-center">
+<div
+  className="bg-gray-100 pt-16 px-4 py-10 md:px-12 lg:px-24 xl:px-32 mt-4 2xl:max-h-[90vh] flex items-center justify-center"
+  style={{ minHeight: "100vh" }}
+>
+
+        <div className="w-full max-w-[1440px] text-center ">
           <h2 className="text-2xl sm:text-2xl md:text-3xl bigScr:text-5xl font-bold text-gray-900">
             Premium Features
           </h2>

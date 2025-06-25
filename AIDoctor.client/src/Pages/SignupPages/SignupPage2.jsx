@@ -1,95 +1,125 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import backArrow from "../../assets/leftArrow.svg"
-import forwardArrow from "../../assets/whiteRightArrow.svg"
+import backArrow from "../../assets/leftArrow.svg";
+import forwardArrow from "../../assets/whiteRightArrow.svg";
+import copyIcon from "../../assets/copy.svg";
+import dropdownIcon from "../../assets/dropdown.svg";
+import image from "../../assets/DIV.svg";
 
-import image from "../../assets/DIV.svg"
 export default function SignupPage2() {
+  const [showManualSetup, setShowManualSetup] = useState(true);
+
+  const toggleManualSetup = () => {
+    setShowManualSetup(!showManualSetup);
+  };
+
   return (
-    <div className="whole-container_11 bg-gradient-to-br bg-blue-100 flex items-center justify-center min-h-screen w-full overflow-hidden">
-      <div className="container_11 text-center w-full max-w-xl p-1 rounded-lg flex flex-col justify-between h-full custom_form">
+    <div className="min-h-screen w-full flex flex-col bg-white px-4">
+      <div className="flex flex-col flex-grow items-center justify-center py-8">
+        <div className="w-full max-w-[704px] md:max-w-[600px] flex flex-col items-center">
+          {/* Progress Bar */}
+          <div className="relative w-full mb-8">
+            <div className="absolute top-[20px] left-0 right-0 h-1 bg-gray-300 z-0" />
 
-        {/* Progress Bar */}
-        <div className="steps_11 flex items-center justify-between w-full mb-6 relative">
-          {/* Step 1 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-12 h-12 flex items-center justify-center rounded-full text-lg font-bold text-white bg-blue-500 z-10 relative">
-              1
+            <div className="absolute top-[20px] left-0 w-[70%] h-1 bg-blue-500 z-10" />
+
+            <div className="flex justify-between items-center z-20 relative">
+              <div className="flex flex-col items-center ml-[-1rem]">
+                <div className="w-9 h-9 flex items-center mr-5 justify-center rounded-full bg-blue-600 text-white font-bold">1</div>
+                <span className="text-xs text-blue-400 font-bold mt-2 text-center">Choose Method</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-9 h-9 flex items-center justify-center mr-3 rounded-full bg-blue-600 text-white font-bold">2</div>
+                <span className="text-xs text-blue-400 font-bold mt-2 text-center">Setup App</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-blue-600 font-bold border-2 ">3</div>
+                <span className="text-xs text-gray-600 mt-2 text-center">Verify</span>
+              </div>
             </div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 left-1/2 transform -translate-x-0 z-0"></div>
-            <span className="text-sm text-gray-600 mt-2">Choose Method</span>
           </div>
 
-          {/* Step 2 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-12 h-12 flex items-center justify-center rounded-full text-lg font-bold text-white bg-blue-500 z-10 relative">
-              2
+          {/* Authenticator Setup Card */}
+          <div className="bg-white border-t-4 border-blue-600 shadow-md p-6 rounded-lg w-full mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 mb-1 text-left">Set Up Your Authenticator App</h2>
+            <p className="text-sm text-gray-600 mb-4 text-left">
+              Scan the QR code below with your preferred authenticator app to link your account.
+            </p>
+
+            <div className="flex justify-center mb-6">
+              <img src={image} alt="QR Code" className="w-40 h-40" />
             </div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 left-0 transform -translate-x-0 z-0"></div>
-            <div className="absolute w-1/2 h-1 bg-white top-1/2 right-0 transform -translate-x-0 z-0"></div>
-            <span className="text-sm text-gray-600 mt-2">Setup</span>
-          </div>
 
-          {/* Step 3 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-12 h-12 flex items-center justify-center rounded-full text-lg font-bold text-blue-500 border-2 border-blue-500 bg-white z-10 relative">
-              3
+            {/* Manual Setup Dropdown */}
+            <div className="bg-gray-50 p-4 rounded-md ">
+              <div
+                className="flex justify-between items-center cursor-pointer mb-2"
+                onClick={toggleManualSetup}
+              >
+                <label className="text-sm font-medium text-gray-700 block text-left">
+                  Can't scan? Manual Setup
+                </label>
+                <img
+                  src={dropdownIcon}
+                  alt="Toggle dropdown"
+                  className={`w-4 h-4 transform transition-transform duration-300 ${showManualSetup ? "rotate-180" : "rotate-0"}`}
+                />
+              </div>
+
+              {showManualSetup && (
+                <>
+                  <div className="mb-4">
+                    <label className="text-sm font-medium text-gray-700 block mb-1 text-left">Secret Key</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        defaultValue="ABCD EFGH IJKL MNOP"
+                        readOnly
+                        className="w-full pr-24 p-2 border border-gray-300 rounded-md bg-white text-gray-700 text-sm"
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-0 right-0 h-full px-3 border-1 border-gray-300 bg-gray-100 hover:bg-gray-200 flex items-center gap-1 text-sm font-medium"
+                      >
+                        <img src={copyIcon} alt="Copy" className="w-4 h-4" />
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="mb-2">
+                    <label className="text-sm font-medium text-gray-700 block mb-1 text-left">Token Type</label>
+                    <select className="w-full p-2 border border-gray-300 rounded-md bg-gray-50 text-sm text-gray-700">
+                      <option>Time-based (TOTP)</option>
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="absolute w-1/2 h-1 bg-white top-1/2 left-0 transform -translate-x-0 z-0"></div>
-            <span className="text-sm text-gray-600 mt-2">Verify</span>
-          </div>
-        </div>
-
-        {/* Authentication Setup Box */}
-        <div className="card_2 bg-gray-50 p-2 rounded-lg border-t-4 border-blue-500 shadow-md">
-          <h3 className="text-lg font-semibold text-blue-500 mb-2">Set Up Your Authenticator App</h3>
-          <p className="text-gray-600 mb-3">
-            Scan the QR code below with your preferred authenticator app to link your account.
-          </p>
-          <div className="qr-container_2 flex justify-center mb-4">
-            <img src={image} alt="QR Code" className="w-[160px] h-[160px]" />
           </div>
 
-          {/* Manual Setup */}
-          <div className="manual-setup_11 mt-4">
-            <label className="text-md font-semibold text-gray-700 block mb-2 mr-[280px]">Can't scan? Manual Setup</label>
-            <input
-              type="text"
-              defaultValue="ABCD EFGH IJKL MNOP"
-              readOnly
-              className="w-full p-2 border border-gray-300 rounded-lg bg-white text-gray-700 mb-4"
-            />
-
-            <label className="text-md font-semibold text-gray-700 block mb-2 mr-[400px]">Token Type</label>
-            <select className="w-full p-2 border border-gray-300 rounded-lg bg-white text-gray-700">
-              <option>Time-based (TOTP)</option>
-            </select>
-          </div>
-
-          {/* Buttons */}
-          <div className="buttons_11 flex justify-between mt-6">
-            <Link to="/index/signup/step-1"> 
-              <button className="back_11 px-5 py-2 bg-gray-300 text-gray-800 rounded-lg font-bold hover:bg-gray-400 transition-transform transform hover:scale-105">
-                <img src={backArrow} alt="" /> Back
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center w-full px-2">
+            <Link to="/signup/step-1">
+              <button className="flex items-center gap-1 text-sm text-gray-700 bg-white px-5 py-2 shadow hover:text-gray-900">
+                <img src={backArrow} alt="Back" className="w-4 h-4" />
+                Back
               </button>
             </Link>
-            <Link to="/index/signup/step-3"> 
-              <button className="continue_11 px-5 py-2 bg-blue-500 text-white rounded-lg font-bold hover:bg-blue-600 transition-transform transform hover:scale-105">
-                Continue <img src={forwardArrow} alt="" />
+            <Link to="/signup/step-3">
+              <button className="flex items-center gap-1 bg-blue-600 text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition">
+                Continue
+                <img src={forwardArrow} alt="Continue" className="w-4 h-4" />
               </button>
             </Link>
           </div>
         </div>
       </div>
-      <style jsx>{`
-      @media (min-width: 1400px) and (min-height: 1079px) {
-    .custom_form {
-      width: 750px;  
-      height: 65vh;  
-      padding: 10px;  
-    }
-  }
-`}</style>
+
+      {/* Footer (Optional if needed for layout symmetry) */}
+      <footer className="text-center text-sm text-gray-500 py-4">
+        <a href="#" className='text-xs'>Need Help? Contact Support</a>
+      </footer>
     </div>
   );
 }

@@ -86,10 +86,19 @@ const Login = () => {
         const result = await response.json();
 
         if (response.ok) {
-          navigate("/login/two-factor");
+          const { twoFactorEnabled, method } = result;
+
+          if (twoFactorEnabled) {
+            navigate("/login/two-factor", {
+              state: { method, email: formData.email },
+            });
+          } else {
+            navigate("/");
+          }
         } else {
           alert(result.message || "Login failed.");
         }
+
       } catch (error) {
         console.error("Login error:", error);
       } finally {
@@ -105,7 +114,7 @@ const Login = () => {
   };
 
   const handleFocus = (e) => {
-    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "/" }));
   };
 
   return (
@@ -119,31 +128,30 @@ const Login = () => {
       }}
     >
       {/* Left Image */}
-      <div className="hidden lg:flex IpadPro:hidden w-[54%] min-h-full">
+
+      <div className="hidden lg:flex IpadPro:hidden w-[52%] midMd:w-[48%] h-[calc(var(--vh,1vh)*100)]">
         <LeftImage />
       </div>
 
       {/* Right Form */}
-      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-100">
+      <div className="flex flex-1 items-center justify-center px-4 py-6 overflow-y-auto min-h-screen bg-blue-50">
         <div
-          className="w-full sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md shadow-md md:shadow-lg border-t-4 border-blue-500"
+          className="w-full max-h-[85vh] Laptop:max-h-[90vh] tall-md:max-h-[90vh] Laptop:overflow-y-hidden overflow-y-auto sm:max-w-[478px] p-4 sm:p-6 md:p-6 2xl:p-8 bg-white rounded-md shadow-md md:shadow-lg border-t-4 border-blue-500"
           style={{
             background: "rgba(255, 255, 255, 0.9)",
             borderRadius: "12px",
             backdropFilter: "blur(4px)",
             boxShadow: "0px 10px 15px -3px rgba(0, 0, 0, 0.1)",
-            maxHeight: "85vh", 
-            overflowY: "auto", 
           }}
         >
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center midMd:mb-3 mb-6 ">
             <Logo />
           </div>
 
           <h2 className="text-2xl font-bold text-center text-gray-900 mb-1">
             Welcome back
           </h2>
-          <p className="text-sm text-center text-gray-500 mb-8">
+          <p className="text-sm text-center  text-gray-500 midMd:mb-7 mb-8">
             Sign in to your account
           </p>
 
@@ -170,9 +178,8 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your email"
-                    className={`w-full py-3 pl-11 pr-4 rounded-md text-sm ${
-                      errors.email ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-4 midMd:py-2 rounded-md text-sm ${errors.email ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -204,9 +211,8 @@ const Login = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     placeholder="Enter your password"
-                    className={`w-full py-3 pl-11 pr-10 rounded-md text-sm ${
-                      errors.password ? "border-red-500" : "border-gray-300"
-                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full py-3 pl-11 pr-10 midMd:py-2 rounded-md text-sm ${errors.password ? "border-red-500" : "border-gray-300"
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     style={{
                       borderRadius: "8px",
                       background: "#FFFFFF",
@@ -233,7 +239,7 @@ const Login = () => {
                 <label className="text-sm font-medium text-gray-700 mb-1 block">
                   Security Code
                 </label>
-                <div className="flex items-center justify-between bg-gray-200 px-4 py-3 rounded-md mb-2">
+                <div className="flex items-center justify-between bg-gray-200 px-4 py-3 midMd:py-2 rounded-md mb-2">
                   <span className="text-sm font-semibold tracking-widest text-gray-800">
                     {code}
                   </span>
@@ -258,9 +264,8 @@ const Login = () => {
                   onChange={handleChange}
                   onFocus={handleFocus}
                   placeholder="Enter the code shown above"
-                  className={`w-full py-3 px-4 rounded-md text-sm ${
-                    errors.inputCode ? "border-red-500" : "border-gray-300"
-                  } focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                  className={`w-full py-3 px-4 rounded-md text-sm midMd:py-2 ${errors.inputCode ? "border-red-500" : "border-gray-300"
+                    } focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   style={{
                     borderRadius: "8px",
                     background: "#FFFFFF",
@@ -292,7 +297,7 @@ const Login = () => {
                   Remember me
                 </label>
                 <Link
-                  to="/index/login/forgot-password"
+                  to="/login/forgot-password"
                   className="text-blue-600 hover:underline"
                 >
                   Forgot password?
@@ -302,7 +307,10 @@ const Login = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r bg-blue-500 hover:to-blue-600 text-white font-medium py-3 rounded-lg transition duration-150"
+                className="w-full  hover:to-blue-600 text-white font-medium py-2 midMd:py-2 rounded-lg transition duration-150"
+                            style={{
+                background: "linear-gradient(90deg, #3B82F6 0%, #4F46E5 100%)",
+              }}
               >
                 Sign in
               </button>
@@ -313,7 +321,7 @@ const Login = () => {
           <p className="text-sm text-center mt-6 text-gray-700">
             Don’t have an account?{" "}
             <Link
-              to="/index/signup"
+              to="/signup"
               className="text-blue-600 hover:underline font-medium"
             >
               Sign up
@@ -321,7 +329,7 @@ const Login = () => {
           </p>
 
           {/* Footer */}
-          <p className="text-[11px] text-center text-gray-400 mt-4 leading-snug">
+          <p className="text-[11px] text-center text-gray-400 mt-4 midMd:mt-1 leading-snug">
             Protected by reCAPTCHA and subject to the <br />
             <span className="underline">Privacy Policy</span> and{" "}
             <span className="underline">Terms of Service</span>

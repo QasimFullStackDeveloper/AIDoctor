@@ -17,12 +17,12 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#F9FAFB] opacity-100 ">
+    <div className="flex justify-center items-center max-h-screen  bg-[#F9FAFB] opacity-100 ">
       <div className=" p-8 h-[70%]  w-11/12 max-w-2xl">
-        <h2 className="text-2xl md:text-3xl font-semibold text-center">
+        <h2 className="text-2xl md:text-2xl font-semibold text-center mb-2">
           Got Questions? Reach Out!
         </h2>
-        <p className="text-gray-600 text-center mb-6 text-base">
+        <p className="text-gray-600 text-center mb-8 text-base">
           We're here to help you with any questions about our AI doctor service.
         </p>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -36,7 +36,7 @@ const ContactForm = () => {
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-2 block w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -48,7 +48,7 @@ const ContactForm = () => {
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-2 block w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-2 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
@@ -59,11 +59,11 @@ const ContactForm = () => {
               placeholder="Your message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="mt-2 block w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"></textarea>
+              className="mt-2 block w-full p-4 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-[6.5rem]"></textarea>
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            className="w-full bg-blue-600  text-white py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
             Send Message
           </button>
         </form>

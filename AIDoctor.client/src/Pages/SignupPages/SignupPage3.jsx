@@ -1,106 +1,159 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import image from "../../assets/DIV.svg"
+import image from "../../assets/DIV.svg";
+import backArrow from "../../assets/leftArrow.svg";
+import dropdownIcon from "../../assets/dropdown.svg";
+import copy from "../../assets/copy.svg";
+import tick from "../../assets/anotherTick.svg"
 
 export default function SignupPage3() {
+  const [showManualSetup, setShowManualSetup] = useState(false);
+
+  const toggleManualSetup = () => {
+    setShowManualSetup(!showManualSetup);
+  };
+
+  const verifyEmail = async () => {
+    try {
+      const response = await fetch("http://localhost:7282/Api/Auth/Account/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+      const result = await response.json();
+      console.log(" successful:", result);
+    } catch (error) {
+      console.error(" failed:", error);
+    }
+  };
+
   return (
-    <div className="whole-container_11 bg-gradient-to-br bg-blue-100 flex items-center justify-center min-h-screen w-full overflow-hidden">
-    <div className="container_11 text-center w-full max-w-xl p-1 rounded-lg flex flex-col justify-between h-full">
+    <div className="min-h-screen w-full flex flex-col bg-white px-4">
+      {/* Main content centered vertically */}
+      <div className="flex flex-col flex-grow items-center justify-center py-8">
+        <div className="w-full max-w-[704px] md:max-w-[600px] flex flex-col items-center">
+          <div className='text-2xl font-bold mb-3'>Two Factor Authentication Setup</div>
 
-        {/* Title with Animation */}
-        <h2 className="title_2 text-lg font-bold text-center mb-4 text-blue-600 hover:text-blue-700 transition-all duration-300">
-          Two-Factor Authentication Setup
-        </h2>
-
-        {/* Progress Bar with Reduced Height */}
-        <div className="steps_11 flex items-center justify-between w-full mb-4 relative">
-          {/* Step 1 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold text-white bg-blue-500 z-10 relative">
-              1
+          {/* Progress Bar */}
+          <div className="relative w-full mb-5">
+            <div className="absolute top-[20px] ml-[2rem] mr-[1rem] left-0 right-0 h-1 bg-blue-500 z-0" />
+            <div className="absolute top-[20px] left-[calc(66.66%-15px)] max-w-[70%] bg-blue-500 z-10 h-1" />
+            <div className="flex justify-between items-center z-20 relative">
+              <div className="flex flex-col items-center ml-[-1rem]">
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">1</div>
+                <span className="text-xs text-blue-400 font-bold mt-2 text-center">Choose Method</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold">2</div>
+                <span className="text-xs text-blue-400 font-bold mt-2 text-center">Setup App</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white font-bold border-2 border-blue-600">3</div>
+                <span className="text-xs text-blue-400 font-bold mt-2 text-center">Verify</span>
+              </div>
             </div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 left-1/2 transform -translate-x-0 z-0"></div>
-            <span className="text-xs text-gray-600 mt-1">Choose</span>
           </div>
 
-          {/* Step 2 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold text-white bg-blue-500 z-10 relative">
-              2
-            </div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 left-0 transform -translate-x-0 z-0"></div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 right-0 transform -translate-x-0 z-0"></div>
-            <span className="text-xs text-gray-600 mt-1">Setup</span>
-          </div>
+          {/* === Form Card === */}
+          <div className="bg-white border-t-4 border-blue-600 shadow-md p-6 rounded-lg w-full mb-4">
+            <h2 className="text-lg font-semibold text-gray-800 mb-1 text-left">Set Up Your Authenticator App</h2>
+            <p className="text-sm text-gray-600 mb-4 text-left">
+              Scan the QR code below with your preferred authenticator app to link your account.
+            </p>
 
-          {/* Step 3 */}
-          <div className="relative flex flex-col items-center w-1/3">
-            <div className="step_11 w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold border-2 border-blue-500 text-white bg-blue-500 z-10 relative">
-              3
-            </div>
-            <div className="absolute w-1/2 h-1 bg-blue-500 top-1/2 left-0 transform -translate-x-0 z-0"></div>
-            <span className="text-xs text-gray-600 mt-1">Verify</span>
-          </div>
-        </div>
-
-        {/* QR Code and Setup Instructions */}
-        <div className="card_2 bg-gray-50 p-4 rounded-lg border-t-4 border-blue-500 shadow-md">
-          <h3 className="text-sm font-semibold mb-2 text-blue-600 hover:text-blue-700 transition-all duration-300">
-            Set Up Your Authenticator App
-          </h3>
-          <p className="text-xs text-gray-600 mb-2">Scan the QR code below with your authenticator app.</p>
-
-          {/* QR Code */}
-          <div className="qr-container_2 flex justify-center mb-4">
-            <img src={image} alt="QR Code" className="w-[130px] h-[130px] transition-all duration-300 hover:scale-105" />
-          </div>
-
-          {/* Manual Setup */}
-          <div className="manual-setup_2 space-y-3">
-            <label className="block text-gray-700 text-xs font-medium">Manual Setup</label>
-
-            {/* Secret Key Input */}
-            <label className="block text-gray-700 text-xs font-medium">Secret Key</label>
-            <div className="input-group_2 flex items-center space-x-2">
-              <input type="text" defaultValue="ABCD EFGH IJKL MNOP" readOnly className="border border-gray-300 p-2 rounded w-full bg-gray-100 text-xs transition-all duration-300 hover:bg-gray-200" />
-              <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600 transition-all duration-300">
-                Copy
-              </button>
+            <div className="flex justify-center mb-6">
+              <img src={image} alt="QR Code" className="w-40 h-40" />
             </div>
 
-            {/* Token Type Dropdown */}
-            <label className="block text-gray-700 text-xs font-medium">Token Type</label>
-            <select className="select_2 border border-gray-300 p-1 rounded w-full bg-white text-xs transition-all duration-300 hover:bg-gray-100">
-              <option>Time-based (TOTP)</option>
-            </select>
+            {/* Blue Highlighted Section with Dropdown */}
+            <div className="bg-gray-50 p-4 rounded-md mb-4">
+              <div
+                className="flex justify-between items-center cursor-pointer mb-2"
+                onClick={toggleManualSetup}
+              >
+                <label className="text-sm font-medium text-gray-700 block text-left">
+                  Can't scan? Manual Setup
+                </label>
+                <img
+                  src={dropdownIcon}
+                  alt="Toggle dropdown"
+                  className={`w-4 h-4 transform transition-transform duration-300 ${showManualSetup ? "rotate-180" : "rotate-0"
+                    }`}
+                />
+              </div>
 
-            {/* Verification Code Input */}
-            <label className="block text-gray-700 text-xs font-medium">Verification Code</label>
-            <input type="text" placeholder="Enter 6-digit code" className="w-full p-2 border border-gray-300 rounded-lg bg-white text-xs mb-2 transition-all duration-300 hover:bg-gray-100" />
+              {showManualSetup && (
+                <>
+                  <div className="mb-4">
+                    <label className="text-sm font-medium text-gray-700 block mb-1 text-left">Secret Key</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        defaultValue="ABCD EFGH IJKL MNOP"
+                        readOnly
+                        className="w-full pr-24 p-2 border border-gray-300 rounded-md bg-white text-gray-700 text-sm"
+                      />
+                      <button
+                        type="button"
+                        className="absolute top-0 right-0 h-full px-3 border-1 border-gray-300 bg-gray-100 hover:bg-gray-200 flex items-center gap-1  text-sm font-medium"
+                      >
+                        <img src={copy} alt="Copy icon" className="w-4 h-4" />
+                        Copy
+                      </button>
+                    </div>
+                  </div>
 
-            <Link to="/index/signup/2fa-success" >
-              <button className="verify-btn_2 mt-3 w-full bg-blue-500 text-white px-4 py-1 rounded-lg font-bold text-sm hover:bg-blue-600 transition-all duration-300">
+
+
+                  <div className="mb-2">
+                    <label className="text-sm font-medium text-gray-700 block mb-1 text-left">Token Type</label>
+                    <select className="w-full p-2 border border-gray-300 rounded-md bg-gray-50 text-sm text-gray-700">
+                      <option>Time-based (TOTP)</option>
+                    </select>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Verification Code Section - OUTSIDE colored box */}
+            <div className="mb-4">
+              <label className="text-sm font-medium text-gray-700 block mb-1 text-left">Verification Code</label>
+              <input
+                type="text"
+                placeholder="Enter 6-digit code"
+                className="w-full p-2 border border-gray-300 rounded-md bg-white text-sm"
+              />
+            </div>
+
+            <Link to="/signup/2fa-success">
+              <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-md text-sm font-medium hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                <img src={tick} alt="Verify" className="w-4 h-4" />
                 Verify Setup
               </button>
             </Link>
+
           </div>
 
-          {/* Navigation Buttons */}
-          <div className="buttons_2 flex justify-between mt-4 text-xs">
-            <Link to="/index/signup/step-2">
-              <button className="back_2 text-blue-500 hover:underline hover:text-blue-700 transition-all duration-300">← Back</button>
+          {/* === Navigation Buttons === */}
+          <div className="flex justify-between items-center w-full px-2">
+            <Link to="/signup/step-2">
+              <button className="flex items-center gap-1 text-md text-gray-700 bg-white px-5 py-2 shadow hover:text-gray-900">
+                <img src={backArrow} alt="" /> Back
+              </button>
             </Link>
             <Link to="#">
-              <button className="help_2 text-blue-500 underline hover:text-blue-700 transition-all duration-300">Need help?</button>
+              <button className="text-md text-blue-600 hover:text-blue-800">Need help?</button>
             </Link>
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="footer_2 text-center text-gray-500 text-xs mt-4">
-          © 2024 Your Company. All rights reserved.
-        </footer>
       </div>
+
+      {/* Footer */}
+      <footer className="text-center text-sm text-gray-500 py-4">
+        © 2025 Your Company. All rights reserved.
+      </footer>
     </div>
   );
 }
